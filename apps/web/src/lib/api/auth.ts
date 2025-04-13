@@ -9,9 +9,11 @@ export const signup = async (data: {
   email: string;
   password: string;
 }): Promise<ApiResponse<null>> => {
-  return await api.post('auth/signup', {
-    json: data,
-  }).json();
+  return await api
+    .post('auth/signup', {
+      json: data,
+    })
+    .json();
 };
 
 /**
@@ -21,7 +23,9 @@ export const login = async (data: {
   email: string;
   password: string;
 }): Promise<ApiResponse<{ token: string }>> => {
-  return await api.post('auth/login', {
-    json: data,
-  }).json();
+  return await api
+    .post('auth/login', {
+      json: data,
+    })
+    .json();
 };
