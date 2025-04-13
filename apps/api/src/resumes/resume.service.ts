@@ -137,8 +137,8 @@ export class ResumeService {
     const resume = await this.prisma.resume.create({
       data: {
         title: 'New Resume',
-        html: resumeHtml,
-        dataJson: createResumeDto.resumeJson as unknown as Prisma.InputJsonValue,
+        resumeHtml: resumeHtml,
+        resumeJson: createResumeDto.resumeJson as unknown as Prisma.InputJsonValue,
         user: {
           connect: {
             id: userId,

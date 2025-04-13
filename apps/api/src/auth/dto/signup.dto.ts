@@ -1,3 +1,3 @@
-import { Prisma } from '@ai-resume/db';
+import { User } from '@ai-resume/db';
 
-export type SignupDto = Pick<Prisma.UserCreateInput, 'email' | 'password' | 'name'>; 
+export type SignupDto = Pick<User, 'email' | 'password' | 'name'>; 
