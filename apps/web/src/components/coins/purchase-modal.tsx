@@ -1,9 +1,9 @@
-"use client"
+'use client';
 
-import type React from "react"
+import type React from 'react';
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
+import { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -11,52 +11,56 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { FormField } from "@/components/ui/form-field"
-import { Coins, CreditCard, ArrowLeft, CheckCircle } from "lucide-react"
-import { useTheme } from "next-themes"
+} from '@/components/ui/dialog';
+import { FormField } from '@/components/ui/form-field';
+import { Coins, CreditCard, ArrowLeft, CheckCircle } from 'lucide-react';
+import { useTheme } from 'next-themes';
 
 interface PurchaseModalProps {
-  isOpen: boolean
-  onClose: () => void
-  selectedPlan: { amount: number; price: number } | null
+  isOpen: boolean;
+  onClose: () => void;
+  selectedPlan: { amount: number; price: number } | null;
 }
 
-export function PurchaseModal({ isOpen, onClose, selectedPlan: initialSelectedPlan }: PurchaseModalProps) {
-  const [step, setStep] = useState<"plan" | "payment" | "success">("plan")
-  const [isProcessing, setIsProcessing] = useState(false)
+export function PurchaseModal({
+  isOpen,
+  onClose,
+  selectedPlan: initialSelectedPlan,
+}: PurchaseModalProps) {
+  const [step, setStep] = useState<'plan' | 'payment' | 'success'>('plan');
+  const [isProcessing, setIsProcessing] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<{ amount: number; price: number } | null>(
-    initialSelectedPlan || null,
-  )
-  const { theme } = useTheme()
+    initialSelectedPlan || null
+  );
+  const { theme } = useTheme();
 
   // Update selected plan when initialSelectedPlan changes
   useEffect(() => {
     if (initialSelectedPlan) {
-      setSelectedPlan(initialSelectedPlan)
+      setSelectedPlan(initialSelectedPlan);
     }
-  }, [initialSelectedPlan])
+  }, [initialSelectedPlan]);
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsProcessing(true)
+    e.preventDefault();
+    setIsProcessing(true);
 
     // Simulate payment processing
     setTimeout(() => {
-      setIsProcessing(false)
-      setStep("success")
-    }, 1500)
-  }
+      setIsProcessing(false);
+      setStep('success');
+    }, 1500);
+  };
 
   const resetAndClose = () => {
-    setStep("plan")
-    onClose()
-  }
+    setStep('plan');
+    onClose();
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={resetAndClose}>
       <DialogContent className="sm:max-w-[500px]">
-        {step === "plan" && (
+        {step === 'plan' && (
           <>
             <DialogHeader>
               <DialogTitle>Purchase Coins</DialogTitle>
@@ -74,8 +78,8 @@ export function PurchaseModal({ isOpen, onClose, selectedPlan: initialSelectedPl
                     key={plan.amount}
                     className={`border rounded-lg p-4 text-center cursor-pointer hover:border-primary transition-colors ${
                       selectedPlan?.amount === plan.amount
-                        ? "border-primary bg-primary/5 dark:bg-primary/10"
-                        : "dark:border-gray-700"
+                        ? 'border-primary bg-primary/5 dark:bg-primary/10'
+                        : 'dark:border-gray-700'
                     }`}
                     onClick={() => setSelectedPlan(plan)}
                   >
@@ -90,18 +94,22 @@ export function PurchaseModal({ isOpen, onClose, selectedPlan: initialSelectedPl
             </div>
 
             <DialogFooter>
-              <Button onClick={() => setStep("payment")} disabled={!selectedPlan} className="w-full">
+              <Button
+                onClick={() => setStep('payment')}
+                disabled={!selectedPlan}
+                className="w-full"
+              >
                 Continue to Payment
               </Button>
             </DialogFooter>
           </>
         )}
 
-        {step === "payment" && (
+        {step === 'payment' && (
           <>
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
-                <button onClick={() => setStep("plan")} className="p-1 rounded-full hover:bg-muted">
+                <button onClick={() => setStep('plan')} className="p-1 rounded-full hover:bg-muted">
                   <ArrowLeft className="h-4 w-4" />
                 </button>
                 Payment Information
@@ -148,22 +156,24 @@ export function PurchaseModal({ isOpen, onClose, selectedPlan: initialSelectedPl
 
               <DialogFooter>
                 <Button type="submit" className="w-full" disabled={isProcessing}>
-                  {isProcessing ? "Processing..." : "Complete Purchase"}
+                  {isProcessing ? 'Processing...' : 'Complete Purchase'}
                 </Button>
               </DialogFooter>
             </form>
           </>
         )}
 
-        {step === "success" && (
+        {step === 'success' && (
           <>
             <div className="flex flex-col items-center justify-center py-8 text-center">
               <div
                 className={`h-16 w-16 rounded-full flex items-center justify-center mb-4 ${
-                  theme === "dark" ? "bg-green-900/20" : "bg-green-100"
+                  theme === 'dark' ? 'bg-green-900/20' : 'bg-green-100'
                 }`}
               >
-                <CheckCircle className={`h-8 w-8 ${theme === "dark" ? "text-green-500" : "text-green-600"}`} />
+                <CheckCircle
+                  className={`h-8 w-8 ${theme === 'dark' ? 'text-green-500' : 'text-green-600'}`}
+                />
               </div>
               <h2 className="text-2xl font-bold mb-2">Purchase Successful!</h2>
               <p className="text-muted-foreground mb-6">
@@ -175,7 +185,7 @@ export function PurchaseModal({ isOpen, onClose, selectedPlan: initialSelectedPl
         )}
       </DialogContent>
     </Dialog>
-  )
+  );
 }
 
 function Input({ className, ...props }: React.InputHTMLAttributes<HTMLInputElement>) {
@@ -184,6 +194,5 @@ function Input({ className, ...props }: React.InputHTMLAttributes<HTMLInputEleme
       className={`flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
       {...props}
     />
-  )
+  );
 }
-

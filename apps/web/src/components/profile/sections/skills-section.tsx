@@ -1,30 +1,30 @@
-"use client"
+'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { useFormContext } from "react-hook-form"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { useState } from "react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { useFormContext } from 'react-hook-form';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { useState } from 'react';
 
 export function SkillsSection() {
-  const form = useFormContext()
-  const [newSkill, setNewSkill] = useState("")
+  const form = useFormContext();
+  const [newSkill, setNewSkill] = useState('');
 
-  const skills = form.watch("skills") || []
+  const skills = form.watch('skills') || [];
 
   const addSkill = (skill: string) => {
     if (skill && !skills.includes(skill)) {
-      form.setValue("skills", [...skills, skill])
+      form.setValue('skills', [...skills, skill]);
     }
-  }
+  };
 
   const removeSkill = (skillToRemove: string) => {
     form.setValue(
-      "skills",
+      'skills',
       skills.filter((skill: string) => skill !== skillToRemove)
-    )
-  }
+    );
+  };
 
   return (
     <Card>
@@ -55,9 +55,9 @@ export function SkillsSection() {
               onChange={(e) => setNewSkill(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
-                  e.preventDefault()
-                  addSkill(newSkill.trim())
-                  setNewSkill('')
+                  e.preventDefault();
+                  addSkill(newSkill.trim());
+                  setNewSkill('');
                 }
               }}
             />
@@ -65,8 +65,8 @@ export function SkillsSection() {
               type="button"
               variant="outline"
               onClick={() => {
-                addSkill(newSkill.trim())
-                setNewSkill('')
+                addSkill(newSkill.trim());
+                setNewSkill('');
               }}
             >
               Add
@@ -75,5 +75,5 @@ export function SkillsSection() {
         </div>
       </CardContent>
     </Card>
-  )
-} 
+  );
+}

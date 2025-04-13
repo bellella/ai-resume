@@ -9,4 +9,4 @@ import { TemplatesModule } from '../templates/templates.module';
   controllers: [ResumeController],
   providers: [ResumeService, PrismaService],
 })
-export class ResumeModule {} 
+export class ResumeModule {}

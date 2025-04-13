@@ -1,15 +1,15 @@
-"use client"
+'use client';
 
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { ModeToggle } from "@/components/mode-toggle"
-import { usePathname } from "next/navigation"
-import { cn } from "@/lib/utils"
-import { FileText, User, Coins } from "lucide-react"
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { ModeToggle } from '@/components/mode-toggle';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
+import { FileText, User, Coins } from 'lucide-react';
 
 export default function Header() {
-  const pathname = usePathname()
-  const isLoggedIn = true // This would be determined by auth state
+  const pathname = usePathname();
+  const isLoggedIn = true; // This would be determined by auth state
 
   return (
     <header className="border-b">
@@ -23,8 +23,8 @@ export default function Header() {
           <Link
             href="/resume"
             className={cn(
-              "text-sm font-medium transition-colors hover:text-primary",
-              pathname.startsWith("/resume") ? "text-primary" : "text-muted-foreground",
+              'text-sm font-medium transition-colors hover:text-primary',
+              pathname.startsWith('/resume') ? 'text-primary' : 'text-muted-foreground'
             )}
           >
             My Resumes
@@ -32,8 +32,8 @@ export default function Header() {
           <Link
             href="/coins"
             className={cn(
-              "text-sm font-medium transition-colors hover:text-primary",
-              pathname === "/coins" ? "text-primary" : "text-muted-foreground",
+              'text-sm font-medium transition-colors hover:text-primary',
+              pathname === '/coins' ? 'text-primary' : 'text-muted-foreground'
             )}
           >
             Coins
@@ -72,6 +72,5 @@ export default function Header() {
         </div>
       </div>
     </header>
-  )
+  );
 }
-

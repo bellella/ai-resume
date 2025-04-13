@@ -1,18 +1,12 @@
-"use client"
+'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { useFormContext } from "react-hook-form"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useFormContext } from 'react-hook-form';
 
 export function PersonalInfoSection() {
-  const form = useFormContext()
+  const form = useFormContext();
 
   return (
     <Card>
@@ -120,5 +114,5 @@ export function PersonalInfoSection() {
         </div>
       </CardContent>
     </Card>
-  )
-} 
+  );
+}

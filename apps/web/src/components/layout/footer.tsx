@@ -1,5 +1,5 @@
-import Link from "next/link"
-import { FileText, Mail, Phone, MapPin, Github, Linkedin, Twitter } from "lucide-react"
+import Link from 'next/link';
+import { FileText, Mail, Phone, MapPin, Github, Linkedin, Twitter } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -13,7 +13,8 @@ export default function Footer() {
               <span className="text-lg font-semibold">ResumeAI</span>
             </div>
             <p className="text-sm text-muted-foreground">
-              Create professional resumes with AI assistance. Stand out from the crowd and land your dream job.
+              Create professional resumes with AI assistance. Stand out from the crowd and land your
+              dream job.
             </p>
             <div className="flex space-x-4">
               <Link href="#" className="text-muted-foreground hover:text-primary">
@@ -51,7 +52,10 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/resume/new" className="text-sm text-muted-foreground hover:text-primary">
+                <Link
+                  href="/resume/new"
+                  className="text-sm text-muted-foreground hover:text-primary"
+                >
                   Create New Resume
                 </Link>
               </li>
@@ -68,7 +72,10 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/templates" className="text-sm text-muted-foreground hover:text-primary">
+                <Link
+                  href="/templates"
+                  className="text-sm text-muted-foreground hover:text-primary"
+                >
                   Resume Templates
                 </Link>
               </li>
@@ -107,7 +114,9 @@ export default function Footer() {
 
         <div className="border-t border-gray-200 dark:border-gray-800 mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} ResumeAI. All rights reserved.</p>
+            <p className="text-xs text-muted-foreground">
+              © {new Date().getFullYear()} ResumeAI. All rights reserved.
+            </p>
             <div className="flex gap-4 mt-4 md:mt-0">
               <Link href="/privacy" className="text-xs text-muted-foreground hover:text-primary">
                 Privacy Policy
@@ -123,6 +132,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
-

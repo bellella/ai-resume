@@ -14,4 +14,4 @@ export class CreateTemplateDto {
   @IsString()
   @IsOptional()
   previewImageUrl?: string;
-} 
+}

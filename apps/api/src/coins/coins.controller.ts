@@ -21,4 +21,4 @@ export class CoinsController {
   getHistory() {
     return this.coinsService.getHistory();
   }
-} 
+}

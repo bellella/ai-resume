@@ -8,4 +8,4 @@ import { PrismaService } from '../prisma/prisma.service';
   providers: [TemplatesService, PrismaService],
   exports: [TemplatesService],
 })
-export class TemplatesModule {} 
+export class TemplatesModule {}

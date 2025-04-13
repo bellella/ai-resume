@@ -1,33 +1,40 @@
-"use client"
+'use client';
 
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Github, Twitter } from "lucide-react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
-import { toast } from "sonner"
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Github, Twitter } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { toast } from 'sonner';
 
 const formSchema = z.object({
-  email: z.string().email("올바른 이메일을 입력해주세요"),
-  password: z.string().min(1, "비밀번호를 입력해주세요"),
-})
+  email: z.string().email('올바른 이메일을 입력해주세요'),
+  password: z.string().min(1, '비밀번호를 입력해주세요'),
+});
 
-type FormValues = z.infer<typeof formSchema>
+type FormValues = z.infer<typeof formSchema>;
 
 export default function LoginPage() {
-  const router = useRouter()
+  const router = useRouter();
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
-  })
+  });
 
   async function onSubmit(data: FormValues) {
     try {
@@ -37,22 +44,22 @@ export default function LoginPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
-      })
+      });
 
       if (!response.ok) {
-        throw new Error('로그인에 실패했습니다')
+        throw new Error('로그인에 실패했습니다');
       }
 
-      const result = await response.json()
-      
-      localStorage.setItem('token', result.token)
-      localStorage.setItem('user', JSON.stringify(result.user))
-      
-      toast.success('로그인 성공!')
+      const result = await response.json();
+
+      localStorage.setItem('token', result.token);
+      localStorage.setItem('user', JSON.stringify(result.user));
+
+      toast.success('로그인 성공!');
       //router.push('/resume') // 이력서 목록 페이지로 이동
     } catch (error) {
-      console.error('에러 발생:', error)
-      toast.error('로그인에 실패했습니다. 다시 시도해주세요.')
+      console.error('에러 발생:', error);
+      toast.error('로그인에 실패했습니다. 다시 시도해주세요.');
     }
   }
 
@@ -72,11 +79,11 @@ export default function LoginPage() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">이메일</Label>
-                <Input 
-                  id="email" 
-                  placeholder="name@example.com" 
-                  type="email" 
-                  {...form.register("email")}
+                <Input
+                  id="email"
+                  placeholder="name@example.com"
+                  type="email"
+                  {...form.register('email')}
                 />
                 {form.formState.errors.email && (
                   <p className="text-sm text-red-500">{form.formState.errors.email.message}</p>
@@ -85,15 +92,14 @@ export default function LoginPage() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password">비밀번호</Label>
-                  <Link href="/forgot-password" className="text-sm text-primary underline-offset-4 hover:underline">
+                  <Link
+                    href="/forgot-password"
+                    className="text-sm text-primary underline-offset-4 hover:underline"
+                  >
                     비밀번호 찾기
                   </Link>
                 </div>
-                <Input 
-                  id="password" 
-                  type="password" 
-                  {...form.register("password")}
-                />
+                <Input id="password" type="password" {...form.register('password')} />
                 {form.formState.errors.password && (
                   <p className="text-sm text-red-500">{form.formState.errors.password.message}</p>
                 )}
@@ -121,7 +127,7 @@ export default function LoginPage() {
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
             <div className="text-sm text-muted-foreground text-center">
-              계정이 없으신가요?{" "}
+              계정이 없으신가요?{' '}
               <Link href="/signup" className="text-primary underline-offset-4 hover:underline">
                 회원가입
               </Link>
@@ -130,6 +136,5 @@ export default function LoginPage() {
         </Card>
       </div>
     </div>
-  )
+  );
 }
-

@@ -1,14 +1,14 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { Color } from '@tiptap/extension-color'
-import ListItem from '@tiptap/extension-list-item'
-import TextStyle from '@tiptap/extension-text-style'
-import { EditorContent, EditorProvider, useCurrentEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
+import { useState } from 'react';
+import { Color } from '@tiptap/extension-color';
+import ListItem from '@tiptap/extension-list-item';
+import TextStyle from '@tiptap/extension-text-style';
+import { EditorContent, EditorProvider, useCurrentEditor } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import {
   Undo,
   Redo,
@@ -22,7 +22,7 @@ import {
   AlignRight,
   Link2,
   Image,
-} from "lucide-react"
+} from 'lucide-react';
 
 const PDFDownloadButton = ({ html }: { html: string }) => {
   const handleDownloadPDF = async () => {
@@ -30,15 +30,15 @@ const PDFDownloadButton = ({ html }: { html: string }) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ html }),
-    })
+    });
 
-    const blob = await res.blob()
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = 'resume.pdf'
-    a.click()
-  }
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'resume.pdf';
+    a.click();
+  };
 
   return (
     <div className="mb-4 text-right">
@@ -49,14 +49,14 @@ const PDFDownloadButton = ({ html }: { html: string }) => {
         Download as PDF
       </button>
     </div>
-  )
-}
+  );
+};
 
 const MenuBar = () => {
-  const { editor } = useCurrentEditor()
+  const { editor } = useCurrentEditor();
 
   if (!editor) {
-    return null
+    return null;
   }
 
   return (
@@ -129,24 +129,16 @@ const MenuBar = () => {
           <AlignRight className="h-4 w-4" />
         </Button>
         <Separator orientation="vertical" className="h-8" />
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => editor.chain().focus().undo().run()}
-        >
+        <Button variant="ghost" size="sm" onClick={() => editor.chain().focus().undo().run()}>
           <Undo className="h-4 w-4" />
         </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => editor.chain().focus().redo().run()}
-        >
+        <Button variant="ghost" size="sm" onClick={() => editor.chain().focus().redo().run()}>
           <Redo className="h-4 w-4" />
         </Button>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -161,7 +153,7 @@ const extensions = [
       keepAttributes: false,
     },
   }),
-]
+];
 
 const initialContent = `
 <h2>Hi there,</h2>
@@ -173,7 +165,7 @@ const initialContent = `
 <blockquote>
   Wow, that's amazing. Good work, boy! 👏<br />— Mom
 </blockquote>
-`
+`;
 const resumeTemplateHTML = `
 <h1 style="font-size: 28px; font-weight: bold;">김지원 (Jiwon Kim)</h1>
 <p><strong>Frontend Developer</strong> | jiwon@example.com | +82 10-1234-5678 | GitHub: github.com/jiwon</p>
@@ -213,14 +205,14 @@ const resumeTemplateHTML = `
     한양대학교 컴퓨터소프트웨어학과 (2019 ~ 2023)
   </li>
 </ul>
-`
+`;
 
 interface EditorProps {
-  initialData?: string
+  initialData?: string;
 }
 
 export default function EditorWithPDFExport({ initialData }: EditorProps) {
-  const [html, setHtml] = useState(initialData || resumeTemplateHTML)
+  const [html, setHtml] = useState(initialData || resumeTemplateHTML);
 
   return (
     <Card>
@@ -230,10 +222,11 @@ export default function EditorWithPDFExport({ initialData }: EditorProps) {
           content={initialData || resumeTemplateHTML}
           slotBefore={<MenuBar />}
           onUpdate={({ editor }) => {
-            setHtml(editor.getHTML())
-          }}></EditorProvider>
+            setHtml(editor.getHTML());
+          }}
+        ></EditorProvider>
       </CardContent>
-    <PDFDownloadButton html={html} />
+      <PDFDownloadButton html={html} />
     </Card>
-  )
+  );
 }

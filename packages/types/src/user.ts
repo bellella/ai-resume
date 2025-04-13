@@ -1,6 +1,6 @@
 import { Prisma } from '@ai-resume/db';
 
-export type UserInput = Pick<Prisma.UserCreateInput, 'email' | 'name' >;
+export type UserInput = Pick<Prisma.UserCreateInput, 'email' | 'name'>;
 
 export type UserResponse = Prisma.UserGetPayload<{
   select: {

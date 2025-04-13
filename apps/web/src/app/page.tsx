@@ -1,8 +1,8 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { FileText, Sparkles, Zap, Clock } from "lucide-react"
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { FileText, Sparkles, Zap, Clock } from 'lucide-react';
 
 export default function Home() {
   return (
@@ -21,8 +21,8 @@ export default function Home() {
                   Create Professional Resumes with AI
                 </h1>
                 <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                  Build standout resumes in minutes with our AI assistant. Get personalized suggestions, professional
-                  templates, and expert guidance.
+                  Build standout resumes in minutes with our AI assistant. Get personalized
+                  suggestions, professional templates, and expert guidance.
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
@@ -71,7 +71,8 @@ export default function Home() {
                 Features that Make the Difference
               </h2>
               <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Our AI-powered platform helps you create professional resumes that stand out from the crowd.
+                Our AI-powered platform helps you create professional resumes that stand out from
+                the crowd.
               </p>
             </div>
           </div>
@@ -83,7 +84,8 @@ export default function Home() {
                 </div>
                 <h3 className="text-xl font-bold">AI Content Generation</h3>
                 <p className="text-muted-foreground">
-                  Let our AI help you write compelling descriptions and summaries based on your experience.
+                  Let our AI help you write compelling descriptions and summaries based on your
+                  experience.
                 </p>
               </CardContent>
             </Card>
@@ -94,7 +96,8 @@ export default function Home() {
                 </div>
                 <h3 className="text-xl font-bold">Professional Templates</h3>
                 <p className="text-muted-foreground">
-                  Choose from dozens of professionally designed templates to make your resume stand out.
+                  Choose from dozens of professionally designed templates to make your resume stand
+                  out.
                 </p>
               </CardContent>
             </Card>
@@ -118,9 +121,12 @@ export default function Home() {
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Professional Templates</h2>
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                Professional Templates
+              </h2>
               <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Choose from a variety of professionally designed templates to make your resume stand out.
+                Choose from a variety of professionally designed templates to make your resume stand
+                out.
               </p>
             </div>
           </div>
@@ -158,7 +164,9 @@ export default function Home() {
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">What Our Users Say</h2>
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                What Our Users Say
+              </h2>
               <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 Thousands of job seekers have found success with our platform.
               </p>
@@ -184,8 +192,8 @@ export default function Home() {
                     ))}
                   </div>
                   <p className="text-muted-foreground">
-                    "ResumeAI helped me create a professional resume that landed me my dream job. The AI suggestions
-                    were spot on!"
+                    "ResumeAI helped me create a professional resume that landed me my dream job.
+                    The AI suggestions were spot on!"
                   </p>
                   <div className="flex items-center space-x-2">
                     <div className="h-10 w-10 rounded-full bg-muted"></div>
@@ -230,6 +238,5 @@ export default function Home() {
         </div>
       </section>
     </div>
-  )
+  );
 }
-

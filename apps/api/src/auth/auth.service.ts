@@ -9,7 +9,7 @@ import * as bcrypt from 'bcrypt';
 export class AuthService {
   constructor(
     private jwtService: JwtService,
-    private prisma: PrismaService,
+    private prisma: PrismaService
   ) {}
 
   async signup(signupDto: SignupDto) {
@@ -37,9 +37,9 @@ export class AuthService {
     });
 
     // Generate JWT token
-    const token = this.jwtService.sign({ 
+    const token = this.jwtService.sign({
       sub: user.id,
-      email: user.email 
+      email: user.email,
     });
 
     return {
@@ -72,9 +72,9 @@ export class AuthService {
     }
 
     // Generate JWT token
-    const token = this.jwtService.sign({ 
+    const token = this.jwtService.sign({
       sub: user.id,
-      email: user.email 
+      email: user.email,
     });
 
     return {
@@ -86,4 +86,4 @@ export class AuthService {
       },
     };
   }
-} 
+}

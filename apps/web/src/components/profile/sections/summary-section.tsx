@@ -1,17 +1,12 @@
-"use client"
+'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import {
-  FormField,
-  FormItem,
-  FormControl,
-  FormMessage,
-} from "@/components/ui/form"
-import { Textarea } from "@/components/ui/textarea"
-import { useFormContext } from "react-hook-form"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { FormField, FormItem, FormControl, FormMessage } from '@/components/ui/form';
+import { Textarea } from '@/components/ui/textarea';
+import { useFormContext } from 'react-hook-form';
 
 export function SummarySection() {
-  const form = useFormContext()
+  const form = useFormContext();
 
   return (
     <Card>
@@ -38,5 +33,5 @@ export function SummarySection() {
         />
       </CardContent>
     </Card>
-  )
-} 
+  );
+}

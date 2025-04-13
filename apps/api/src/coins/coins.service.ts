@@ -16,4 +16,4 @@ export class CoinsService {
     // TODO: Implement history retrieval
     return 'This action returns coin usage history';
   }
-} 
+}

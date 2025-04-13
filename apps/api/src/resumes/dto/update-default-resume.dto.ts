@@ -5,4 +5,4 @@ export class UpdateDefaultResumeDto {
   @IsObject()
   @IsNotEmpty()
   defaultResumeJson: ResumeJson;
-} 
+}

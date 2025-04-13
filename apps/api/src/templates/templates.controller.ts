@@ -35,4 +35,4 @@ export class TemplatesController {
   remove(@Param('id') id: string) {
     return this.templatesService.remove(id);
   }
-} 
+}

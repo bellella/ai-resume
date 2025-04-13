@@ -14,7 +14,7 @@ export class UsersService {
   }
 
   uploadProfileImage(file: any) {
-    // TODO: Implement profile image upload 
+    // TODO: Implement profile image upload
     return 'This action uploads the profile image';
   }
 }

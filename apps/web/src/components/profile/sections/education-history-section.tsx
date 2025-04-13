@@ -1,24 +1,18 @@
-"use client"
+'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { useFormContext, useFieldArray } from "react-hook-form"
-import { Button } from "@/components/ui/button"
-import { Trash2, Plus } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useFormContext, useFieldArray } from 'react-hook-form';
+import { Button } from '@/components/ui/button';
+import { Trash2, Plus } from 'lucide-react';
 
 export function EducationHistorySection() {
-  const form = useFormContext()
+  const form = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control: form.control,
-    name: "educations",
-  })
+    name: 'educations',
+  });
 
   return (
     <Card>
@@ -127,14 +121,16 @@ export function EducationHistorySection() {
         <Button
           type="button"
           variant="outline"
-          onClick={() => append({
-            schoolName: "",
-            schoolLocation: "",
-            degree: "",
-            fieldOfStudy: "",
-            graduationMonth: "",
-            graduationYear: "",
-          })}
+          onClick={() =>
+            append({
+              schoolName: '',
+              schoolLocation: '',
+              degree: '',
+              fieldOfStudy: '',
+              graduationMonth: '',
+              graduationYear: '',
+            })
+          }
           className="w-full"
         >
           <Plus className="h-4 w-4 mr-2" />
@@ -142,5 +138,5 @@ export function EducationHistorySection() {
         </Button>
       </CardContent>
     </Card>
-  )
-} 
+  );
+}

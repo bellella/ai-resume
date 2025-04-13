@@ -1,17 +1,35 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter } from "@/components/ui/card"
-import { FileText, Plus, Download, Share, Pencil, Trash, Search, SlidersHorizontal } from "lucide-react"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Container } from "@/components/ui/container"
-import { PageHeader } from "@/components/ui/page-header"
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import {
+  FileText,
+  Plus,
+  Download,
+  Share,
+  Pencil,
+  Trash,
+  Search,
+  SlidersHorizontal,
+} from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Container } from '@/components/ui/container';
+import { PageHeader } from '@/components/ui/page-header';
 
 export default function ResumesPage() {
   return (
     <Container>
       <div className="flex flex-col gap-8">
-        <PageHeader title="My Resumes" description="Manage and organize all your resumes in one place.">
+        <PageHeader
+          title="My Resumes"
+          description="Manage and organize all your resumes in one place."
+        >
           <Link href="/resume/new">
             <Button className="gap-1">
               <Plus className="h-4 w-4" />
@@ -60,8 +78,12 @@ export default function ResumesPage() {
               <CardContent className="p-4">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="font-semibold">{i === 1 ? "Software Engineer Resume" : `Resume ${i}`}</h3>
-                    <p className="text-sm text-muted-foreground">Last edited: {new Date().toLocaleDateString()}</p>
+                    <h3 className="font-semibold">
+                      {i === 1 ? 'Software Engineer Resume' : `Resume ${i}`}
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      Last edited: {new Date().toLocaleDateString()}
+                    </p>
                   </div>
                   <div className="flex items-center">
                     <FileText className="h-5 w-5 text-primary" />
@@ -93,6 +115,5 @@ export default function ResumesPage() {
         </div>
       </div>
     </Container>
-  )
+  );
 }
-

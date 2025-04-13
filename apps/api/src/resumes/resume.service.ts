@@ -10,10 +10,13 @@ import { Prisma } from '@ai-resume/db';
 export class ResumeService {
   constructor(
     private readonly templateService: TemplatesService,
-    private readonly prisma: PrismaService,
+    private readonly prisma: PrismaService
   ) {}
 
-  async create(createResumeDto: CreateResumeDto, userId: string): Promise<Prisma.ResumeGetPayload<{}>> {
+  async create(
+    createResumeDto: CreateResumeDto,
+    userId: string
+  ): Promise<Prisma.ResumeGetPayload<{}>> {
     // check if ai is enabled
     if (createResumeDto.ai?.content) {
       // TODO: Implement AI resume creation
@@ -126,12 +129,12 @@ export class ResumeService {
 </body>
 </html>
 `,
-    }
+    };
 
     // bind template to resume
     const resumeHtml = this.templateService.bindDataToTemplate(
       template.html,
-      createResumeDto.resumeJson as unknown as Record<string, unknown>,
+      createResumeDto.resumeJson as unknown as Record<string, unknown>
     );
 
     // save resume to DB
@@ -190,8 +193,9 @@ export class ResumeService {
     return this.prisma.user.update({
       where: { id: userId },
       data: {
-        defaultResumeJson: updateDefaultResumeDto.defaultResumeJson as unknown as Prisma.InputJsonValue,
+        defaultResumeJson:
+          updateDefaultResumeDto.defaultResumeJson as unknown as Prisma.InputJsonValue,
       },
     });
   }
-} 
+}

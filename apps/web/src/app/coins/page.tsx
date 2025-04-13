@@ -1,23 +1,39 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Coins, Download, Share, Sparkles, CreditCard, Clock, CheckCircle2, AlertCircle } from "lucide-react"
-import { Container } from "@/components/ui/container"
-import { PageHeader } from "@/components/ui/page-header"
-import { SectionHeader } from "@/components/ui/section-header"
-import { PurchaseModal } from "@/components/coins/purchase-modal"
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import {
+  Coins,
+  Download,
+  Share,
+  Sparkles,
+  CreditCard,
+  Clock,
+  CheckCircle2,
+  AlertCircle,
+} from 'lucide-react';
+import { Container } from '@/components/ui/container';
+import { PageHeader } from '@/components/ui/page-header';
+import { SectionHeader } from '@/components/ui/section-header';
+import { PurchaseModal } from '@/components/coins/purchase-modal';
 
 export default function CoinsPage() {
-  const [selectedPlan, setSelectedPlan] = useState<{ amount: number; price: number } | null>(null)
-  const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false)
+  const [selectedPlan, setSelectedPlan] = useState<{ amount: number; price: number } | null>(null);
+  const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
 
   const handlePurchase = (plan: { amount: number; price: number }) => {
-    setSelectedPlan(plan)
-    setIsPurchaseModalOpen(true)
-  }
+    setSelectedPlan(plan);
+    setIsPurchaseModalOpen(true);
+  };
 
   return (
     <Container>
@@ -101,7 +117,10 @@ export default function CoinsPage() {
               { amount: 250, price: 9.99, popular: true },
               { amount: 500, price: 17.99, popular: false },
             ].map((plan) => (
-              <Card key={plan.amount} className={`${plan.popular ? "border-primary" : ""} dark:border-gray-700`}>
+              <Card
+                key={plan.amount}
+                className={`${plan.popular ? 'border-primary' : ''} dark:border-gray-700`}
+              >
                 {plan.popular && (
                   <div className="bg-primary text-primary-foreground text-center py-1 text-sm font-medium">
                     Most Popular
@@ -113,7 +132,7 @@ export default function CoinsPage() {
                     {plan.amount} Coins
                   </CardTitle>
                   <CardDescription>
-                    {plan.popular && "Best value! "}
+                    {plan.popular && 'Best value! '}
                     Use for exports and AI features
                   </CardDescription>
                 </CardHeader>
@@ -139,7 +158,7 @@ export default function CoinsPage() {
                 <CardFooter>
                   <Button
                     className="w-full"
-                    variant={plan.popular ? "default" : "outline"}
+                    variant={plan.popular ? 'default' : 'outline'}
                     onClick={() => handlePurchase(plan)}
                   >
                     Purchase
@@ -152,33 +171,43 @@ export default function CoinsPage() {
 
         {/* Transaction History Section */}
         <div className="pt-4">
-          <SectionHeader title="Transaction History" description="Your coin purchases and usage" className="mb-6" />
+          <SectionHeader
+            title="Transaction History"
+            description="Your coin purchases and usage"
+            className="mb-6"
+          />
 
           <Card className="dark:border-gray-700">
             <CardContent className="p-6">
               <div className="space-y-4">
                 {[
-                  { type: "purchase", amount: 250, date: "2023-04-01", status: "completed" },
-                  { type: "usage", amount: -5, date: "2023-04-05", status: "completed", description: "PDF Export" },
+                  { type: 'purchase', amount: 250, date: '2023-04-01', status: 'completed' },
                   {
-                    type: "usage",
-                    amount: -10,
-                    date: "2023-04-10",
-                    status: "completed",
-                    description: "AI Enhancement",
+                    type: 'usage',
+                    amount: -5,
+                    date: '2023-04-05',
+                    status: 'completed',
+                    description: 'PDF Export',
                   },
-                  { type: "purchase", amount: 100, date: "2023-03-15", status: "completed" },
                   {
-                    type: "usage",
+                    type: 'usage',
+                    amount: -10,
+                    date: '2023-04-10',
+                    status: 'completed',
+                    description: 'AI Enhancement',
+                  },
+                  { type: 'purchase', amount: 100, date: '2023-03-15', status: 'completed' },
+                  {
+                    type: 'usage',
                     amount: -20,
-                    date: "2023-03-20",
-                    status: "completed",
-                    description: "Premium Template",
+                    date: '2023-03-20',
+                    status: 'completed',
+                    description: 'Premium Template',
                   },
                 ].map((transaction, i) => (
                   <div key={i} className="flex items-center justify-between py-2">
                     <div className="flex items-center gap-3">
-                      {transaction.type === "purchase" ? (
+                      {transaction.type === 'purchase' ? (
                         <div className="bg-primary/10 p-2 rounded-full">
                           <CreditCard className="h-4 w-4 text-primary" />
                         </div>
@@ -189,7 +218,9 @@ export default function CoinsPage() {
                       )}
                       <div>
                         <p className="font-medium">
-                          {transaction.type === "purchase" ? "Coin Purchase" : transaction.description}
+                          {transaction.type === 'purchase'
+                            ? 'Coin Purchase'
+                            : transaction.description}
                         </p>
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                           <Clock className="h-3 w-3" />
@@ -199,12 +230,12 @@ export default function CoinsPage() {
                     </div>
                     <div className="flex items-center gap-2">
                       <span
-                        className={`font-medium ${transaction.amount > 0 ? "text-green-600 dark:text-green-500" : ""}`}
+                        className={`font-medium ${transaction.amount > 0 ? 'text-green-600 dark:text-green-500' : ''}`}
                       >
-                        {transaction.amount > 0 ? "+" : ""}
+                        {transaction.amount > 0 ? '+' : ''}
                         {transaction.amount} coins
                       </span>
-                      {transaction.status === "completed" ? (
+                      {transaction.status === 'completed' ? (
                         <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-500" />
                       ) : (
                         <AlertCircle className="h-4 w-4 text-amber-500" />
@@ -231,6 +262,5 @@ export default function CoinsPage() {
         selectedPlan={selectedPlan}
       />
     </Container>
-  )
+  );
 }
-

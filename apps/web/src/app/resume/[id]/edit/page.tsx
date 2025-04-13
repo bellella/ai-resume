@@ -1,84 +1,79 @@
-"use client"
+'use client';
 
-import type React from "react"
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import { useAuth } from "@/hooks/useAuth"
+import type React from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/hooks/useAuth';
 
-import Editor from "@/components/resumes/Editor"
-import { ActionButtons } from "@/components/ui/action-buttons"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Container } from "@/components/ui/container"
-import { PageHeader } from "@/components/ui/page-header"
-import {
-  Coins,
-  Download,
-  Eye,
-  FileText,
-  Save,
-  Settings,
-  Share
-} from "lucide-react"
-import Link from "next/link"
+import Editor from '@/components/resumes/Editor';
+import { ActionButtons } from '@/components/ui/action-buttons';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Container } from '@/components/ui/container';
+import { PageHeader } from '@/components/ui/page-header';
+import { Coins, Download, Eye, FileText, Save, Settings, Share } from 'lucide-react';
+import Link from 'next/link';
 
 interface ResumeData {
-  id: string
-  title: string
-  html: string
-  dataJson: any
+  id: string;
+  title: string;
+  html: string;
+  dataJson: any;
 }
 
 export default function ResumeEditorPage({ params }: { params: { id: string } }) {
-  const router = useRouter()
-  const { isLoading } = useAuth()
-  const [resume, setResume] = useState<ResumeData | null>(null)
-  const [isLoadingResume, setIsLoadingResume] = useState(true)
+  const router = useRouter();
+  const { isLoading } = useAuth();
+  const [resume, setResume] = useState<ResumeData | null>(null);
+  const [isLoadingResume, setIsLoadingResume] = useState(true);
 
   useEffect(() => {
     const fetchResume = async () => {
       try {
-        const token = localStorage.getItem('token')
+        const token = localStorage.getItem('token');
         if (!token) {
-          router.push('/login')
-          return
+          router.push('/login');
+          return;
         }
 
         const response = await fetch(`http://localhost:3001/resumes/${params.id}`, {
           headers: {
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
-        })
+        });
 
         if (!response.ok) {
-          throw new Error('이력서를 불러오는데 실패했습니다')
+          throw new Error('이력서를 불러오는데 실패했습니다');
         }
 
-        const data = await response.json()
-        setResume(data)
+        const data = await response.json();
+        setResume(data);
       } catch (error) {
-        console.error('에러 발생:', error)
+        console.error('에러 발생:', error);
       } finally {
-        setIsLoadingResume(false)
+        setIsLoadingResume(false);
       }
-    }
+    };
 
-    fetchResume()
-  }, [params.id, router])
+    fetchResume();
+  }, [params.id, router]);
 
   if (isLoading || isLoadingResume) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   if (!resume) {
-    return <div>이력서를 찾을 수 없습니다</div>
+    return <div>이력서를 찾을 수 없습니다</div>;
   }
 
   return (
     <Container className="py-6">
       <div className="flex flex-col gap-6">
-        <PageHeader title={resume.title} description={`Last edited: ${new Date().toLocaleDateString()}`}>
+        <PageHeader
+          title={resume.title}
+          description={`Last edited: ${new Date().toLocaleDateString()}`}
+        >
           <ActionButtons>
             <Button variant="outline" size="sm" className="gap-1">
               <Save className="h-4 w-4" />
@@ -118,7 +113,10 @@ export default function ResumeEditorPage({ params }: { params: { id: string } })
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[1, 2, 3, 4, 5, 6].map((i) => (
-                <Card key={i} className="overflow-hidden cursor-pointer hover:border-primary transition-colors">
+                <Card
+                  key={i}
+                  className="overflow-hidden cursor-pointer hover:border-primary transition-colors"
+                >
                   <div className="h-40 bg-gradient-to-br from-primary/20 to-primary/5 p-4">
                     <div className="h-full w-full bg-card rounded-md p-4">
                       <div className="h-6 w-24 bg-muted rounded mb-2"></div>
@@ -146,7 +144,7 @@ export default function ResumeEditorPage({ params }: { params: { id: string } })
         </Card>
       </div>
     </Container>
-  )
+  );
 }
 
 function Inut({ className, ...props }: React.InputHTMLAttributes<HTMLInputElement>) {
@@ -155,6 +153,5 @@ function Inut({ className, ...props }: React.InputHTMLAttributes<HTMLInputElemen
       className={`flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
       {...props}
     />
-  )
+  );
 }
-

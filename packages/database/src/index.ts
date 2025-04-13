@@ -1,4 +1,4 @@
-import { prisma } from './client'
+import { prisma } from './client';
 
-export { prisma }
-export * from '@prisma/client'
+export { prisma };
+export * from '@prisma/client';
