@@ -55,7 +55,12 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>
 
-export function ResumeForm() {
+interface ResumeFormProps {
+  onSubmit: (data: FormValues) => void;
+  defaultValues?: Partial<FormValues>;
+}
+
+export function ResumeForm({ onSubmit, defaultValues }: ResumeFormProps) {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -88,6 +93,7 @@ export function ResumeForm() {
           graduationYear: "",
         },
       ],
+      ...defaultValues,
     },
   })
 
@@ -114,30 +120,6 @@ export function ResumeForm() {
     const newSkills = skills.filter(skill => skill !== skillToRemove)
     setSkills(newSkills)
     form.setValue("skills", newSkills)
-  }
-
-  async function onSubmit(data: FormValues) {
-    try {
-      const token = localStorage.getItem('token')
-      if (!token) {
-        return
-      }
-
-      const response = await fetch('http://localhost:3001/profile/additional-info', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify(data),
-      })
-
-      if (!response.ok) {
-        throw new Error('Failed to save additional information')
-      }
-    } catch (error) {
-      console.error('Error:', error)
-    }
   }
 
   return (
