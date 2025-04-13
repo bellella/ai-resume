@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } fro
 import { ResumeService } from './resume.service';
 import { CreateResumeDto } from './dto/create-resume.dto';
 import { UpdateResumeDto } from './dto/update-resume.dto';
+import { UpdateDefaultResumeDto } from './dto/update-default-resume.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RequestWithUser } from '../types/request.types';
 import { Prisma } from '@ai-resume/db';
@@ -54,5 +55,14 @@ export class ResumeController {
   @UseGuards(JwtAuthGuard)
   duplicate(@Param('id') id: string) {
     return this.resumeService.duplicate(id);
+  }
+
+  @Post('default')
+  @UseGuards(JwtAuthGuard)
+  async updateDefaultResume(
+    @Body() updateDefaultResumeDto: UpdateDefaultResumeDto,
+    @Req() req: RequestWithUser,
+  ) {
+    return this.resumeService.updateDefaultResume(updateDefaultResumeDto, req.user.id);
   }
 } 

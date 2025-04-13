@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateResumeDto } from './dto/create-resume.dto';
 import { UpdateResumeDto } from './dto/update-resume.dto';
+import { UpdateDefaultResumeDto } from './dto/update-default-resume.dto';
 import { TemplatesService } from '../templates/templates.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { Prisma } from '@ai-resume/db';
@@ -183,5 +184,14 @@ export class ResumeService {
   duplicate(id: string) {
     // TODO: Implement resume duplication
     return `This action duplicates resume #${id}`;
+  }
+
+  async updateDefaultResume(updateDefaultResumeDto: UpdateDefaultResumeDto, userId: string) {
+    return this.prisma.user.update({
+      where: { id: userId },
+      data: {
+        defaultResumeJson: updateDefaultResumeDto.defaultResumeJson as unknown as Prisma.InputJsonValue,
+      },
+    });
   }
 } 
