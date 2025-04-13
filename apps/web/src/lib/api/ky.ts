@@ -1,0 +1,21 @@
+import ky from 'ky';
+
+const getAccessToken = () => {
+  if (typeof window === 'undefined') return null;
+  return localStorage.getItem('access_token');
+};
+
+export const api = ky.create({
+  prefixUrl: process.env.NEXT_PUBLIC_API_URL || '',
+  credentials: 'include',
+  hooks: {
+    beforeRequest: [
+      (request) => {
+        const token = getAccessToken();
+        if (token) {
+          request.headers.set('Authorization', `Bearer ${token}`);
+        }
+      },
+    ],
+  },
+});

@@ -9,5 +9,15 @@ export type UserResponse = Prisma.UserGetPayload<{
     name: true;
     image: true;
     createdAt: true;
+    defaultResumeJson: true;
   };
 }>;
+
+export interface PersonalInfo {
+  firstName: string | '';
+  lastName: string | '';
+  email: string | '';
+  phone: string | '';
+  title: string | '';
+  location: string | '';
+}

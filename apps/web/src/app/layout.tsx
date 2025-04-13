@@ -1,14 +1,15 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
+import { Providers } from "./providers"
 import Header from "@/components/layout/header"
 import { Toaster } from "@/components/ui/toaster"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "AI Resume Builder",
-  description: "Create professional resumes with AI assistance",
+  title: "AI Resume",
+  description: "Create your resume with AI",
 }
 
 export default function RootLayout({
@@ -19,12 +20,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="min-h-screen flex flex-col">
-          <Header />
-          <main className="flex-1">
-            {children}
-          </main>
-        </div>
+        <Providers>
+          <div className="min-h-screen flex flex-col">
+            <Header />
+            <main className="flex-1">
+              {children}
+            </main>
+          </div>
+        </Providers>
         <Toaster />
       </body>
     </html>
