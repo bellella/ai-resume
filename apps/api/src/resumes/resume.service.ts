@@ -5,6 +5,7 @@ import { UpdateDefaultResumeDto } from './dto/update-default-resume.dto';
 import { TemplatesService } from '../templates/templates.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { Prisma } from '@ai-resume/db';
+import { ResumeJson } from '@ai-resume/types';
 
 @Injectable()
 export class ResumeService {
@@ -168,7 +169,7 @@ export class ResumeService {
     return this.prisma.resume.update({
       where: { id },
       data: {
-        // resumeJson: updateResumeDto.resumeJson,
+        resumeJson: updateResumeDto.resumeJson,
       },
     });
   }
@@ -189,12 +190,11 @@ export class ResumeService {
     return `This action duplicates resume #${id}`;
   }
 
-  async updateDefaultResume(updateDefaultResumeDto: UpdateDefaultResumeDto, userId: string) {
+  async updateDefaultResume(resumeJson: ResumeJson, userId: string) {
     return this.prisma.user.update({
       where: { id: userId },
       data: {
-        defaultResumeJson:
-          updateDefaultResumeDto.defaultResumeJson as unknown as Prisma.InputJsonValue,
+        defaultResumeJson: resumeJson,
       },
     });
   }

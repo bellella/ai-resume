@@ -1,5 +1,5 @@
 import { api } from './ky';
-import { ApiResponse } from '@ai-resume/types';
+import { LoginResponse } from '@ai-resume/types';
 
 /**
  * Sign up with name, email, and password
@@ -8,9 +8,9 @@ export const signup = async (data: {
   name: string;
   email: string;
   password: string;
-}): Promise<ApiResponse<null>> => {
+}): Promise<null> => {
   return await api
-    .post('auth/signup', {
+    .post('api/auth/signup', {
       json: data,
     })
     .json();
@@ -22,9 +22,9 @@ export const signup = async (data: {
 export const login = async (data: {
   email: string;
   password: string;
-}): Promise<ApiResponse<{ token: string }>> => {
+}): Promise<LoginResponse> => {
   return await api
-    .post('auth/login', {
+    .post('api/auth/login', {
       json: data,
     })
     .json();

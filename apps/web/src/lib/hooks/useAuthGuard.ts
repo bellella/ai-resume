@@ -2,11 +2,11 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/lib/store/auth';
+import { useAuthStore } from '@/lib/store/auth';
 
 export const useAuthGuard = () => {
   const router = useRouter();
-  const { user, isLoading } = useAuth();
+  const { user, isLoading } = useAuthStore();
 
   useEffect(() => {
     if (!isLoading && !user) {

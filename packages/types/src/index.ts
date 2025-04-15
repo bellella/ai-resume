@@ -3,3 +3,4 @@ export * from './nest-api';
 export * from './user';
 export * from './resume';
 export * from './template';
+export * from './auth';

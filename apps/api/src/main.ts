@@ -8,7 +8,13 @@ async function bootstrap() {
   });
 
   // Enable CORS
-  app.enableCors();
+  app.enableCors({
+    origin: ['http://localhost:3000'],
+    credentials: true,
+  });
+
+  // Set global API prefix
+  app.setGlobalPrefix('api');
 
   // Enable validation
   app.useGlobalPipes(

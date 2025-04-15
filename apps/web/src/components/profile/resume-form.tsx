@@ -24,6 +24,7 @@ import { WorkHistorySection } from './sections/work-history-section';
 import { EducationHistorySection } from './sections/education-history-section';
 import { SkillsSection } from './sections/skills-section';
 import { SummarySection } from './sections/summary-section';
+import { ResumeJson } from '@ai-resume/types';
 
 const formSchema = z.object({
   firstName: z.string(),
@@ -61,7 +62,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 interface ResumeFormProps {
   onSubmit: (data: FormValues) => void;
-  defaultValues?: Partial<FormValues>;
+  defaultValues?: ResumeJson;
 }
 
 export function ResumeForm({ onSubmit, defaultValues }: ResumeFormProps) {

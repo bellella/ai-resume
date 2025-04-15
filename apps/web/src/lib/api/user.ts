@@ -1,19 +1,19 @@
 import { User } from '@ai-resume/db';
 import { api } from './ky';
-import { ApiResponse, PersonalInfo, ResumeJson } from '@ai-resume/types';
+import { ApiResponse, UserInfo, ResumeJson } from '@ai-resume/types';
 
 /**
  * Fetch the profile of the current user
  */
-export const fetchPersonalInfo = async (): Promise<ApiResponse<PersonalInfo>> => {
-  return await api.get('users/personal-info').json();
+export const fetchUserInfo = async (): Promise<UserInfo> => {
+  return api.get('api/users/me').json();
 };
 
-export const updatePersonalInfo = async (
-  data: PersonalInfo
-): Promise<ApiResponse<PersonalInfo>> => {
+export const updateUserInfo = async (
+  data: UserInfo
+): Promise<UserInfo> => {
   return await api
-    .patch('users/personal-info', {
+    .patch('api/users/me', {
       json: data,
     })
     .json();
@@ -26,7 +26,7 @@ export const updateDefaultResume = async (
   defaultResumeJson: ResumeJson
 ): Promise<ApiResponse<ResumeJson>> => {
   return await api
-    .patch('users/me/resume', {
+    .patch('api/resumes/default', {
       json: { defaultResumeJson },
     })
     .json();
@@ -37,12 +37,8 @@ export const updateDefaultResume = async (
  */
 export const updateUserImage = async (formData: FormData): Promise<ApiResponse<string>> => {
   return await api
-    .patch('users/me/image', {
+    .patch('api/users/me/image', {
       body: formData,
     })
     .json();
-};
-
-export const fetchUser = async (): Promise<ApiResponse<any>> => {
-  return api.get('user').json();
 };

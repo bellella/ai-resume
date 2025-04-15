@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
@@ -21,8 +23,12 @@ import {
 } from '@/components/ui/select';
 import { Container } from '@/components/ui/container';
 import { PageHeader } from '@/components/ui/page-header';
+import { useAuthGuard } from '@/lib/hooks/useAuthGuard';
+import { useAuthStore } from '@/lib/store/auth';
 
 export default function ResumesPage() {
+  useAuthGuard();
+  const { user } = useAuthStore();
   return (
     <Container>
       <div className="flex flex-col gap-8">

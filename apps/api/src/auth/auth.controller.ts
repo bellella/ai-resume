@@ -2,14 +2,14 @@ import { Controller, Post, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { SignupDto } from './dto/signup.dto';
+import { LoginResponse } from '@ai-resume/types';
 
 @Controller('api/auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  login(@Body() loginDto: LoginDto) {
-    console.log('loginDto', loginDto);
+  login(@Body() loginDto: LoginDto): Promise<LoginResponse> {
     return this.authService.login(loginDto);
   }
 

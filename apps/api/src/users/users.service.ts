@@ -1,11 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { PrismaService } from '../prisma/prisma.service';
+import { ResumeJson, UserInfo } from '@ai-resume/types';
 
 @Injectable()
 export class UsersService {
-  getProfile() {
-    // TODO: Implement profile retrieval
-    return 'This action returns the user profile';
+  constructor(private prisma: PrismaService) {}
+
+  async getUserInfo(userId: string): Promise<UserInfo> {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        defaultResumeJson: true,
+        imageUrl: true,
+      },
+    });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      defaultResumeJson: user.defaultResumeJson as ResumeJson,
+      imageUrl: user.imageUrl,
+    };
   }
 
   updateProfile(updateUserDto: UpdateUserDto) {
