@@ -1,10 +1,20 @@
-export type ResumeInput = {
+import { Prisma } from '@ai-resume/db';
+
+export interface CreateResumePayload {
+  title: string;
   ai?: {
     content: boolean;
     grammar: boolean;
   };
   resumeJson: ResumeJson;
-};
+}
+
+export interface CreateResumeResponse
+  extends Prisma.ResumeGetPayload<{
+    select: {
+      id: true;
+    };
+  }> {}
 
 export type ResumeJson = {
   firstName: string;
@@ -32,4 +42,28 @@ export type ResumeJson = {
     graduationMonth: string;
     graduationYear: string;
   }[];
+  templateId?: string;
 };
+
+export interface ResumeItem
+  extends Prisma.ResumeGetPayload<{
+    select: {
+      id: true;
+      title: true;
+      status: true;
+      previewImageUrl: true;
+      createdAt: true;
+    };
+  }> {}
+
+export interface ResumeDetail
+  extends Prisma.ResumeGetPayload<{
+    select: {
+      id: true;
+      title: true;
+      status: true;
+      previewImageUrl: true;
+      html: true;
+      createdAt: true;
+    };
+  }> {}

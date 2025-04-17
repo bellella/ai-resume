@@ -1,38 +1,50 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
-import { TemplatesService } from './templates.service';
-import { CreateTemplateDto, UpdateTemplateDto } from './dto';
+import { ResumeJson, Template, TemplateWithPreviewHtml } from '@ai-resume/types';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { CreateTemplateDto } from './dto/create-template.dto';
+import { UpdateTemplateDto } from './dto/update-template.dto';
+import { TemplatesService } from './templates.service';
 // import { RolesGuard } from '../auth/guards/roles.guard';
 // import { Roles } from '../auth/decorators/roles.decorator';
 
 @Controller('templates')
-@UseGuards(JwtAuthGuard)
 export class TemplatesController {
   constructor(private readonly templatesService: TemplatesService) {}
 
   // @Post()
   // @Roles(Role.ADMIN)
-  create(@Body() createTemplateDto: CreateTemplateDto) {
+  @Post()
+  @UseGuards(JwtAuthGuard)
+  async create(@Body() createTemplateDto: Template) {
     return this.templatesService.create(createTemplateDto);
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.templatesService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.templatesService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTemplateDto: UpdateTemplateDto) {
+  @Put(':id')
+  @UseGuards(JwtAuthGuard)
+  async update(@Param('id') id: string, @Body() updateTemplateDto: UpdateTemplateDto) {
     return this.templatesService.update(id, updateTemplateDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  @UseGuards(JwtAuthGuard)
+  async remove(@Param('id') id: string) {
     return this.templatesService.remove(id);
+  }
+
+  @Post('previews')
+  async createTemplatePreviews(
+    @Body() createTemplateDto: CreateTemplateDto
+  ): Promise<TemplateWithPreviewHtml[]> {
+    return this.templatesService.createTemplatePreviews(createTemplateDto.resumeJson);
   }
 }

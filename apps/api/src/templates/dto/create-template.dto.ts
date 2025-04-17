@@ -1,17 +1,7 @@
-import { IsString, IsEnum, IsOptional } from 'class-validator';
-import { TemplateLevel } from '@ai-resume/types';
+import { ResumeJson } from '@ai-resume/types';
+import { IsObject } from 'class-validator';
 
 export class CreateTemplateDto {
-  @IsString()
-  name: string;
-
-  @IsString()
-  html: string;
-
-  @IsEnum(TemplateLevel)
-  level: TemplateLevel;
-
-  @IsString()
-  @IsOptional()
-  previewImageUrl?: string;
+  @IsObject()
+  resumeJson: ResumeJson;
 }

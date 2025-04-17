@@ -39,9 +39,7 @@ export function DefaultResumeForm() {
             onClick={() => {
               const form = document.querySelector('form');
               if (form) {
-                form.dispatchEvent(
-                  new Event('submit', { cancelable: true, bubbles: true })
-                );
+                form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
               }
             }}
             disabled={updateDefaultResumeMutation.isPending}
@@ -53,4 +51,4 @@ export function DefaultResumeForm() {
       </CardContent>
     </Card>
   );
-} 
+}

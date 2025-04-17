@@ -25,10 +25,22 @@ import { Container } from '@/components/ui/container';
 import { PageHeader } from '@/components/ui/page-header';
 import { useAuthGuard } from '@/lib/hooks/useAuthGuard';
 import { useAuthStore } from '@/lib/store/auth';
+import { useQuery } from '@tanstack/react-query';
+import { fetchResumes } from '@/lib/api/resume';
 
-export default function ResumesPage() {
+export default async function ResumesPage() {
   useAuthGuard();
   const { user } = useAuthStore();
+
+  const { data: resumes, isLoading } = useQuery({
+    queryKey: ['resumes'],
+    queryFn: fetchResumes,
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Container>
       <div className="flex flex-col gap-8">
@@ -70,53 +82,53 @@ export default function ResumesPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[1, 2, 3, 4, 5].map((i) => (
-            <Card key={i} className="overflow-hidden">
-              <div className="h-40 bg-gradient-to-br from-primary/20 to-primary/5 p-4">
-                <div className="h-full w-full bg-card rounded-md p-4">
-                  <div className="h-6 w-24 bg-muted rounded mb-2"></div>
-                  <div className="h-3 w-full bg-muted rounded mb-1"></div>
-                  <div className="h-3 w-3/4 bg-muted rounded mb-3"></div>
-                  <div className="h-12 w-full bg-muted rounded mb-2"></div>
-                  <div className="h-3 w-1/2 bg-muted rounded"></div>
-                </div>
-              </div>
-              <CardContent className="p-4">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="font-semibold">
-                      {i === 1 ? 'Software Engineer Resume' : `Resume ${i}`}
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      Last edited: {new Date().toLocaleDateString()}
-                    </p>
-                  </div>
-                  <div className="flex items-center">
-                    <FileText className="h-5 w-5 text-primary" />
+          {resumes?.map((resume) => (
+            <Link href={`/resume/${resume.id}`} key={resume.id}>
+              <Card className="overflow-hidden">
+                <div className="h-40 bg-gradient-to-br from-primary/20 to-primary/5 p-4">
+                  <div className="h-full w-full bg-card rounded-md p-4">
+                    <div className="h-6 w-24 bg-muted rounded mb-2"></div>
+                    <div className="h-3 w-full bg-muted rounded mb-1"></div>
+                    <div className="h-3 w-3/4 bg-muted rounded mb-3"></div>
+                    <div className="h-12 w-full bg-muted rounded mb-2"></div>
+                    <div className="h-3 w-1/2 bg-muted rounded"></div>
                   </div>
                 </div>
-              </CardContent>
-              <CardFooter className="p-4 pt-0 flex flex-wrap gap-2">
-                <Link href={`/resume/${i}/edit`}>
+                <CardContent className="p-4">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="font-semibold">{resume.title}</h3>
+                      <p className="text-sm text-muted-foreground">
+                        Last edited: {new Date(resume.updatedAt).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <div className="flex items-center">
+                      <FileText className="h-5 w-5 text-primary" />
+                    </div>
+                  </div>
+                </CardContent>
+                <CardFooter className="p-4 pt-0 flex flex-wrap gap-2">
+                  <Link href={`/resume/${resume.id}/edit`}>
+                    <Button variant="outline" size="sm" className="gap-1">
+                      <Pencil className="h-3 w-3" />
+                      Edit
+                    </Button>
+                  </Link>
                   <Button variant="outline" size="sm" className="gap-1">
-                    <Pencil className="h-3 w-3" />
-                    Edit
+                    <Download className="h-3 w-3" />
+                    Download
                   </Button>
-                </Link>
-                <Button variant="outline" size="sm" className="gap-1">
-                  <Download className="h-3 w-3" />
-                  Download
-                </Button>
-                <Button variant="outline" size="sm" className="gap-1">
-                  <Share className="h-3 w-3" />
-                  Share
-                </Button>
-                <Button variant="ghost" size="sm" className="text-destructive gap-1">
-                  <Trash className="h-3 w-3" />
-                  Delete
-                </Button>
-              </CardFooter>
-            </Card>
+                  <Button variant="outline" size="sm" className="gap-1">
+                    <Share className="h-3 w-3" />
+                    Share
+                  </Button>
+                  <Button variant="ghost" size="sm" className="text-destructive gap-1">
+                    <Trash className="h-3 w-3" />
+                    Delete
+                  </Button>
+                </CardFooter>
+              </Card>
+            </Link>
           ))}
         </div>
       </div>

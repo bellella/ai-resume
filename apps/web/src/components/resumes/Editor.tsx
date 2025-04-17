@@ -155,71 +155,19 @@ const extensions = [
   }),
 ];
 
-const initialContent = `
-<h2>Hi there,</h2>
-<p>This is a <em>basic</em> example of <strong>Tiptap</strong>.</p>
-<ul>
-  <li>Bullet list 1</li>
-  <li>Bullet list 2</li>
-</ul>
-<blockquote>
-  Wow, that's amazing. Good work, boy! 👏<br />— Mom
-</blockquote>
-`;
-const resumeTemplateHTML = `
-<h1 style="font-size: 28px; font-weight: bold;">김지원 (Jiwon Kim)</h1>
-<p><strong>Frontend Developer</strong> | jiwon@example.com | +82 10-1234-5678 | GitHub: github.com/jiwon</p>
-
-<h2 style="margin-top: 24px;">👨‍💻 About Me</h2>
-<p>
-창의적인 UI와 사용자 중심의 설계를 지향하는 프론트엔드 개발자입니다. React, Next.js 기반의 프로젝트 경험이 있으며, 팀 협업과 커뮤니케이션에 강점이 있습니다.
-</p>
-
-<h2 style="margin-top: 24px;">💼 Experience</h2>
-<ul>
-  <li>
-    <strong>코드몽키 (CodeMonkey Inc.)</strong> – Frontend Intern (2023.01 ~ 2023.06)<br/>
-    - React로 메인 페이지 리뉴얼<br/>
-    - GitHub Actions를 통한 CI/CD 자동화 구축
-  </li>
-</ul>
-
-<h2 style="margin-top: 24px;">📂 Projects</h2>
-<ul>
-  <li>
-    <strong>AI Resume Builder (2024)</strong><br/>
-    - Next.js, Tiptap, Stripe 기반 이력서 생성/AI 분석 서비스 개발<br/>
-    - GPT API를 활용한 표현 교정 기능 추가
-  </li>
-</ul>
-
-<h2 style="margin-top: 24px;">🛠 Skills</h2>
-<ul>
-  <li><strong>Frontend:</strong> React, Next.js, TypeScript, Tailwind CSS</li>
-  <li><strong>Tools:</strong> Git, Figma, Vite, VSCode</li>
-</ul>
-
-<h2 style="margin-top: 24px;">🎓 Education</h2>
-<ul>
-  <li>
-    한양대학교 컴퓨터소프트웨어학과 (2019 ~ 2023)
-  </li>
-</ul>
-`;
-
 interface EditorProps {
   initialData?: string;
 }
 
 export default function EditorWithPDFExport({ initialData }: EditorProps) {
-  const [html, setHtml] = useState(initialData || resumeTemplateHTML);
+  const [html, setHtml] = useState(initialData);
 
   return (
     <Card>
       <CardContent className="p-4">
         <EditorProvider
           extensions={extensions}
-          content={initialData || resumeTemplateHTML}
+          content={initialData}
           slotBefore={<MenuBar />}
           onUpdate={({ editor }) => {
             setHtml(editor.getHTML());

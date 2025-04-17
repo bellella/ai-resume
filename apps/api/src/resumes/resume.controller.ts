@@ -17,7 +17,6 @@ export class ResumeController {
     @Body() createResumeDto: CreateResumeDto,
     @Req() req: RequestWithUser
   ): Promise<Prisma.ResumeGetPayload<{}>> {
-    console.log('createResumeDto', req.user.id);
     return this.resumeService.create(createResumeDto, req.user.id);
   }
 
@@ -25,6 +24,12 @@ export class ResumeController {
   @UseGuards(JwtAuthGuard)
   findAll() {
     return this.resumeService.findAll();
+  }
+
+  @Get('user')
+  @UseGuards(JwtAuthGuard)
+  findAllByUserId(@Req() req: RequestWithUser) {
+    return this.resumeService.findAllByUserId(req.user.id);
   }
 
   @Get(':id')
@@ -39,8 +44,10 @@ export class ResumeController {
     @Body() updateDefaultResumeDto: UpdateDefaultResumeDto,
     @Req() req: RequestWithUser
   ) {
-    console.log('updateDefaultResumeDto', updateDefaultResumeDto);
-    return this.resumeService.updateDefaultResume(updateDefaultResumeDto.defaultResumeJson, req.user.id);
+    return this.resumeService.updateDefaultResume(
+      updateDefaultResumeDto.defaultResumeJson,
+      req.user.id
+    );
   }
 
   @Patch(':id')

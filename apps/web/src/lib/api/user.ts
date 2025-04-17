@@ -9,9 +9,7 @@ export const fetchUserInfo = async (): Promise<UserInfo> => {
   return api.get('api/users/me').json();
 };
 
-export const updateUserInfo = async (
-  data: UserInfo
-): Promise<UserInfo> => {
+export const updateUserInfo = async (data: UserInfo): Promise<UserInfo> => {
   return await api
     .patch('api/users/me', {
       json: data,

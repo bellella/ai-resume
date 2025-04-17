@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateTemplateDto, UpdateTemplateDto } from './dto';
+import { ResumeJson, Template, TemplateWithPreviewHtml } from '@ai-resume/types';
 
 @Injectable()
 export class TemplatesService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: CreateTemplateDto) {
+  async create(data: Template) {
     return this.prisma.template.create({
       data,
     });
@@ -15,7 +16,7 @@ export class TemplatesService {
   async findAll() {
     return this.prisma.template.findMany({
       where: {
-        level: {
+        status: {
           not: 'DELETED',
         },
       },
@@ -39,9 +40,26 @@ export class TemplatesService {
     return this.prisma.template.update({
       where: { id },
       data: {
-        level: 'DELETED',
+        status: 'DELETED',
       },
     });
+  }
+
+  async createTemplatePreviews(resumeJson: ResumeJson): Promise<TemplateWithPreviewHtml[]> {
+    const templates = await this.prisma.template.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    if (!templates || templates.length === 0) {
+      throw new Error('Template not found');
+    }
+
+    return templates.map((template) => ({
+      ...template,
+      previewHtml: this.bindDataToTemplate(template.html, resumeJson),
+    }));
   }
 
   bindDataToTemplate(template: string, data: Record<string, any>): string {

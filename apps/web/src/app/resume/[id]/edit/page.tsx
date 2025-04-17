@@ -14,50 +14,17 @@ import { Container } from '@/components/ui/container';
 import { PageHeader } from '@/components/ui/page-header';
 import { Coins, Download, Eye, FileText, Save, Settings, Share } from 'lucide-react';
 import Link from 'next/link';
-
-interface ResumeData {
-  id: string;
-  title: string;
-  html: string;
-  dataJson: any;
-}
+import { useQuery } from '@tanstack/react-query';
+import { fetchResume } from '@/lib/api/resume';
 
 export default function ResumeEditorPage({ params }: { params: { id: string } }) {
-  const router = useRouter();
   const { isLoading } = useAuth();
-  const [resume, setResume] = useState<ResumeData | null>(null);
   const [isLoadingResume, setIsLoadingResume] = useState(true);
 
-  useEffect(() => {
-    const fetchResume = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          router.push('/login');
-          return;
-        }
-
-        const response = await fetch(`http://localhost:3001/resumes/${params.id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error('이력서를 불러오는데 실패했습니다');
-        }
-
-        const data = await response.json();
-        setResume(data);
-      } catch (error) {
-        console.error('에러 발생:', error);
-      } finally {
-        setIsLoadingResume(false);
-      }
-    };
-
-    fetchResume();
-  }, [params.id, router]);
+  const { data: resume } = useQuery({
+    queryKey: ['resume', params.id],
+    queryFn: () => fetchResume(params.id),
+  });
 
   if (isLoading || isLoadingResume) {
     return <div>Loading...</div>;

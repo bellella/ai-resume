@@ -51,9 +51,7 @@ export function PersonalInfoForm() {
     <Card>
       <CardHeader>
         <CardTitle>Personal Information</CardTitle>
-        <CardDescription>
-          Update your personal information and profile settings.
-        </CardDescription>
+        <CardDescription>Update your personal information and profile settings.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -61,9 +59,7 @@ export function PersonalInfoForm() {
             <div className="flex flex-col items-center gap-2">
               <Avatar className="h-24 w-24">
                 <AvatarImage src={user?.imageUrl || '/placeholder.svg'} alt="Profile" />
-                <AvatarFallback>
-                  {user?.name?.slice(0, 2).toUpperCase() || 'JD'}
-                </AvatarFallback>
+                <AvatarFallback>{user?.name?.slice(0, 2).toUpperCase() || 'JD'}</AvatarFallback>
               </Avatar>
               <Button variant="outline" size="sm">
                 Change
@@ -72,20 +68,11 @@ export function PersonalInfoForm() {
 
             <div className="grid flex-1 gap-4 md:grid-cols-2">
               <FormField id="name" label="Name">
-                <Input
-                  id="name"
-                  {...register('name')}
-                />
-                {errors.name && (
-                  <p className="text-sm text-red-500 mt-1">{errors.name.message}</p>
-                )}
+                <Input id="name" {...register('name')} />
+                {errors.name && <p className="text-sm text-red-500 mt-1">{errors.name.message}</p>}
               </FormField>
               <FormField id="email" label="Email">
-                <Input
-                  id="email"
-                  type="email"
-                  {...register('email')}
-                />
+                <Input id="email" type="email" {...register('email')} />
                 {errors.email && (
                   <p className="text-sm text-red-500 mt-1">{errors.email.message}</p>
                 )}
@@ -93,11 +80,7 @@ export function PersonalInfoForm() {
             </div>
           </div>
           <div className="flex justify-end mt-6">
-            <Button
-              className="gap-1"
-              type="submit"
-              disabled={updatePersonalInfoMutation.isPending}
-            >
+            <Button className="gap-1" type="submit" disabled={updatePersonalInfoMutation.isPending}>
               <Save className="h-4 w-4" />
               Save Changes
             </Button>
@@ -106,4 +89,4 @@ export function PersonalInfoForm() {
       </CardContent>
     </Card>
   );
-} 
+}

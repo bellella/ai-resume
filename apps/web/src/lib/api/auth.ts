@@ -19,10 +19,7 @@ export const signup = async (data: {
 /**
  * Log in with email and password
  */
-export const login = async (data: {
-  email: string;
-  password: string;
-}): Promise<LoginResponse> => {
+export const login = async (data: { email: string; password: string }): Promise<LoginResponse> => {
   return await api
     .post('api/auth/login', {
       json: data,

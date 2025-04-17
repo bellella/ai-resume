@@ -16,7 +16,7 @@ import * as z from 'zod';
 import { useFieldArray } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Trash2, Plus } from 'lucide-react';
-import { useState } from 'react';
+import { useState, forwardRef, useImperativeHandle } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { PersonalInfoSection } from './sections/personal-info-section';
@@ -65,85 +65,106 @@ interface ResumeFormProps {
   defaultValues?: ResumeJson;
 }
 
-export function ResumeForm({ onSubmit, defaultValues }: ResumeFormProps) {
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      firstName: '',
-      lastName: '',
-      city: '',
-      province: '',
-      postalCode: '',
-      phone: '',
-      email: '',
-      professionalSummary: '',
-      skills: [],
-      workExperiences: [
-        {
-          jobTitle: '',
-          employer: '',
-          city: '',
-          province: '',
-          startDate: '',
-          endDate: '',
-        },
-      ],
-      educations: [
-        {
-          schoolName: '',
-          schoolLocation: '',
-          degree: '',
-          fieldOfStudy: '',
-          graduationMonth: '',
-          graduationYear: '',
-        },
-      ],
-      ...defaultValues,
-    },
-  });
-
-  const {
-    fields: workExperienceFields,
-    append: appendWorkExperience,
-    remove: removeWorkExperience,
-  } = useFieldArray({
-    control: form.control,
-    name: 'workExperiences',
-  });
-
-  const {
-    fields: educationFields,
-    append: appendEducation,
-    remove: removeEducation,
-  } = useFieldArray({
-    control: form.control,
-    name: 'educations',
-  });
-
-  const [skills, setSkills] = useState<string[]>([]);
-
-  const addSkill = (skill: string) => {
-    if (skill && !skills.includes(skill)) {
-      setSkills([...skills, skill]);
-      form.setValue('skills', [...skills, skill]);
-    }
-  };
-
-  const removeSkill = (skillToRemove: string) => {
-    const newSkills = skills.filter((skill) => skill !== skillToRemove);
-    setSkills(newSkills);
-    form.setValue('skills', newSkills);
-  };
-
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <PersonalInfoSection />
-        <WorkHistorySection />
-        <EducationHistorySection />
-        <SkillsSection />
-        <SummarySection />
-      </form>
-    </Form>
-  );
+export interface ResumeFormRef {
+  reset: (values?: ResumeJson) => void;
+  getValues: () => ResumeJson;
 }
+
+export const ResumeForm = forwardRef<ResumeFormRef, ResumeFormProps>(
+  ({ onSubmit, defaultValues }, ref) => {
+    const form = useForm<FormValues>({
+      resolver: zodResolver(formSchema),
+      defaultValues: {
+        firstName: '',
+        lastName: '',
+        city: '',
+        province: '',
+        postalCode: '',
+        phone: '',
+        email: '',
+        professionalSummary: '',
+        skills: [],
+        workExperiences: [
+          {
+            jobTitle: '',
+            employer: '',
+            city: '',
+            province: '',
+            startDate: '',
+            endDate: '',
+          },
+        ],
+        educations: [
+          {
+            schoolName: '',
+            schoolLocation: '',
+            degree: '',
+            fieldOfStudy: '',
+            graduationMonth: '',
+            graduationYear: '',
+          },
+        ],
+        ...defaultValues,
+      },
+    });
+
+    useImperativeHandle(ref, () => ({
+      reset: (values?: ResumeJson) => {
+        form.reset(values);
+      },
+      getValues: () => form.getValues() as ResumeJson,
+    }));
+
+    const {
+      fields: workExperienceFields,
+      append: appendWorkExperience,
+      remove: removeWorkExperience,
+    } = useFieldArray({
+      control: form.control,
+      name: 'workExperiences',
+    });
+
+    const {
+      fields: educationFields,
+      append: appendEducation,
+      remove: removeEducation,
+    } = useFieldArray({
+      control: form.control,
+      name: 'educations',
+    });
+
+    const [skills, setSkills] = useState<string[]>([]);
+
+    const addSkill = (skill: string) => {
+      if (skill && !skills.includes(skill)) {
+        setSkills([...skills, skill]);
+        form.setValue('skills', [...skills, skill]);
+      }
+    };
+
+    const removeSkill = (skillToRemove: string) => {
+      const newSkills = skills.filter((skill) => skill !== skillToRemove);
+      setSkills(newSkills);
+      form.setValue('skills', newSkills);
+    };
+
+    return (
+      <Form {...form}>
+        <form
+          id="resume-form"
+          onSubmit={(e) => {
+            console.log('Form submitted');
+            form.handleSubmit(onSubmit)(e);
+          }}
+          className="space-y-6"
+        >
+          <PersonalInfoSection />
+          <WorkHistorySection />
+          <EducationHistorySection />
+          <SkillsSection />
+          <SummarySection />
+        </form>
+      </Form>
+    );
+  }
+);

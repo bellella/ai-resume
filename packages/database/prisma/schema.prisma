@@ -63,19 +63,18 @@ model Template {
   id              String         @id @default(auto()) @map("_id") @db.ObjectId
   name            String
   html            String         // full HTML with inline <style> if needed
-  level           TemplateLevel  // view permission level
+  status          ItemStatus     // view permission level
   previewImageUrl String?
   createdAt       DateTime       @default(now())
 
   resumes         Resume[]
 }
 
-enum TemplateLevel {
+enum ItemStatus {
   USER      // only visible to the creator
   ADMIN     // created or managed by admin
   DELETED   // hidden from all UIs
 }
-
 
 enum TransactionType {
   CHARGE

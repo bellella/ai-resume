@@ -17,7 +17,6 @@ import { Github, Twitter } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { toast } from 'sonner';
 import { useLogin } from '@/lib/hooks/useLogin';
 
 const formSchema = z.object({
@@ -68,9 +67,7 @@ export default function LoginPage() {
                   {...form.register('email')}
                 />
                 {form.formState.errors.email && (
-                  <p className="text-sm text-red-500">
-                    {form.formState.errors.email.message}
-                  </p>
+                  <p className="text-sm text-red-500">{form.formState.errors.email.message}</p>
                 )}
               </div>
 
@@ -87,9 +84,7 @@ export default function LoginPage() {
                 </div>
                 <Input id="password" type="password" {...form.register('password')} />
                 {form.formState.errors.password && (
-                  <p className="text-sm text-red-500">
-                    {form.formState.errors.password.message}
-                  </p>
+                  <p className="text-sm text-red-500">{form.formState.errors.password.message}</p>
                 )}
               </div>
 
@@ -104,9 +99,7 @@ export default function LoginPage() {
               <div className="absolute inset-0 flex items-center">
                 <span className="w-full border-t" />
               </div>
-              <span className="relative bg-card px-2 text-muted-foreground text-sm">
-                or
-              </span>
+              <span className="relative bg-card px-2 text-muted-foreground text-sm">or</span>
             </div>
 
             {/* Social login buttons */}
