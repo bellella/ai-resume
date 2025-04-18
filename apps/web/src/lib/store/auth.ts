@@ -17,15 +17,17 @@ export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
-      isLoading: false,
+      isLoading: true,
       setUserInfo: (user) => set({ user, isLoading: false }),
       clearUserInfo: () => set({ user: null, isLoading: false }),
       hydrateUser: async () => {
         try {
           const res = await fetchUserInfo();
-          set({ user: res, isLoading: false });
+          set({ user: res });
         } catch (error) {
-          set({ user: null, isLoading: false });
+          set({ user: null });
+        } finally {
+          set({ isLoading: false });
         }
       },
     }),
