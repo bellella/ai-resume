@@ -7,9 +7,18 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { TemplatesModule } from './templates/templates.module';
+import { FilesModule } from './files/files.module';
 
 @Module({
-  imports: [PrismaModule, ResumeModule, CoinsModule, AuthModule, UsersModule, TemplatesModule],
+  imports: [
+    FilesModule,
+    PrismaModule,
+    ResumeModule,
+    CoinsModule,
+    AuthModule,
+    UsersModule,
+    TemplatesModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

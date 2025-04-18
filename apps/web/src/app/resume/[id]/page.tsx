@@ -1,28 +1,73 @@
 'use client';
 
-import type React from 'react';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
+import type React from 'react';
+import { useState } from 'react';
 
-import Editor from '@/components/resumes/Editor';
 import { ActionButtons } from '@/components/ui/action-buttons';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Container } from '@/components/ui/container';
 import { PageHeader } from '@/components/ui/page-header';
-import { Coins, Download, Eye, FileText, Save, Settings, Share } from 'lucide-react';
-import Link from 'next/link';
-import { useQuery } from '@tanstack/react-query';
 import { fetchResume } from '@/lib/api/resume';
-
+import { ResumeJson } from '@ai-resume/types';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { Coins, Download, Eye, Save, Settings, Share } from 'lucide-react';
+import Link from 'next/link';
+import { generatePdf } from '@/lib/api/file';
+import DefaultTemplate, { css as defaultCss } from '@/components/templates/default';
+import ModernTemplate, { css as modernCss } from '@/components/templates/modern';
 export default function ResumeEditorPage({ params }: { params: { id: string } }) {
+  //const { isLoading } = useAuth();
+  const [selectedTemplate, setSelectedTemplate] = useState('default');
 
   const { data: resume, isLoading } = useQuery({
     queryKey: ['resume', params.id],
     queryFn: () => fetchResume(params.id),
   });
+
+  const templates = [
+    { id: 'default', name: 'Default Template', component: DefaultTemplate, css: defaultCss },
+    { id: 'modern', name: 'Modern Template', component: ModernTemplate, css: modernCss },
+    // Add more templates here
+  ];
+
+  const handleTemplateSelect = (templateId: string) => {
+    setSelectedTemplate(templateId);
+  };
+
+  const handlePdfDownload = async () => {
+    const el = document.getElementById('resume-preview');
+    if (!el) return alert('Resume preview not found');
+
+    const html = el.outerHTML;
+    const selected = templates.find((t) => t.id === selectedTemplate);
+    if (!selected) return alert('선택된 템플릿 정보를 찾을 수 없습니다');
+
+    const css = selected.css;
+
+    downloadPdfMutation.mutate({ html, css });
+  };
+
+  const downloadPdfMutation = useMutation({
+    mutationFn: ({ html, css }: { html: string; css: string }) => generatePdf(html, css),
+    onSuccess: (blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'resume.pdf';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    },
+    onError: (err) => {
+      console.error(err);
+      alert('PDF 다운로드 중 오류가 발생했습니다.');
+    },
+  });
+
+  const SelectedTemplateComponent: React.ComponentType<{ data: ResumeJson }> | undefined =
+    templates.find((t) => t.id === selectedTemplate)?.component;
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -44,7 +89,13 @@ export default function ResumeEditorPage({ params }: { params: { id: string } })
               <Save className="h-4 w-4" />
               Save
             </Button>
-            <Button variant="outline" size="sm" className="gap-1">
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-1"
+              onClick={handlePdfDownload}
+              disabled={downloadPdfMutation.isPending}
+            >
               <Download className="h-4 w-4" />
               Export PDF
               <Badge variant="secondary" className="ml-1 bg-primary/10 text-primary">
@@ -67,44 +118,38 @@ export default function ResumeEditorPage({ params }: { params: { id: string } })
             </Button>
           </ActionButtons>
         </PageHeader>
-        {resume.resumeHtml && <Editor initialData={resume.resumeHtml} />}
-        <Card>
-          <CardHeader>
-            <CardTitle>Templates</CardTitle>
-            <CardDescription>Choose a template for your resume</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
-                <Card
-                  key={i}
-                  className="overflow-hidden cursor-pointer hover:border-primary transition-colors"
-                >
-                  <div className="h-40 bg-gradient-to-br from-primary/20 to-primary/5 p-4">
-                    <div className="h-full w-full bg-card rounded-md p-4">
-                      <div className="h-6 w-24 bg-muted rounded mb-2"></div>
-                      <div className="h-3 w-full bg-muted rounded mb-1"></div>
-                      <div className="h-3 w-3/4 bg-muted rounded mb-3"></div>
-                      <div className="h-12 w-full bg-muted rounded mb-2"></div>
-                      <div className="h-3 w-1/2 bg-muted rounded"></div>
-                    </div>
-                  </div>
-                  <CardContent className="p-4">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className="font-semibold">Template {i}</h3>
-                        <p className="text-sm text-muted-foreground">Professional</p>
+
+        <div className="flex gap-6">
+          {/* Template List */}
+          <div className="w-1/4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Templates</CardTitle>
+                <CardDescription>Choose a template for your resume</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 gap-4">
+                  {templates.map((template) => (
+                    <Card
+                      key={template.id}
+                      className="overflow-hidden cursor-pointer hover:border-primary transition-colors"
+                      onClick={() => handleTemplateSelect(template.id)}
+                    >
+                      <div className="p-4">
+                        <h3 className="font-semibold">{template.name}</h3>
                       </div>
-                      <div className="flex items-center">
-                        <FileText className="h-5 w-5 text-primary" />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+                    </Card>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Template Renderer */}
+          <div className="w-3/4" id="resume-preview">
+            {SelectedTemplateComponent && <SelectedTemplateComponent data={resume.resumeJson} />}
+          </div>
+        </div>
       </div>
     </Container>
   );

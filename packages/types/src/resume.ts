@@ -66,4 +66,6 @@ export interface ResumeDetail
       html: true;
       createdAt: true;
     };
-  }> {}
+  }> {
+  resumeJson: ResumeJson;
+}

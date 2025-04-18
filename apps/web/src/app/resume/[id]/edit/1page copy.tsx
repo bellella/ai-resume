@@ -1,45 +1,30 @@
 'use client';
 
-import { useAuth } from '@/hooks/useAuth';
 import type React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/hooks/useAuth';
 
+import Editor from '@/components/resumes/Editor';
 import { ActionButtons } from '@/components/ui/action-buttons';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Container } from '@/components/ui/container';
 import { PageHeader } from '@/components/ui/page-header';
-import { fetchResume } from '@/lib/api/resume';
-import { ResumeJson } from '@ai-resume/types';
-import { useQuery } from '@tanstack/react-query';
-import { Coins, Download, Eye, Save, Settings, Share } from 'lucide-react';
+import { Coins, Download, Eye, FileText, Save, Settings, Share } from 'lucide-react';
 import Link from 'next/link';
-import DefaultTemplate from '@/components/templates/default';
-import ModernTemplate from '@/components/templates/modern';
+import { useQuery } from '@tanstack/react-query';
+import { fetchResume } from '@/lib/api/resume';
 
 export default function ResumeEditorPage({ params }: { params: { id: string } }) {
   const { isLoading } = useAuth();
   const [isLoadingResume, setIsLoadingResume] = useState(true);
-  const [selectedTemplate, setSelectedTemplate] = useState('default');
 
   const { data: resume } = useQuery({
     queryKey: ['resume', params.id],
     queryFn: () => fetchResume(params.id),
   });
-
-  const templates = [
-    { id: 'default', name: 'Default Template', component: DefaultTemplate },
-    { id: 'modern', name: 'Modern Template', component: ModernTemplate },
-    // Add more templates here
-  ];
-
-  const handleTemplateSelect = (templateId: string) => {
-    setSelectedTemplate(templateId);
-  };
-
-  const SelectedTemplateComponent: React.ComponentType<{ data: ResumeJson }> | undefined =
-    templates.find((t) => t.id === selectedTemplate)?.component;
 
   if (isLoading || isLoadingResume) {
     return <div>Loading...</div>;
@@ -85,37 +70,45 @@ export default function ResumeEditorPage({ params }: { params: { id: string } })
           </ActionButtons>
         </PageHeader>
 
-        <div className="flex gap-6">
-          {/* Template List */}
-          <div className="w-1/4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Templates</CardTitle>
-                <CardDescription>Choose a template for your resume</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 gap-4">
-                  {templates.map((template) => (
-                    <Card
-                      key={template.id}
-                      className="overflow-hidden cursor-pointer hover:border-primary transition-colors"
-                      onClick={() => handleTemplateSelect(template.id)}
-                    >
-                      <div className="p-4">
-                        <h3 className="font-semibold">{template.name}</h3>
-                      </div>
-                    </Card>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+        <Editor initialData={resume.html} />
 
-          {/* Template Renderer */}
-          <div className="w-3/4">
-            {SelectedTemplateComponent && <SelectedTemplateComponent data={resume.resumeJson} />}
-          </div>
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Templates</CardTitle>
+            <CardDescription>Choose a template for your resume</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <Card
+                  key={i}
+                  className="overflow-hidden cursor-pointer hover:border-primary transition-colors"
+                >
+                  <div className="h-40 bg-gradient-to-br from-primary/20 to-primary/5 p-4">
+                    <div className="h-full w-full bg-card rounded-md p-4">
+                      <div className="h-6 w-24 bg-muted rounded mb-2"></div>
+                      <div className="h-3 w-full bg-muted rounded mb-1"></div>
+                      <div className="h-3 w-3/4 bg-muted rounded mb-3"></div>
+                      <div className="h-12 w-full bg-muted rounded mb-2"></div>
+                      <div className="h-3 w-1/2 bg-muted rounded"></div>
+                    </div>
+                  </div>
+                  <CardContent className="p-4">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="font-semibold">Template {i}</h3>
+                        <p className="text-sm text-muted-foreground">Professional</p>
+                      </div>
+                      <div className="flex items-center">
+                        <FileText className="h-5 w-5 text-primary" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </Container>
   );

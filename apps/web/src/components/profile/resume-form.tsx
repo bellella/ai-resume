@@ -16,7 +16,7 @@ import * as z from 'zod';
 import { useFieldArray } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Trash2, Plus } from 'lucide-react';
-import { useState, forwardRef, useImperativeHandle } from 'react';
+import { useState, forwardRef, useImperativeHandle, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { PersonalInfoSection } from './sections/personal-info-section';
@@ -62,6 +62,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 interface ResumeFormProps {
   onSubmit: (data: FormValues) => void;
+  onChange?: (data: ResumeJson) => void;
   defaultValues?: ResumeJson;
 }
 
@@ -71,7 +72,7 @@ export interface ResumeFormRef {
 }
 
 export const ResumeForm = forwardRef<ResumeFormRef, ResumeFormProps>(
-  ({ onSubmit, defaultValues }, ref) => {
+  ({ onSubmit, onChange, defaultValues }, ref) => {
     const form = useForm<FormValues>({
       resolver: zodResolver(formSchema),
       defaultValues: {
@@ -133,12 +134,13 @@ export const ResumeForm = forwardRef<ResumeFormRef, ResumeFormProps>(
       name: 'educations',
     });
 
-    const [skills, setSkills] = useState<string[]>([]);
+    const [skills, setSkills] = useState<string[]>(defaultValues?.skills || []);
 
     const addSkill = (skill: string) => {
       if (skill && !skills.includes(skill)) {
-        setSkills([...skills, skill]);
-        form.setValue('skills', [...skills, skill]);
+        const newSkills = [...skills, skill];
+        setSkills(newSkills);
+        form.setValue('skills', newSkills);
       }
     };
 
@@ -148,12 +150,19 @@ export const ResumeForm = forwardRef<ResumeFormRef, ResumeFormProps>(
       form.setValue('skills', newSkills);
     };
 
+    // ✅ 실시간 프리뷰를 위한 watch
+    useEffect(() => {
+      const subscription = form.watch((value) => {
+        onChange?.(value as ResumeJson);
+      });
+      return () => subscription.unsubscribe();
+    }, [form.watch, onChange]);
+
     return (
       <Form {...form}>
         <form
           id="resume-form"
           onSubmit={(e) => {
-            console.log('Form submitted');
             form.handleSubmit(onSubmit)(e);
           }}
           className="space-y-6"

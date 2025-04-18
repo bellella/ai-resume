@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/lib/store/user';
+import { fetchUserInfo } from '@/lib/api/user';
 
 interface AuthState {
   isLoading: boolean;
@@ -22,49 +23,31 @@ export function useAuth() {
       return;
     }
 
-    // TODO: Fetch user data from API
-    const mockUser = {
-      id: '1',
-      email: 'test@example.com',
-      name: 'Test User',
-      defaultResumeJson: {
-        firstName: 'John',
-        lastName: 'Doe',
-        city: 'San Francisco',
-        province: 'CA',
-        postalCode: '94105',
-        phone: '+1 (555) 123-4567',
-        email: 'john.doe@example.com',
-        professionalSummary:
-          'Experienced software engineer with a passion for building scalable applications.',
-        skills: ['React', 'TypeScript', 'Node.js'],
-        workExperiences: [
-          {
-            jobTitle: 'Senior Software Engineer',
-            employer: 'Tech Corp',
-            city: 'San Francisco',
-            province: 'CA',
-            startDate: '2020-01',
-            endDate: 'Present',
-          },
-        ],
-        educations: [
-          {
-            schoolName: 'University of Technology',
-            schoolLocation: 'San Francisco',
-            degree: 'Bachelor of Science',
-            fieldOfStudy: 'Computer Science',
-            graduationMonth: 'May',
-            graduationYear: '2015',
-          },
-        ],
-      },
+    const fetchUserData = async () => {
+      try {
+        const userData = await fetchUserInfo();
+        const completeUserData = {
+          ...userData,
+          password: '', // Default or placeholder value
+          coinBalance: 0, // Default value
+          createdAt: new Date(), // Default value
+          updatedAt: new Date(), // Default value
+        };
+        setUser(completeUserData);
+        setState({
+          isLoading: false,
+          isAuthenticated: true,
+        });
+      } catch (error) {
+        console.error('Failed to fetch user data:', error);
+        setState({
+          isLoading: false,
+          isAuthenticated: false,
+        });
+      }
     };
-    setUser(mockUser);
-    setState({
-      isLoading: false,
-      isAuthenticated: true,
-    });
+
+    fetchUserData();
   }, [setUser]);
 
   return {
