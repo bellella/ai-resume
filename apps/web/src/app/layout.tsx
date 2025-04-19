@@ -4,7 +4,7 @@ import './globals.css';
 import { Providers } from './providers';
 import Header from '@/components/layout/header';
 import { Toaster } from '@/components/ui/toaster';
-import { AuthHydration } from '@/components/app/AuthHydration';
+import { AuthHydration } from '@/components/apps/auth-hydration';
 
 const inter = Inter({ subsets: ['latin'] });
 

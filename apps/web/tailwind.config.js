@@ -64,6 +64,9 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      aspectRatio: {
+        'a4': '210 / 297',
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

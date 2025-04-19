@@ -61,7 +61,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 interface ResumeFormProps {
-  onSubmit: (data: FormValues) => void;
+  onSubmit?: (data: FormValues) => void;
   onChange?: (data: ResumeJson) => void;
   defaultValues?: ResumeJson;
 }
@@ -163,7 +163,9 @@ export const ResumeForm = forwardRef<ResumeFormRef, ResumeFormProps>(
         <form
           id="resume-form"
           onSubmit={(e) => {
-            form.handleSubmit(onSubmit)(e);
+            if (onSubmit) {
+              form.handleSubmit(onSubmit)(e);
+            }
           }}
           className="space-y-6"
         >

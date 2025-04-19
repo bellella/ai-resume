@@ -7,8 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useQuery } from '@tanstack/react-query';
 import { fetchUserInfo } from '@/lib/api/user';
 import { useAuthGuard } from '@/lib/hooks/useAuthGuard';
-import { PersonalInfoForm } from '@/components/profile/personal-info-form';
-import { DefaultResumeForm } from '@/components/profile/default-resume-form';
+import { PersonalInfoForm } from '@/components/profiles/personal-info-form';
+import { DefaultResumeForm } from '@/components/profiles/default-resume-form';
 
 function PersonalInfoSkeleton() {
   return (

@@ -21,10 +21,10 @@ export default function Header() {
 
         <nav className="hidden md:flex items-center gap-6">
           <Link
-            href="/resume"
+            href="/resumes"
             className={cn(
               'text-sm font-medium transition-colors hover:text-primary',
-              pathname.startsWith('/resume') ? 'text-primary' : 'text-muted-foreground'
+              pathname.startsWith('/resumes') ? 'text-primary' : 'text-muted-foreground'
             )}
           >
             My Resumes
@@ -41,12 +41,11 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          {/* 다크모드 토글 - ModeToggle 컴포넌트 사용 */}
           <ModeToggle />
 
           {isLoggedIn ? (
             <>
-              <Link href="/profile">
+              <Link href="/profiles">
                 <Button variant="ghost" size="icon">
                   <User className="h-5 w-5" />
                   <span className="sr-only">Profile</span>

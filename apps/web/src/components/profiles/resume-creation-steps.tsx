@@ -1,6 +1,6 @@
 'use client';
 
-import { ResumeForm, ResumeFormRef } from '@/components/profile/resume-form';
+import { ResumeForm, ResumeFormRef } from '@/components/profiles/resume-form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Container } from '@/components/ui/container';

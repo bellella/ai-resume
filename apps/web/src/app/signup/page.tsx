@@ -69,7 +69,7 @@ export default function SignupPage() {
       localStorage.setItem('user', JSON.stringify(result.user));
 
       toast.success('Signup successful!');
-      router.push('/resume'); // Redirect to resume list page
+      router.push('/resumes'); // Redirect to resume list page
     } catch (error) {
       console.error('Error occurred:', error);
       toast.error('Signup failed. Please try again.');
