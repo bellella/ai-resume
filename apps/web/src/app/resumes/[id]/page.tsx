@@ -1,11 +1,12 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/hooks/useAuth';
 import ResumeEditor from '@/components/resumes/resume-editor';
-import { createResume, fetchResume } from '@/lib/api/resume';
-import { useQuery } from '@tanstack/react-query';
+import { useAuth } from '@/lib/hooks/useAuth';
+import { fetchResume, updateResume } from '@/lib/api/resume';
 import { ResumeDetail } from '@ai-resume/types';
+import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { toast } from '@/components/ui/use-toast';
 
 export default function NewResumePage({ params }: { params: { id: string } }) {
   const router = useRouter();
@@ -16,8 +17,17 @@ export default function NewResumePage({ params }: { params: { id: string } }) {
   });
 
   const handleCreate = async (data: any) => {
-    const result = await createResume(data);
-    router.push(`/resumes/${result.id}`);
+    const result = await updateResume(params.id, data);
+    if (!result.id) {
+      toast.error('Failed to update resume');
+      return;
+    }
+    toast('Success', {
+      description: 'Resume updated successfully!',
+    });
+    setTimeout(() => {
+      router.refresh();
+    }, 1000);
   };
 
   if (isLoading) {
@@ -25,8 +35,8 @@ export default function NewResumePage({ params }: { params: { id: string } }) {
   }
 
   if (!resume) {
-    return <div>이력서를 찾을 수 없습니다</div>;
+    return <div>Resume not found</div>;
   }
 
-  return <ResumeEditor user={user} onSave={handleCreate} initialFormData={resume.resumeJson} />;
+  return <ResumeEditor user={user} onSave={handleCreate} resume={resume} />;
 }

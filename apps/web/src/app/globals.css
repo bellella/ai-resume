@@ -4,6 +4,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --aspect-a4: 1 / 1.414;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

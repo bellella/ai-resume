@@ -1,0 +1,25 @@
+#resume-template{
+  width: 100%;
+  max-width: 794px; /* A4 width in px @ 96dpi */
+  aspect-ratio: 210 / 297;
+  background-color: white;
+  padding: 40px 48px;
+  box-sizing: border-box;
+  gap: var(--section-spacing);
+  font-size: var(--base-font-size);
+  color: #000;
+  line-height: 1.6;
+}
+.placeholder {
+  color: #bbb;
+  font-style: italic;
+}
+section {
+  margin-bottom: var(--section-spacing);
+}
+
+@media print {
+  .placeholder {
+    display: none;
+  }
+}

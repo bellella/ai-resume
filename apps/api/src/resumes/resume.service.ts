@@ -25,43 +25,18 @@ export class ResumeService {
       // TODO: Implement AI resume grammar check
     }
 
-    let template;
-    if (createResumeDto.templateId) {
-      template = await this.prisma.template.findUnique({
-        where: { id: createResumeDto.templateId },
-      });
-      if (!template) {
-        throw new Error('Template not found');
-      }
-    }
-
-    // bind template to resume
-    const resumeHtml = this.templateService.bindDataToTemplate(
-      template.html,
-      createResumeDto.resumeJson as unknown as Record<string, unknown>
-    );
-    console.log('sucess');
-
     // save resume to DB
     const resume = await this.prisma.resume.create({
       data: {
         title: createResumeDto.title,
-        resumeHtml: resumeHtml,
         resumeJson: createResumeDto.resumeJson,
+        templateJson: createResumeDto.templateJson,
         user: {
           connect: {
             id: userId,
           },
         },
-        ...(createResumeDto.templateId
-          ? {
-              template: {
-                connect: {
-                  id: createResumeDto.templateId,
-                },
-              },
-            }
-          : {}),
+        templateId: createResumeDto.templateId,
       },
     });
 
@@ -82,7 +57,10 @@ export class ResumeService {
     return this.prisma.resume.update({
       where: { id },
       data: {
+        title: updateResumeDto.title,
+        templateId: updateResumeDto.templateId,
         resumeJson: updateResumeDto.resumeJson,
+        templateJson: updateResumeDto.templateJson,
       },
     });
   }

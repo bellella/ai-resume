@@ -7,12 +7,8 @@ export class FilesController {
   constructor(private readonly fileService: FilesService) {}
 
   @Post('generate/pdf')
-  async generatePdf(
-    @Body('html') htmlBody: string,
-    @Body('css') css: string,
-    @Res() res: Response
-  ) {
-    const pdfBuffer = await this.fileService.generatePdfFromHtml(htmlBody, css);
+  async generatePdf(@Body('html') html: string, @Res() res: Response) {
+    const pdfBuffer = await this.fileService.generatePdfFromHtml(html);
 
     res.set({
       'Content-Type': 'application/pdf',

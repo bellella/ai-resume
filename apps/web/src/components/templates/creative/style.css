@@ -1,0 +1,64 @@
+@import '../template-style.css';
+.template-creative {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 32px;
+  background: white;
+  color: #333;
+  padding: 32px;
+}
+
+.template-creative .left,
+.template-creative .right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-spacing);
+}
+
+.template-creative .header {
+  text-align: center;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 12px;
+}
+
+.template-creative .header h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.template-creative .header h2 {
+  font-size: 1em;
+  color: var(--main-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.template-creative .heading {
+  font-size: 1.1em;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 4px;
+}
+
+.template-creative section ul {
+  padding-left: 20px;
+  list-style-type: disc;
+  margin: 0;
+}
+
+.template-creative .item {
+  margin-bottom: 12px;
+}
+
+.template-creative .meta {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.template-creative .placeholder {
+  color: #aaa;
+  font-style: italic;
+}

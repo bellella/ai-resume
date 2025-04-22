@@ -1,24 +1,30 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import templates from '../../templates/templates';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import TEMPLATES, { TemplateId } from '@/components/templates/templates';
+
 interface TemplateListProps {
   selectedTemplateId: string;
-  setSelectedTemplateId: (id: string) => void;
+  setSelectedTemplateId: (id: TemplateId) => void;
 }
 
-const TemplateList: React.FC<TemplateListProps> = ({ selectedTemplateId, setSelectedTemplateId }) => {
+const TemplateList: React.FC<TemplateListProps> = ({
+  selectedTemplateId,
+  setSelectedTemplateId,
+}) => {
+  const templates = Object.values(TEMPLATES);
   return (
     <ScrollArea className="h-[600px]">
-      <div className="pr-5 space-y-4">
+      <div className="grid grid-cols-2 gap-3 pr-5 space-y-4">
         {templates.map((template) => (
           <Card
-            key={template.id}
-            className={`aspect-square overflow-hidden cursor-pointer hover:border-primary transition-colors ${selectedTemplateId === template.id ? 'border-primary' : ''}`}
+            key={template.name}
+            className={`aspect-[210/297] overflow-hidden cursor-pointer hover:border-primary transition-colors ${selectedTemplateId === template.name ? 'border-primary' : ''}`}
             onClick={() => setSelectedTemplateId(template.id)}
           >
             <CardContent className="p-4">
               <h3 className="font-semibold">{template.name}</h3>
+              <img src={template.thumbnail} alt={template.name} className="w-full h-full" />
             </CardContent>
           </Card>
         ))}
@@ -27,4 +33,4 @@ const TemplateList: React.FC<TemplateListProps> = ({ selectedTemplateId, setSele
   );
 };
 
-export default TemplateList; 
+export default TemplateList;

@@ -8,6 +8,7 @@ module.exports = {
     "*.{js,ts,jsx,tsx,mdx}",
   ],
   prefix: "",
+  safelist: ['aspect-a4'],
   theme: {
     extend: {
       colors: {
@@ -69,5 +70,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require('@tailwindcss/aspect-ratio')],
 };

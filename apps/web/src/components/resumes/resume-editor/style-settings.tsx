@@ -1,20 +1,28 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import React, { useState, useEffect, useRef } from 'react';
 import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
+import {
+  FONT_FAMILY,
+  FONT_SIZES,
+  SECTION_SPACING,
+  Template,
+  TEMPLATE_COLORS,
+} from '@/components/templates/templates';
+import { TemplateJson } from '@ai-resume/types';
+import { Cctv } from 'lucide-react';
 interface StyleSettingsProps {
+  template: Template;
+  templateJson: TemplateJson;
   onStyleChange: (style: {
     fontFamily: string;
     fontSize: number;
@@ -23,25 +31,26 @@ interface StyleSettingsProps {
   }) => void;
 }
 
-const fontStyles = [
-  { value: 'Arial', label: 'Arial' },
-  { value: 'Times New Roman', label: 'Times New Roman' },
-  { value: 'Courier New', label: 'Courier New' },
-];
+const StyleSettings: React.FC<StyleSettingsProps> = ({ template, onStyleChange, templateJson }) => {
+  const didInit = useRef(false);
+  const [fontFamily, setFontFamily] = useState(
+    templateJson.fontFamily ?? template.styleVars.fontFamily
+  );
+  const [fontSize, setFontSize] = useState(templateJson.fontSize ?? template.styleVars.fontSize);
+  const [sectionSpacing, setSectionSpacing] = useState(
+    templateJson.sectionSpacing ?? template.styleVars.sectionSpacing
+  );
+  const [color, setColor] = useState(templateJson.color ?? template.styleVars.color);
 
-const colorOptions = [
-  { value: '#ef4444', label: 'Red' },       // red-500
-  { value: '#f97316', label: 'Orange' },    // orange-500
-  { value: '#eab308', label: 'Yellow' },    // yellow-500
-  { value: '#22c55e', label: 'Green' },     // green-500
-  { value: '#3b82f6', label: 'Blue' },      // blue-500
-];
-
-const StyleSettings: React.FC<StyleSettingsProps> = ({ onStyleChange }) => {
-  const [fontFamily, setFontFamily] = useState(fontStyles[0].value);
-  const [fontSize, setFontSize] = useState(16);
-  const [sectionSpacing, setSectionSpacing] = useState(10);
-  const [color, setColor] = useState(colorOptions[0].value);
+  useEffect(() => {
+    if (!didInit.current) {
+      setFontFamily(templateJson.fontFamily ?? template.styleVars.fontFamily);
+      setFontSize(templateJson.fontSize ?? template.styleVars.fontSize);
+      setSectionSpacing(templateJson.sectionSpacing ?? template.styleVars.sectionSpacing);
+      setColor(templateJson.color ?? template.styleVars.color);
+      didInit.current = true;
+    }
+  }, [template]);
 
   useEffect(() => {
     onStyleChange({
@@ -55,15 +64,15 @@ const StyleSettings: React.FC<StyleSettingsProps> = ({ onStyleChange }) => {
   return (
     <div className="flex flex-col gap-10">
       <div className="pt-6 flex gap-2">
-        {colorOptions.map((c) => (
+        {Object.values(TEMPLATE_COLORS).map((c) => (
           <div
             key={c.value}
             className="w-8 h-8 rounded-full cursor-pointer border"
             style={{
-              backgroundColor: c.value,
-              border: color === c.value ? '2px solid black' : '1px solid #ccc',
+              backgroundColor: `rgb(${c.value})`,
+              border: color === c.name ? '2px solid black' : '1px solid #ccc',
             }}
-            onClick={() => setColor(c.value)}
+            onClick={() => setColor(c.name)}
           />
         ))}
       </div>
@@ -76,9 +85,9 @@ const StyleSettings: React.FC<StyleSettingsProps> = ({ onStyleChange }) => {
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              {fontStyles.map((fs) => (
+              {FONT_FAMILY.map((fs) => (
                 <SelectItem key={fs.value} value={fs.value}>
-                  {fs.label}
+                  {fs.name}
                 </SelectItem>
               ))}
             </SelectGroup>
@@ -89,8 +98,9 @@ const StyleSettings: React.FC<StyleSettingsProps> = ({ onStyleChange }) => {
       <div>
         <StyleLabel>Font Size: {fontSize}px</StyleLabel>
         <Slider
-          min={8}
-          max={24}
+          min={FONT_SIZES.min}
+          max={FONT_SIZES.max}
+          step={FONT_SIZES.step}
           defaultValue={[fontSize]}
           onValueChange={(e) => setFontSize(e[0])}
         />
@@ -99,8 +109,9 @@ const StyleSettings: React.FC<StyleSettingsProps> = ({ onStyleChange }) => {
       <div>
         <StyleLabel>Section Spacing: {sectionSpacing}px</StyleLabel>
         <Slider
-          min={4}
-          max={32}
+          min={SECTION_SPACING.min}
+          max={SECTION_SPACING.max}
+          step={SECTION_SPACING.step}
           defaultValue={[sectionSpacing]}
           onValueChange={(e) => setSectionSpacing(e[0])}
         />

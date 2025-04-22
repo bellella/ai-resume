@@ -3,8 +3,8 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { Providers } from './providers';
 import Header from '@/components/layout/header';
-import { Toaster } from '@/components/ui/toaster';
 import { AuthHydration } from '@/components/apps/auth-hydration';
+import { Toaster } from '@/components/ui/toaster';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -23,8 +23,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Header />
             <main className="flex-1">{children}</main>
           </div>
+          <Toaster />
         </Providers>
-        <Toaster />
       </body>
     </html>
   );

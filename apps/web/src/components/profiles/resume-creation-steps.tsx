@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Container } from '@/components/ui/container';
 import { PageHeader } from '@/components/ui/page-header';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/lib/hooks/useAuth';
 import { createResume } from '@/lib/api/resume';
 import { ResumeJson } from '@ai-resume/types';
 import { useMutation } from '@tanstack/react-query';

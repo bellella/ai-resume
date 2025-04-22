@@ -1,56 +1,73 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { ResumeJson } from '@ai-resume/types';
-import DefaultTemplate from '@/components/templates/default';
-import ModernTemplate from '@/components/templates/modern';
-
-interface StyleVars {
-  color: string;
-  fontSize: number;
-  sectionSpacing: number;
-  fontFamily: string;
-}
+import { StyleVars, Template, TEMPLATE_COLORS } from './templates/templates';
 
 interface ResumePreviewProps {
   formData: ResumeJson;
-  selectedTemplateId: string;
+  template: Template;
   styleVars: StyleVars;
 }
 
-const templates = [
-  { id: 'default', name: 'Default Template', component: DefaultTemplate },
-  { id: 'modern', name: 'Modern Template', component: ModernTemplate },
-];
+import { useEffect, useRef, useState } from 'react';
 
-export default function ResumePreview({
-  formData,
-  selectedTemplateId,
-  styleVars,
-}: ResumePreviewProps) {
-  const SelectedTemplateComponent = templates.find((t) => t.id === selectedTemplateId)?.component;
+export default function ResumePreview({ formData, template, styleVars }: ResumePreviewProps) {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+  const SelectedTemplateComponent = template.component;
 
-  const cssVars = `
-    #resume-preview {
-      --main-color: ${styleVars.color};
-      --base-font-size: ${styleVars.fontSize}px;
-      --section-spacing: ${styleVars.sectionSpacing}px;
-      font-family: ${styleVars.fontFamily};
-    }
-  `;
+  useEffect(() => {
+    const updateScale = () => {
+      if (wrapperRef.current) {
+        const wrapper = wrapperRef.current;
+        const availableWidth = wrapper.offsetWidth;
+        const availableHeight = wrapper.offsetHeight;
+
+        // A4 = 210mm x 297mm => ratio preserved
+        const scaleX = availableWidth / 793.7; // 210mm = ~793.7px at 96dpi
+        const scaleY = availableHeight / 1122.5; // 297mm = ~1122.5px at 96dpi
+
+        setScale(Math.min(scaleX, scaleY));
+      }
+    };
+
+    updateScale();
+    window.addEventListener('resize', updateScale);
+    return () => window.removeEventListener('resize', updateScale);
+  }, []);
 
   return (
-    <Card className="aspect-a4">
-      <CardContent className="p-4">
-        <div id="resume-preview" className="resume-container" style={{
-          ['--main-color' as any]: styleVars.color,
-          ['--base-font-size' as any]: `${styleVars.fontSize}px`,
-          ['--section-spacing' as any]: `${styleVars.sectionSpacing}px`,
-          fontFamily: styleVars.fontFamily,
-        }}>
-          {formData && SelectedTemplateComponent ? (
-            <SelectedTemplateComponent data={formData} />
-          ) : (
-            <div className="text-muted-foreground">Select a template to preview</div>
-          )}
+    <Card>
+      <CardContent className="p-0">
+        <div
+          ref={wrapperRef}
+          className="relative w-full max-h-[90vh] mx-auto aspect-[210/297] bg-white overflow-hidden"
+        >
+          <div
+            className="absolute top-0 left-0 origin-top-left"
+            style={{
+              width: '793.7px',
+              height: '1122.5px',
+              transform: `scale(${scale})`,
+            }}
+          >
+            <div id="resume-preview">
+              <style>
+                {`
+                #resume-template {
+                  --main-color: ${TEMPLATE_COLORS[styleVars.color].value};
+                  --base-font-size: ${styleVars.fontSize}px;
+                  --section-spacing: ${styleVars.sectionSpacing}px;
+                  font-family: ${styleVars.fontFamily};
+                }
+              `}
+              </style>
+              {formData && SelectedTemplateComponent ? (
+                <SelectedTemplateComponent data={formData} />
+              ) : (
+                <div className="text-muted-foreground">Select a template to preview</div>
+              )}
+            </div>
+          </div>
         </div>
       </CardContent>
     </Card>

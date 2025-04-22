@@ -1,68 +1,15 @@
 import React from 'react';
-import { ResumeJson } from '@ai-resume/types';
+import { TemplateProps } from '@/types/template.type';
+import { StyleVars } from '../templates';
 import './style.css';
+export const styleVars: StyleVars = {
+  color: 'black',
+  fontSize: 14,
+  sectionSpacing: 32,
+  fontFamily: 'Georgia',
+};
 
-export const css = `
-/* modern-template.css */
-.modern-template {
-  padding: 40px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #2a2a2a;
-  background-color: #fdfdfd;
-  line-height: 1.6;
-  font-size: 14px;
-}
-
-.modern-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.modern-name {
-  font-size: 32px;
-  font-weight: bold;
-  color: #1e40af;
-}
-
-.modern-contact {
-  font-size: 13px;
-  color: #555;
-}
-
-.modern-section {
-  margin-top: 32px;
-}
-
-.modern-section-title {
-  font-size: 18px;
-  font-weight: bold;
-  color: #1e3a8a;
-  margin-bottom: 8px;
-  border-bottom: 1px solid #cbd5e1;
-  padding-bottom: 4px;
-}
-
-.modern-list {
-  list-style-type: disc;
-  padding-left: 20px;
-  margin-top: 10px;
-}
-
-.modern-item-title {
-  font-weight: 600;
-}
-
-.modern-item-sub {
-  font-size: 12px;
-  color: #6b7280;
-}
-
-.modern-group {
-  margin-top: 12px;
-}
-`;
-
-export default function ModernTemplate({ data }: { data: ResumeJson }) {
+export default function ModernTemplate({ data }: TemplateProps) {
   const {
     firstName,
     lastName,
@@ -77,71 +24,92 @@ export default function ModernTemplate({ data }: { data: ResumeJson }) {
     educations,
   } = data;
 
+  const renderOrPlaceholder = (value: string, placeholder: string) =>
+    value ? value : <span className="placeholder">{placeholder}</span>;
+
   return (
-    <div className="modern-template">
+    <div id="resume-template" className="template-modern">
       {/* Header */}
-      <header className="modern-header">
-        <div className="modern-name">
-          {firstName} {lastName}
-        </div>
-        <div className="modern-contact">
-          <span>{email}</span> | <span>{phone}</span>
-          <br />
-          <span>
-            {city}, {province} {postalCode}
-          </span>
-        </div>
+      <header className="template-heading">
+        <h1 className="template-name">
+          {renderOrPlaceholder(firstName, 'FIRST NAME')}{' '}
+          {renderOrPlaceholder(lastName, 'LAST NAME')}
+        </h1>
+        <h2 className="template-role">DIRECTOR OF SOFTWARE ENGINEERING</h2>
       </header>
+      <div className="template-summary">
+        {professionalSummary || (
+          <span className="placeholder">
+            A brief summary about your professional background and core skills.
+          </span>
+        )}
+      </div>
 
-      {/* Summary */}
-      <section className="modern-section">
-        <h2 className="modern-section-title">Summary</h2>
-        <p className="modern-section-text">{professionalSummary}</p>
-      </section>
+      <div className="template-grid">
+        {/* Left Column */}
+        <div className="template-sidebar">
+          <section className="section">
+            <h3 className="section-heading">Contact</h3>
+            <ul className="contact-list">
+              <li>{renderOrPlaceholder(email, 'your@email.com')}</li>
+              <li>{renderOrPlaceholder(phone, '(123) 456-7890')}</li>
+              <li>{renderOrPlaceholder(`${city}, ${province}`, 'City, Province')}</li>
+              <li className="placeholder">LinkedIn</li>
+              <li className="placeholder">Github</li>
+            </ul>
+          </section>
 
-      {/* Skills */}
-      <section className="modern-section">
-        <h2 className="modern-section-title">Skills</h2>
-        <ul className="modern-skills">
-          {skills.map((skill, i) => (
-            <li key={i}>{skill}</li>
-          ))}
-        </ul>
-      </section>
-
-      {/* Experience */}
-      <section className="modern-section">
-        <h2 className="modern-section-title">Experience</h2>
-        <div className="modern-group">
-          {workExperiences.map((job, i) => (
-            <div key={i} className="modern-item">
-              <div className="modern-job-title">
-                {job.jobTitle} @ {job.employer}
+          <section className="section">
+            <h3 className="section-heading">Education</h3>
+            {educations.map((edu, i) => (
+              <div key={i} className="section-block">
+                <div className="section-subtitle">{renderOrPlaceholder(edu.degree, 'Degree')}</div>
+                <div>
+                  {renderOrPlaceholder(edu.schoolName, 'School')},{' '}
+                  {renderOrPlaceholder(edu.schoolLocation, 'Location')}
+                </div>
+                <div>{renderOrPlaceholder(edu.graduationYear, 'Year')}</div>
               </div>
-              <div className="modern-job-details">
-                {job.city}, {job.province} | {job.startDate} - {job.endDate}
-              </div>
-            </div>
-          ))}
+            ))}
+          </section>
+
+          <section className="section">
+            <h3 className="section-heading">Skills</h3>
+            <ul className="skills-list">
+              {skills.length > 0 ? (
+                skills.map((skill, i) => <li key={i}>{skill}</li>)
+              ) : (
+                <li className="placeholder">Add your skills here</li>
+              )}
+            </ul>
+          </section>
         </div>
-      </section>
 
-      {/* Education */}
-      <section className="modern-section">
-        <h2 className="modern-section-title">Education</h2>
-        <div className="modern-group">
-          {educations.map((edu, i) => (
-            <div key={i} className="modern-item">
-              <div className="modern-job-title">
-                {edu.degree} in {edu.fieldOfStudy}
+        {/* Right Column */}
+        <div className="template-content">
+          <section className="section">
+            <h3 className="section-heading">Work Experience</h3>
+            {workExperiences.map((job, i) => (
+              <div key={i} className="section-block">
+                <div className="section-subtitle">
+                  {renderOrPlaceholder(job.jobTitle, 'Job Title')} –{' '}
+                  {renderOrPlaceholder(job.employer, 'Company')}
+                </div>
+                <div className="section-submeta">
+                  {renderOrPlaceholder(job.startDate, 'Start')} -{' '}
+                  {renderOrPlaceholder(job.endDate, 'End')} /{' '}
+                  {renderOrPlaceholder(`${job.city}, ${job.province}`, 'City, Province')}
+                </div>
+                {/* <ul className="description-list">
+                  {job.descriptions.length > 0
+                    ? job.descriptions.map((desc, j) => <li key={j}>{desc}</li>)
+                    : <li className="placeholder">Add a description of your responsibilities and achievements.</li>}
+                </ul> */}
               </div>
-              <div className="modern-job-details">
-                {edu.schoolName}, {edu.schoolLocation} | {edu.graduationMonth} {edu.graduationYear}
-              </div>
-            </div>
-          ))}
+            ))}
+          </section>
         </div>
-      </section>
+      </div>
     </div>
   );
 }

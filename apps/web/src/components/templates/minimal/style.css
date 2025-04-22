@@ -1,0 +1,60 @@
+.template-minimal .template-header {
+  margin-bottom: var(--section-spacing);
+}
+
+.template-minimal .template-name {
+  font-size: calc(var(--base-font-size) * 1.8);
+  font-weight: bold;
+  color: var(--main-color);
+  margin: 0;
+}
+
+.template-minimal .template-contact {
+  font-size: var(--base-font-size);
+  color: #555;
+  margin: 0;
+}
+
+.template-minimal .template-body {
+  margin-top: var(--section-spacing);
+}
+
+.template-minimal .template-section {
+  margin-bottom: var(--section-spacing);
+}
+
+.template-minimal .template-title {
+  font-size: calc(var(--base-font-size) * 1.2);
+  font-weight: bold;
+  color: var(--main-color);
+  margin-bottom: 6px;
+}
+
+.template-minimal .template-text {
+  margin: 0;
+  color: #333;
+}
+
+.template-minimal .template-list {
+  padding-left: 20px;
+}
+
+.template-minimal .template-list li {
+  margin-bottom: 4px;
+}
+
+.template-minimal .template-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.template-minimal .template-item-title {
+  font-weight: 600;
+  font-size: var(--base-font-size);
+}
+
+.template-minimal .template-item-sub {
+  font-size: calc(var(--base-font-size) * 0.9);
+  color: #444;
+}

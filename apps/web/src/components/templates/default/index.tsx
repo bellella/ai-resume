@@ -1,64 +1,14 @@
 import React from 'react';
 import { TemplateProps } from '@/types/template.type';
+import { StyleVars } from '../templates';
+import './style.css';
 
-export const css = `
-.resume-container {
-  --main-color: #2b6cb0;
-  --base-font-size: 14px;
-  --section-spacing: 32px;
-  --font-family: 'Helvetica Neue', sans-serif;
-
-  header {
-  margin-bottom: var(--section-spacing);
-}
-
-header h1 {
-  font-size: calc(2 * var(--base-font-size));
-  font-weight: bold;
-  color: var(--main-color);
-  margin-bottom: calc(0.5 * var(--base-font-size));
-}
-
-header p {
-  margin: 0;
-  font-size: var(--base-font-size);
-}
-
-section {
-  margin-bottom: var(--section-spacing);
-}
-
-section h2 {
-  font-size: calc(1.3 * var(--base-font-size));
-  font-weight: bold;
-  color: var(--main-color);
-  margin-bottom: calc(0.5 * var(--base-font-size));
-}
-
-section p,
-section li,
-section div {
-  font-size: var(--base-font-size);
-  margin-bottom: calc(0.3 * var(--base-font-size));
-}
-
-ul {
-  list-style: disc;
-  padding-left: 20px;
-}
-
-ul li {
-  margin-bottom: calc(0.3 * var(--base-font-size));
-}
-
-.text-muted {
-  color: #666;
-  font-size: calc(0.85 * var(--base-font-size));
-}
-}
-
-`;
-
+export const styleVars: StyleVars = {
+  color: 'black',
+  fontSize: 14,
+  sectionSpacing: 32,
+  fontFamily: 'Arial',
+};
 
 export default function DefaultTemplate({ data }: TemplateProps) {
   const {
@@ -75,52 +25,75 @@ export default function DefaultTemplate({ data }: TemplateProps) {
     educations,
   } = data;
 
+  const renderOrPlaceholder = (value: string, placeholder: string) =>
+    value ? value : <span className="placeholder">{placeholder}</span>;
+
   return (
-    <div className="default-template">
-      <style>{css}</style>
+    <div id="resume-template" className="default-template">
       {/* Header */}
       <header className="header">
         <h1 className="name">
-          {firstName} {lastName}
+          {renderOrPlaceholder(firstName, 'First Name')}{' '}
+          {renderOrPlaceholder(lastName, 'Last Name')}
         </h1>
         <p>
-          {email} | {phone}
+          {renderOrPlaceholder(email, 'youremail@mail.com')} |{' '}
+          {renderOrPlaceholder(phone, 'Phone Number')}
         </p>
         <p>
-          {city}, {province} {postalCode}
+          {renderOrPlaceholder(city, 'City')}, {renderOrPlaceholder(province, 'Province')}{' '}
+          {renderOrPlaceholder(postalCode, 'Postal Code')}
         </p>
       </header>
 
-      {/* Summary */}
+      {/* Professional Summary */}
       <section className="section">
         <h2 className="section-title">Professional Summary</h2>
-        <p className="section-text">{professionalSummary}</p>
+        <p className="section-text">
+          {professionalSummary || (
+            <span className="placeholder">
+              A brief summary about your professional background and core skills.
+            </span>
+          )}
+        </p>
       </section>
 
       {/* Skills */}
       <section className="section">
         <h2 className="section-title">Skills</h2>
-        <ul className="skills-list">
-          {skills.map((skill, i) => (
-            <li key={i}>{skill}</li>
-          ))}
-        </ul>
+        {skills && skills.length > 0 ? (
+          <ul className="skills-list">
+            {skills.map((skill, i) => (
+              <li key={i}>{skill}</li>
+            ))}
+          </ul>
+        ) : (
+          <p className="placeholder">List your relevant technical or soft skills here.</p>
+        )}
       </section>
 
       {/* Work Experience */}
       <section className="section">
         <h2 className="section-title">Work Experience</h2>
         <div className="section-group">
-          {workExperiences.map((job, i) => (
-            <div key={i}>
-              <div className="item-title">
-                {job.jobTitle} at {job.employer}
+          {workExperiences && workExperiences.length > 0 ? (
+            workExperiences.map((job, i) => (
+              <div key={i}>
+                <div className="item-title">
+                  {renderOrPlaceholder(job.jobTitle, 'Your Position Title')} at{' '}
+                  {renderOrPlaceholder(job.employer, 'Company')}
+                </div>
+                <div className="item-sub">
+                  {renderOrPlaceholder(job.city, 'City')},{' '}
+                  {renderOrPlaceholder(job.province, 'Province')} |{' '}
+                  {renderOrPlaceholder(job.startDate, 'Start')} -{' '}
+                  {renderOrPlaceholder(job.endDate, 'End')}
+                </div>
               </div>
-              <div className="item-sub">
-                {job.city}, {job.province} | {job.startDate} - {job.endDate}
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className="placeholder">Add your previous work experiences here.</p>
+          )}
         </div>
       </section>
 
@@ -128,16 +101,24 @@ export default function DefaultTemplate({ data }: TemplateProps) {
       <section className="section">
         <h2 className="section-title">Education</h2>
         <div className="section-group">
-          {educations.map((edu, i) => (
-            <div key={i}>
-              <div className="item-title">
-                {edu.degree} in {edu.fieldOfStudy}
+          {educations && educations.length > 0 ? (
+            educations.map((edu, i) => (
+              <div key={i}>
+                <div className="item-title">
+                  {renderOrPlaceholder(edu.degree, 'Degree')} in{' '}
+                  {renderOrPlaceholder(edu.fieldOfStudy, 'Field of Study')}
+                </div>
+                <div className="item-sub">
+                  {renderOrPlaceholder(edu.schoolName, 'School Name')},{' '}
+                  {renderOrPlaceholder(edu.schoolLocation, 'Location')} |{' '}
+                  {renderOrPlaceholder(edu.graduationMonth, 'Month')}{' '}
+                  {renderOrPlaceholder(edu.graduationYear, 'Year')}
+                </div>
               </div>
-              <div className="item-sub">
-                {edu.schoolName}, {edu.schoolLocation} | {edu.graduationMonth} {edu.graduationYear}
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className="placeholder">Add your education details here.</p>
+          )}
         </div>
       </section>
     </div>

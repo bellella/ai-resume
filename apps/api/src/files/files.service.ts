@@ -3,8 +3,8 @@ import * as puppeteer from 'puppeteer';
 
 @Injectable()
 export class FilesService {
-  async generatePdfFromHtml(bodyContent: string, cssContent: string): Promise<Buffer> {
-    const html = this.wrapHtml(bodyContent, cssContent);
+  async generatePdfFromHtml(bodyContent: string): Promise<Buffer> {
+    const html = this.wrapHtml(bodyContent);
 
     const browser = await puppeteer.launch({
       headless: true,
@@ -23,7 +23,7 @@ export class FilesService {
     return Buffer.from(pdfBuffer);
   }
 
-  private wrapHtml(body: string, css: string): string {
+  private wrapHtml(body: string): string {
     return `
       <!DOCTYPE html>
       <html lang="en">
@@ -31,9 +31,6 @@ export class FilesService {
           <meta charset="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <title>Resume PDF</title>
-          <style>
-            ${css}
-          </style>
         </head>
         <body>
           ${body}

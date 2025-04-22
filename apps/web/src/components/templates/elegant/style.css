@@ -1,0 +1,67 @@
+.template-elegant .template-header {
+  border-bottom: 2px solid var(--main-color);
+  margin-bottom: var(--section-spacing);
+  padding-bottom: 8px;
+  text-align: center;
+}
+
+.template-elegant .template-name {
+  font-size: calc(var(--base-font-size) * 2);
+  font-weight: bold;
+  margin: 0;
+  color: var(--main-color);
+}
+
+.template-elegant .template-contact,
+.template-elegant .template-location {
+  font-size: var(--base-font-size);
+  color: #555;
+  margin: 0;
+}
+
+.template-elegant .template-body {
+  margin-top: var(--section-spacing);
+}
+
+.template-elegant .template-section {
+  margin-bottom: var(--section-spacing);
+}
+
+.template-elegant .template-title {
+  font-size: calc(var(--base-font-size) * 1.4);
+  font-weight: bold;
+  color: var(--main-color);
+  margin-bottom: 8px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 4px;
+}
+
+.template-elegant .template-text {
+  font-size: var(--base-font-size);
+  color: #333;
+  margin: 0;
+}
+
+.template-elegant .template-list {
+  padding-left: 20px;
+}
+
+.template-elegant .template-list li {
+  margin-bottom: 4px;
+}
+
+.template-elegant .template-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.template-elegant .template-item-title {
+  font-weight: bold;
+  font-size: calc(var(--base-font-size) * 1.05);
+}
+
+.template-elegant .template-item-sub {
+  font-size: calc(var(--base-font-size) * 0.95);
+  color: #444;
+}

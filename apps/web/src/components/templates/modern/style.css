@@ -1,57 +1,97 @@
-/* modern-template.css */
-.modern-template {
-  padding: 40px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #2a2a2a;
-  background-color: #fdfdfd;
-  line-height: 1.6;
-  font-size: 14px;
+@import '../template-style.css';
+.template-modern {
+  padding: var(--section-spacing);
+  color: #111;
 }
 
-.modern-header {
+.template-heading {
+  background-color: rgba(var(--main-color), 0.4);
+  color: white;
   text-align: center;
-  margin-bottom: 30px;
+  padding: 24px;
+  margin-bottom: var(--section-spacing);
 }
 
-.modern-name {
-  font-size: 32px;
+.template-name {
+  font-size: 28px;
   font-weight: bold;
-  color: #1e40af;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
-.modern-contact {
+.template-role {
+  font-size: 16px;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+.template-summary {
+  padding: 8px;
+  margin-bottom: calc(var(--section-spacing) * 0.5);
+}
+
+.template-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--section-spacing);
+}
+
+.template-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-spacing);
+}
+
+.template-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-spacing);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.section-heading {
+  background-color: rgba(var(--main-color), 0.4);
+  color: white;
+  padding: 4px 8px;
+  font-weight: bold;
+  text-transform: uppercase;
   font-size: 13px;
-  color: #555;
+  letter-spacing: 1px;
 }
 
-.modern-section {
-  margin-top: 32px;
+.section-block {
+  margin-top: 8px;
 }
 
-.modern-section-title {
-  font-size: 18px;
+.section-subtitle {
   font-weight: bold;
-  color: #1e3a8a;
-  margin-bottom: 8px;
-  border-bottom: 1px solid #cbd5e1;
-  padding-bottom: 4px;
+  font-size: 15px;
 }
 
-.modern-list {
-  list-style-type: disc;
+.section-submeta {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+.description-list {
+  list-style: disc;
   padding-left: 20px;
-  margin-top: 10px;
+  margin: 0;
 }
 
-.modern-item-title {
-  font-weight: 600;
+.contact-list, .skills-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
 }
 
-.modern-item-sub {
-  font-size: 12px;
-  color: #6b7280;
-}
-
-.modern-group {
-  margin-top: 12px;
+.placeholder {
+  color: #bbb;
+  font-style: italic;
 }

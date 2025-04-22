@@ -45,6 +45,18 @@ export type ResumeJson = {
   templateId?: string;
 };
 
+// export interface TemplateJson {
+//   color: string;
+//   fontSize: number;
+//   sectionSpacing: number;
+//   fontFamily: string;
+// }
+export type TemplateJson = {
+  color: string;
+  fontSize: number;
+  sectionSpacing: number;
+  fontFamily: string;
+};
 export interface ResumeItem
   extends Prisma.ResumeGetPayload<{
     select: {
@@ -53,6 +65,8 @@ export interface ResumeItem
       status: true;
       previewImageUrl: true;
       createdAt: true;
+      updatedAt: true;
+      templateId: true;
     };
   }> {}
 
@@ -62,10 +76,11 @@ export interface ResumeDetail
       id: true;
       title: true;
       status: true;
-      previewImageUrl: true;
-      html: true;
       createdAt: true;
+      updatedAt: true;
+      templateId: true;
     };
   }> {
   resumeJson: ResumeJson;
+  templateJson: TemplateJson;
 }

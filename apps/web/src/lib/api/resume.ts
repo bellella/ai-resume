@@ -17,7 +17,7 @@ export const fetchResume = async (id: string): Promise<ResumeDetail> => {
  * Fetch the resumes of the current user
  */
 export const fetchResumes = async (): Promise<ResumeItem[]> => {
-  return api.get('api/resumes').json();
+  return api.get('api/resumes/user').json();
 };
 
 /**
@@ -32,4 +32,14 @@ export const fetchResumeDetail = async (id: string): Promise<ResumeDetail> => {
  */
 export async function createResume(data: CreateResumePayload): Promise<CreateResumeResponse> {
   return api.post('api/resumes', { json: data }).json();
+}
+
+/**
+ * Update the resume
+ */
+export async function updateResume(
+  id: string,
+  data: CreateResumePayload
+): Promise<CreateResumeResponse> {
+  return api.patch(`api/resumes/${id}`, { json: data }).json();
 }
