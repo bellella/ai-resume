@@ -38,12 +38,6 @@ export class ResumeController {
     return this.resumeService.findOne(id);
   }
 
-  @Patch(':id')
-  @UseGuards(JwtAuthGuard)
-  update(@Param('id') id: string, @Body() updateResumeDto: UpdateResumeDto) {
-    return this.resumeService.update(id, updateResumeDto);
-  }
-
   @Patch('default')
   @UseGuards(JwtAuthGuard)
   async updateDefaultResume(
@@ -54,6 +48,12 @@ export class ResumeController {
       updateDefaultResumeDto.defaultResumeJson,
       req.user.id
     );
+  }
+
+  @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  update(@Param('id') id: string, @Body() updateResumeDto: UpdateResumeDto) {
+    return this.resumeService.update(id, updateResumeDto);
   }
 
   @Delete(':id')

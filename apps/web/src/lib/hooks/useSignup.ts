@@ -34,15 +34,15 @@ export const useSignup = () => {
         email: payload.email,
         password: payload.password,
       };
-      const loginRes: ApiResponse<LoginResponse> = await login(loginPayload);
+      const loginRes: LoginResponse = await login(loginPayload);
 
       // 3. Store access token
-      const token = loginRes.data.token;
+      const token = loginRes.token;
       localStorage.setItem('access_token', token);
 
       // 4. Fetch user profile and store it in Zustand
-      const userRes: ApiResponse<UserInfo> = await fetchUserInfo();
-      setUserInfo(userRes.data);
+      const userRes: UserInfo = await fetchUserInfo();
+      setUserInfo(userRes);
 
       // 5. Redirect to profile page
       router.replace('/profile');

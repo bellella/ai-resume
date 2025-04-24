@@ -1,6 +1,14 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import {
+  FONT_FAMILY,
+  FONT_SIZES,
+  SECTION_SPACING,
+  StyleVars,
+  Template,
+  TEMPLATE_COLORS,
+  TemplateColor,
+} from '@/components/templates/templates';
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -11,24 +19,12 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
-import {
-  FONT_FAMILY,
-  FONT_SIZES,
-  SECTION_SPACING,
-  Template,
-  TEMPLATE_COLORS,
-} from '@/components/templates/templates';
 import { TemplateJson } from '@ai-resume/types';
-import { Cctv } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
 interface StyleSettingsProps {
   template: Template;
   templateJson: TemplateJson;
-  onStyleChange: (style: {
-    fontFamily: string;
-    fontSize: number;
-    sectionSpacing: number;
-    color: string;
-  }) => void;
+  onStyleChange: (style: StyleVars) => void;
 }
 
 const StyleSettings: React.FC<StyleSettingsProps> = ({ template, onStyleChange, templateJson }) => {
@@ -57,7 +53,7 @@ const StyleSettings: React.FC<StyleSettingsProps> = ({ template, onStyleChange, 
       fontFamily,
       fontSize,
       sectionSpacing,
-      color,
+      color: color as TemplateColor,
     });
   }, [fontFamily, fontSize, sectionSpacing, color, onStyleChange]);
 

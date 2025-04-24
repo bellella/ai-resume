@@ -4,7 +4,7 @@ import { StyleVars } from '../templates';
 import './style.css';
 
 export const styleVars: StyleVars = {
-  color: '#1e3a8a', // Navy Blue
+  color: 'blue',
   fontSize: 14,
   sectionSpacing: 20,
   fontFamily: 'Times New Roman',

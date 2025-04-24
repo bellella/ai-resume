@@ -7,6 +7,8 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
+    "build:web": "turbo run build --filter=@ai-resume/web",
+    "build:api": "turbo run build --filter=@ai-resume/api --no-cache",
     "db:generate": "npm run db:generate --workspace=@ai-resume/db"
   },
   "devDependencies": {

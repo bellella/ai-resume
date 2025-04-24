@@ -17,6 +17,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { toast } from 'sonner';
+import { signup } from '@/lib/api/auth';
 
 const formSchema = z
   .object({
@@ -46,30 +47,14 @@ export default function SignupPage() {
 
   async function onSubmit(data: FormValues) {
     try {
-      const response = await fetch('http://localhost:3001/api/auth/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          password: data.password,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Signup failed');
-      }
-
-      const result = await response.json();
+      const res = await signup(data);
 
       // Store JWT token and user info
-      localStorage.setItem('token', result.token);
-      localStorage.setItem('user', JSON.stringify(result.user));
+      localStorage.setItem('token', res.token);
+      localStorage.setItem('user', JSON.stringify(res.user));
 
       toast.success('Signup successful!');
-      router.push('/resumes'); // Redirect to resume list page
+      router.push('/login'); // Redirect to resume list page
     } catch (error) {
       console.error('Error occurred:', error);
       toast.error('Signup failed. Please try again.');

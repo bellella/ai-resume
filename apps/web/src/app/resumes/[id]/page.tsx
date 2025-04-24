@@ -1,16 +1,14 @@
 'use client';
 
 import ResumeEditor from '@/components/resumes/resume-editor';
-import { useAuth } from '@/lib/hooks/useAuth';
+import { toast } from '@/components/ui/use-toast';
 import { fetchResume, updateResume } from '@/lib/api/resume';
 import { ResumeDetail } from '@ai-resume/types';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { toast } from '@/components/ui/use-toast';
 
 export default function NewResumePage({ params }: { params: { id: string } }) {
   const router = useRouter();
-  const { user } = useAuth();
   const { data: resume, isLoading } = useQuery<ResumeDetail>({
     queryKey: ['resume', params.id],
     queryFn: () => fetchResume(params.id),
@@ -38,5 +36,5 @@ export default function NewResumePage({ params }: { params: { id: string } }) {
     return <div>Resume not found</div>;
   }
 
-  return <ResumeEditor user={user} onSave={handleCreate} resume={resume} />;
+  return <ResumeEditor onSave={handleCreate} resume={resume} />;
 }

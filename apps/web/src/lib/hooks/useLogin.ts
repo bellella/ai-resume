@@ -1,10 +1,10 @@
 'use client';
 
-import { useMutation } from '@tanstack/react-query';
 import { login } from '@/lib/api/auth';
 import { fetchUserInfo } from '@/lib/api/user';
 import { useAuthStore } from '@/lib/store/auth';
-import type { LoginPayload, UserInfo, ApiResponse, LoginResponse } from '@ai-resume/types';
+import type { LoginPayload, LoginResponse } from '@ai-resume/types';
+import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 export const useLogin = () => {
@@ -21,8 +21,8 @@ export const useLogin = () => {
 
         try {
           // 2. Fetch user profile
-          const userRes: ApiResponse<UserInfo> = await fetchUserInfo();
-          setUserInfo(userRes.data);
+          const userRes = await fetchUserInfo();
+          setUserInfo(userRes);
 
           // 3. Redirect
           router.replace('/profile');

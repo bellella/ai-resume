@@ -1,14 +1,12 @@
 'use client';
 
+import { DefaultResumeForm } from '@/components/profiles/default-resume-form';
+import { PersonalInfoForm } from '@/components/profiles/personal-info-form';
 import { Container } from '@/components/ui/container';
 import { PageHeader } from '@/components/ui/page-header';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useQuery } from '@tanstack/react-query';
-import { fetchUserInfo } from '@/lib/api/user';
 import { useAuthGuard } from '@/lib/hooks/useAuthGuard';
-import { PersonalInfoForm } from '@/components/profiles/personal-info-form';
-import { DefaultResumeForm } from '@/components/profiles/default-resume-form';
 
 function PersonalInfoSkeleton() {
   return (
@@ -46,11 +44,7 @@ function PersonalInfoSkeleton() {
 }
 
 export default function ProfilePage() {
-  useAuthGuard();
-  const { data: userInfo, isLoading } = useQuery({
-    queryKey: ['personalInfo'],
-    queryFn: fetchUserInfo,
-  });
+  const { isLoading } = useAuthGuard();
 
   if (isLoading) {
     return (

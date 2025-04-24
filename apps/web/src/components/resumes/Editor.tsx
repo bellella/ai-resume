@@ -58,123 +58,124 @@ const MenuBar = () => {
   if (!editor) {
     return null;
   }
+  return null;
 
-  return (
-    <div className="border-b p-2">
-      <div className="flex flex-wrap gap-2">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => editor.chain().focus().toggleBold().run()}
-          className={editor.isActive('bold') ? 'is-active' : ''}
-        >
-          <Bold className="h-4 w-4" />
-        </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-          className={editor.isActive('italic') ? 'is-active' : ''}
-        >
-          <Italic className="h-4 w-4" />
-        </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => editor.chain().focus().toggleUnderline().run()}
-          className={editor.isActive('underline') ? 'is-active' : ''}
-        >
-          <Underline className="h-4 w-4" />
-        </Button>
-        <Separator orientation="vertical" className="h-8" />
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={editor.isActive('bulletList') ? 'is-active' : ''}
-        >
-          <List className="h-4 w-4" />
-        </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          className={editor.isActive('orderedList') ? 'is-active' : ''}
-        >
-          <ListOrdered className="h-4 w-4" />
-        </Button>
-        <Separator orientation="vertical" className="h-8" />
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => editor.chain().focus().setTextAlign('left').run()}
-          className={editor.isActive({ textAlign: 'left' }) ? 'is-active' : ''}
-        >
-          <AlignLeft className="h-4 w-4" />
-        </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => editor.chain().focus().setTextAlign('center').run()}
-          className={editor.isActive({ textAlign: 'center' }) ? 'is-active' : ''}
-        >
-          <AlignCenter className="h-4 w-4" />
-        </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => editor.chain().focus().setTextAlign('right').run()}
-          className={editor.isActive({ textAlign: 'right' }) ? 'is-active' : ''}
-        >
-          <AlignRight className="h-4 w-4" />
-        </Button>
-        <Separator orientation="vertical" className="h-8" />
-        <Button variant="ghost" size="sm" onClick={() => editor.chain().focus().undo().run()}>
-          <Undo className="h-4 w-4" />
-        </Button>
-        <Button variant="ghost" size="sm" onClick={() => editor.chain().focus().redo().run()}>
-          <Redo className="h-4 w-4" />
-        </Button>
-      </div>
-    </div>
-  );
+  //   return (
+  //     <div className="border-b p-2">
+  //       <div className="flex flex-wrap gap-2">
+  //         <Button
+  //           variant="ghost"
+  //           size="sm"
+  //           onClick={() => editor.chain().focus().toggleBold().run()}
+  //           className={editor.isActive('bold') ? 'is-active' : ''}
+  //         >
+  //           <Bold className="h-4 w-4" />
+  //         </Button>
+  //         <Button
+  //           variant="ghost"
+  //           size="sm"
+  //           onClick={() => editor.chain().focus().toggleItalic().run()}
+  //           className={editor.isActive('italic') ? 'is-active' : ''}
+  //         >
+  //           <Italic className="h-4 w-4" />
+  //         </Button>
+  //         <Button
+  //           variant="ghost"
+  //           size="sm"
+  //           onClick={() => editor.chain().focus().toggleUnderline().run()}
+  //           className={editor.isActive('underline') ? 'is-active' : ''}
+  //         >
+  //           <Underline className="h-4 w-4" />
+  //         </Button>
+  //         <Separator orientation="vertical" className="h-8" />
+  //         <Button
+  //           variant="ghost"
+  //           size="sm"
+  //           onClick={() => editor.chain().focus().toggleBulletList().run()}
+  //           className={editor.isActive('bulletList') ? 'is-active' : ''}
+  //         >
+  //           <List className="h-4 w-4" />
+  //         </Button>
+  //         <Button
+  //           variant="ghost"
+  //           size="sm"
+  //           onClick={() => editor.chain().focus().toggleOrderedList().run()}
+  //           className={editor.isActive('orderedList') ? 'is-active' : ''}
+  //         >
+  //           <ListOrdered className="h-4 w-4" />
+  //         </Button>
+  //         <Separator orientation="vertical" className="h-8" />
+  //         <Button
+  //           variant="ghost"
+  //           size="sm"
+  //           onClick={() => editor.chain().focus().setTextAlign('left').run()}
+  //           className={editor.isActive({ textAlign: 'left' }) ? 'is-active' : ''}
+  //         >
+  //           <AlignLeft className="h-4 w-4" />
+  //         </Button>
+  //         <Button
+  //           variant="ghost"
+  //           size="sm"
+  //           onClick={() => editor.chain().focus().setTextAlign('center').run()}
+  //           className={editor.isActive({ textAlign: 'center' }) ? 'is-active' : ''}
+  //         >
+  //           <AlignCenter className="h-4 w-4" />
+  //         </Button>
+  //         <Button
+  //           variant="ghost"
+  //           size="sm"
+  //           onClick={() => editor.chain().focus().setTextAlign('right').run()}
+  //           className={editor.isActive({ textAlign: 'right' }) ? 'is-active' : ''}
+  //         >
+  //           <AlignRight className="h-4 w-4" />
+  //         </Button>
+  //         <Separator orientation="vertical" className="h-8" />
+  //         <Button variant="ghost" size="sm" onClick={() => editor.chain().focus().undo().run()}>
+  //           <Undo className="h-4 w-4" />
+  //         </Button>
+  //         <Button variant="ghost" size="sm" onClick={() => editor.chain().focus().redo().run()}>
+  //           <Redo className="h-4 w-4" />
+  //         </Button>
+  //       </div>
+  //     </div>
+  //   );
+  // };
+
+  // const extensions = [
+  //   Color.configure({ types: [TextStyle.name, ListItem.name] }),
+  //   TextStyle.configure({ types: [ListItem.name] }),
+  //   StarterKit.configure({
+  //     bulletList: {
+  //       keepMarks: true,
+  //       keepAttributes: false,
+  //     },
+  //     orderedList: {
+  //       keepMarks: true,
+  //       keepAttributes: false,
+  //     },
+  //   }),
+  // ];
+
+  // interface EditorProps {
+  //   initialData?: string;
+  // }
+
+  // export default function EditorWithPDFExport({ initialData }: EditorProps) {
+  //   const [html, setHtml] = useState(initialData);
+
+  //   return (
+  //     <Card>
+  //       <CardContent className="p-4">
+  //         <EditorProvider
+  //           extensions={extensions}
+  //           content={initialData}
+  //           slotBefore={<MenuBar />}
+  //           onUpdate={({ editor }) => {
+  //             setHtml(editor.getHTML());
+  //           }}
+  //         ></EditorProvider>
+  //       </CardContent>
+  //       <PDFDownloadButton html={html} />
+  //     </Card>
+  //   );
 };
-
-const extensions = [
-  Color.configure({ types: [TextStyle.name, ListItem.name] }),
-  TextStyle.configure({ types: [ListItem.name] }),
-  StarterKit.configure({
-    bulletList: {
-      keepMarks: true,
-      keepAttributes: false,
-    },
-    orderedList: {
-      keepMarks: true,
-      keepAttributes: false,
-    },
-  }),
-];
-
-interface EditorProps {
-  initialData?: string;
-}
-
-export default function EditorWithPDFExport({ initialData }: EditorProps) {
-  const [html, setHtml] = useState(initialData);
-
-  return (
-    <Card>
-      <CardContent className="p-4">
-        <EditorProvider
-          extensions={extensions}
-          content={initialData}
-          slotBefore={<MenuBar />}
-          onUpdate={({ editor }) => {
-            setHtml(editor.getHTML());
-          }}
-        ></EditorProvider>
-      </CardContent>
-      <PDFDownloadButton html={html} />
-    </Card>
-  );
-}

@@ -13,4 +13,6 @@ export const useAuthGuard = () => {
       router.replace('/login');
     }
   }, [user, isLoading, router]);
+
+  return { user, isLoading };
 };

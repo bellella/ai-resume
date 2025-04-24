@@ -1,22 +1,22 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import { ResumeDetail, ResumeJson, TemplateJson } from '@ai-resume/types';
 import { ResumeForm, ResumeFormRef } from '@/components/profiles/resume-form';
 import ResumePreview from '@/components/ResumePreview';
-import TemplateList from './template-list';
-import StyleSettings from './style-settings';
-import { Input } from '@/components/ui/input';
-import { Container } from '@/components/ui/container';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
-import { ActionButtons } from '@/components/ui/action-buttons';
-import { Download, Save } from 'lucide-react';
-import usePdfDownload from '@/lib/hooks/usePdfDownload';
 import TEMPLATES, { StyleVars, TemplateId } from '@/components/templates/templates';
+import { ActionButtons } from '@/components/ui/action-buttons';
+import { Button } from '@/components/ui/button';
+import { Container } from '@/components/ui/container';
+import { Input } from '@/components/ui/input';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import usePdfDownload from '@/lib/hooks/usePdfDownload';
+import { useAuthStore } from '@/lib/store/auth';
+import { ResumeDetail, ResumeJson, TemplateJson } from '@ai-resume/types';
+import { Download, Save } from 'lucide-react';
+import { useRef, useState } from 'react';
+import StyleSettings from './style-settings';
+import TemplateList from './template-list';
 
 interface ResumeEditorProps {
-  user: any;
   resume?: ResumeDetail;
   onSave: (data: {
     title: string;
@@ -26,7 +26,9 @@ interface ResumeEditorProps {
   }) => void;
 }
 
-export default function ResumeEditor({ user, resume, onSave }: ResumeEditorProps) {
+export default function ResumeEditor({ resume, onSave }: ResumeEditorProps) {
+  const { user } = useAuthStore();
+  console.log('user', user);
   const [title, setTitle] = useState(resume?.title ?? 'New Resume');
   const [formData, setFormData] = useState<ResumeJson>(
     resume?.resumeJson ?? {

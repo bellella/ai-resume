@@ -1,6 +1,5 @@
-import { User } from '@ai-resume/db';
+import { ApiResponse, PersonalInfo, ResumeJson, UserInfo } from '@ai-resume/types';
 import { api } from './ky';
-import { ApiResponse, UserInfo, ResumeJson } from '@ai-resume/types';
 
 /**
  * Fetch the profile of the current user
@@ -9,7 +8,7 @@ export const fetchUserInfo = async (): Promise<UserInfo> => {
   return api.get('api/users/me').json();
 };
 
-export const updateUserInfo = async (data: UserInfo): Promise<UserInfo> => {
+export const updateUserInfo = async (data: PersonalInfo): Promise<UserInfo> => {
   return await api
     .patch('api/users/me', {
       json: data,

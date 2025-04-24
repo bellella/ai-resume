@@ -5,6 +5,7 @@ import { ResumeForm } from '@/components/profiles/resume-form';
 import { useMutation } from '@tanstack/react-query';
 import { updateDefaultResume } from '@/lib/api/user';
 import { useAuthStore } from '@/lib/store/auth';
+import { ResumeJson } from '@ai-resume/types';
 
 export function DefaultResumeForm() {
   const { user } = useAuthStore();
@@ -32,7 +33,10 @@ export function DefaultResumeForm() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ResumeForm onSubmit={handleResumeSubmit} defaultValues={user?.defaultResumeJson} />
+        <ResumeForm
+          onSubmit={handleResumeSubmit}
+          defaultValues={user?.defaultResumeJson as ResumeJson}
+        />
         <div className="flex justify-end mt-4">
           <Button
             className="gap-1"

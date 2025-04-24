@@ -1,15 +1,12 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/lib/hooks/useAuth';
 import ResumeEditor from '@/components/resumes/resume-editor';
-import { toast } from 'sonner';
 import { createResume } from '@/lib/api/resume';
-import { set } from 'date-fns';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 export default function NewResumePage() {
   const router = useRouter();
-  const { user } = useAuth();
 
   const handleCreate = async (data: any) => {
     const result = await createResume(data);
@@ -25,5 +22,5 @@ export default function NewResumePage() {
     }, 1000);
   };
 
-  return <ResumeEditor user={user} onSave={handleCreate} />;
+  return <ResumeEditor onSave={handleCreate} />;
 }

@@ -1,5 +1,4 @@
 import ky from 'ky';
-import { useAuth } from '../hooks/useAuth';
 
 const getAccessToken = () => {
   if (typeof window === 'undefined') return null;

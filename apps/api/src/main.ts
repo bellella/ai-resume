@@ -7,6 +7,8 @@ async function bootstrap() {
     logger: ['error', 'warn', 'log', 'debug', 'verbose'],
   });
 
+  const port = process.env.PORT || 3001;
+
   // Enable CORS
   app.enableCors({
     origin: process.env.NODE_ENV === 'production' ? process.env.WEB_URL : ['http://localhost:3000'],
@@ -28,6 +30,7 @@ async function bootstrap() {
     })
   );
 
-  await app.listen(3001);
+  await app.listen(port);
+  console.log(`🚀 Server listening on port ${port}`);
 }
 bootstrap();

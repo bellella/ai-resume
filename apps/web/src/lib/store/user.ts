@@ -1,9 +1,9 @@
 import { create } from 'zustand';
-import { User } from '@ai-resume/db';
+import { UserInfo } from '@ai-resume/types';
 
 interface UserState {
-  user: User | null;
-  setUser: (user: User | null) => void;
+  user: UserInfo | null;
+  setUser: (user: UserInfo | null) => void;
 }
 
 export const useUserStore = create<UserState>((set) => ({
