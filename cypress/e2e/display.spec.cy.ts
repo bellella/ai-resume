@@ -1,4 +1,4 @@
-describe('Home Page',() => {
+describe('Display',() => {
     beforeEach(() => {
         cy.visit('https://ai-resume-gilt.vercel.app/')
     })
@@ -85,6 +85,11 @@ describe('Home Page',() => {
         })
         it('Should navigate to the "Log in" page when "Log in" button in the last section is clicked', () => {
             cy.get('section').eq(4).find('button').contains('Log in').click()
+            cy.location("pathname").should("eq", "/login")
+        })
+        it('Should navigate to the "Login" page when "Login" is clicked while on the "Signup" page', () => {
+            cy.visit('https://ai-resume-gilt.vercel.app/signup')
+            cy.get('a').contains('Login').click()
             cy.location("pathname").should("eq", "/login")
         })
     })

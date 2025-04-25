@@ -21,6 +21,16 @@ export default defineConfig({
           await client.close()
           return result
         },
+      }),
+      on('task', {
+        async deleteTestUser({ email }) {
+          const client = new MongoClient(process.env.DATABASE_URL)
+          await client.connect()
+          const db = client.db()
+          await db.collection('User').deleteOne({ email })
+          await client.close()
+          return null
+        }
       })
     },
   },
