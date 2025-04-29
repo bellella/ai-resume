@@ -18,6 +18,11 @@ export default defineConfig({
           await client.connect()
           const db = client.db()
           const result = await db.collection('User').findOne(query)
+          if (!result) {
+            await client.close()
+            console.log('No document found')
+            return null
+          }
           await client.close()
           return result
         },
