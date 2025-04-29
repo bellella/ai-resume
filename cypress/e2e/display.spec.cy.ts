@@ -93,4 +93,24 @@ describe('Display',() => {
             cy.location("pathname").should("eq", "/login")
         })
     })
+
+    context.only('Profile Page', () => {
+        beforeEach(() => {
+            cy.get('section').eq(0).find('button').contains('Log in').click()
+            cy.location("pathname").should("eq", "/login")
+            cy.get('input[name="email"]').type('testuser@test.com')
+            cy.get('input[name="password"]').type('Test@1234')
+            cy.get('button').contains('Login').click()
+        })
+        it('Should navigate to the "Profile" page when "Profile" logged in', () => {
+            cy.location("pathname").should("eq", "/profile")
+        })
+        it('Should display the correct heading on the "Profile" page', () => {
+            cy.get('h1').should('contain', 'Profile')
+        })
+        it('Should display the correct user information on the "Profile" page', () => {
+            cy.get('input[name="name"]').should('have.value', 'Test User')
+            cy.get('input[name="email"]').should('have.value', 'testuser@test.com')
+        })
+    })
 })

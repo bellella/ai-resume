@@ -35,3 +35,27 @@
 //     }
 //   }
 // }
+
+declare global {
+    namespace Cypress {
+      interface Chainable {
+        loginByApi(): Chainable<void>;
+      }
+    }
+  }
+  
+Cypress.Commands.add('loginByApi', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/auth/login', // update this URL to your real login API
+      body: {
+        email: 'testuser@test.com.com',
+        password: 'Test@1234',
+      },
+    }).then((response) => {
+      const { token } = response.body; // or whatever your backend returns
+      window.localStorage.setItem('auth_token', token); // use your app's storage key
+    });
+  });
+
+export {};

@@ -73,7 +73,7 @@ describe('Login functionality', () => {
     cy.get('input[name="email"]').type('testuser@test.com')
     cy.get('input[name="password"]').type('Test@1234')
     cy.get('button').contains('Login').click()
-    cy.get('.toast').should('be.visible').and('contain', 'Login successful!')
+    cy.get('.toast').should('be.visible').and('contain', 'Login successful!') //error here - no toast message
     cy.location("pathname").should("eq", "/profile")
   })
 
@@ -82,7 +82,7 @@ describe('Login functionality', () => {
     cy.location("pathname").should("eq", "/login")
     cy.get('button').contains('Login').click()
     cy.get('.text-red-500').contains('Please enter a valid email address').should('be.visible')
-    cy.get('.text-red-500').contains('Please enter your password').should('be.visible')
+    cy.get('.text-red-500').contains('Please enter your password').should('be.visible') 
   })
   
   it('Should display an error when logging in with unregistered user', () => {
@@ -91,7 +91,7 @@ describe('Login functionality', () => {
     cy.get('input[name="email"]').type('unregistered@user.com')
     cy.get('input[name="password"]').type('WrongPassword@1234')
     cy.get('button').contains('Login').click()
-    cy.get('.toast').should('be.visible').and('contain', 'Login failed. Please try again.')
+    cy.get('.toast').should('be.visible').and('contain', 'Login failed. Please try again.') //issue - no error message for incorrect credentials
   })
 
   it('Should display an error if email is invalid (without @ and domain name).', () => {
@@ -122,6 +122,6 @@ describe('Login functionality', () => {
     cy.get('input[name="email"]').type('testuser@test.com')
     cy.get('input[name="password"]').type('WrongPassword@1234')
     cy.get('button').contains('Login').click()
-    cy.get('.toast').should('be.visible').and('contain', 'Login failed. Please try again.')
+    cy.get('.toast').should('be.visible').and('contain', 'Login failed. Please try again.') //issue - no error message for password
   })
 })
