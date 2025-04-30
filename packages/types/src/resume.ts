@@ -10,7 +10,7 @@ export interface CreateResumeResponse
     select: {
       id: true;
     };
-  }> {}
+  }> { }
 
 export type ResumeJson = {
   firstName: string;
@@ -65,7 +65,7 @@ export interface ResumeItem
       updatedAt: true;
       templateId: true;
     };
-  }> {}
+  }> { }
 
 export interface ResumeDetail
   extends Prisma.ResumeGetPayload<{
@@ -76,6 +76,7 @@ export interface ResumeDetail
       createdAt: true;
       updatedAt: true;
       templateId: true;
+      aiEvaluation: true;
     };
   }> {
   resumeJson: ResumeJson;

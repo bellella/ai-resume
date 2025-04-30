@@ -12,6 +12,7 @@ export interface TransactionItem {
   createdAt: string;
   coinItemId?: string;
   purchasableItemId?: string;
+  meta?: any;
 }
 
 export interface UseCoinResponse {

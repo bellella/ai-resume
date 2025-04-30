@@ -5,4 +5,5 @@ export type AiEvaluationData = {
   summary: string;
   strengths: string[];
   weaknesses: string[];
+  lastUpdated: Date;
 };

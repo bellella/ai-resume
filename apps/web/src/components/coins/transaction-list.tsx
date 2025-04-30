@@ -1,16 +1,9 @@
 import React from 'react';
 import { CreditCard, Coins, Clock, CheckCircle2 } from 'lucide-react';
-
-interface Transaction {
-  type: string;
-  createdAt: string;
-  price: number;
-  name: string;
-  meta: Record<string, any>;
-}
+import { TransactionItem } from '@ai-resume/types';
 
 interface TransactionListProps {
-  transactions: Transaction[];
+  transactions: TransactionItem[];
 }
 
 const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {

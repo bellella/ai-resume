@@ -1,32 +1,27 @@
 'use client';
 
-import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { getCoinBalance, getCoinItems, getCoinTransactions } from '@/lib/api/coin';
-import { Button } from '@/components/ui/button';
+import { CoinCard } from '@/components/coins/coin-card';
+import TransactionList from '@/components/coins/transaction-list';
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
-  CardTitle,
+  CardTitle
 } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Coins, CreditCard, Clock, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Container } from '@/components/ui/container';
 import { PageHeader } from '@/components/ui/page-header';
 import { SectionHeader } from '@/components/ui/section-header';
-import { PurchaseModal } from '@/components/coins/purchase-modal';
-import { CoinCard } from '@/components/coins/coin-card';
-import { CoinItem } from '@ai-resume/types';
+import { getCoinBalance, getCoinItems, getCoinTransactions } from '@/lib/api/coin';
 import { createCheckoutSession } from '@/lib/api/stripe';
+import { CoinItem } from '@ai-resume/types';
+import { useQuery } from '@tanstack/react-query';
+import { Coins } from 'lucide-react';
+import { useState } from 'react';
 import { toast } from 'sonner';
-import TransactionList from '@/components/coins/transaction-list';
 
 export default function CoinsPage() {
   const [selectedCoinItem, setSelectedCoinItem] = useState<CoinItem | null>(null);
-  const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
 
   const { data: balanceData, isLoading: balanceLoading } = useQuery({
     queryKey: ['coin-balance'],
@@ -116,13 +111,6 @@ export default function CoinsPage() {
           </Card>
         </div>
       </div>
-
-      {/* Purchase Modal */}
-      <PurchaseModal
-        isOpen={isPurchaseModalOpen}
-        onClose={() => setIsPurchaseModalOpen(false)}
-        selectedCoinItem={selectedCoinItem}
-      />
     </Container>
   );
 }
