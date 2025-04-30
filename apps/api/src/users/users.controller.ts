@@ -15,11 +15,13 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RequestWithUser } from '../types/request.types';
 import { UserInfo } from '@ai-resume/types';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth('access-token')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @Get('me')
   getUserInfo(@Req() req: RequestWithUser): Promise<UserInfo> {

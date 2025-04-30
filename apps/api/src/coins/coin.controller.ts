@@ -2,11 +2,13 @@ import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RequestWithUser } from 'src/types/request.types';
 import { CoinService } from './coin.service';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('coins')
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth('access-token')
 export class CoinController {
-  constructor(private readonly coinService: CoinService) {}
+  constructor(private readonly coinService: CoinService) { }
 
   /**
    * Get user's current coin balance

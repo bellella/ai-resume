@@ -14,10 +14,12 @@ import { Request, Response } from 'express';
 import { CreateCheckoutSessionDto } from './dto/create-checkout-session.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RequestWithUser } from 'src/types/request.types';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('stripe')
+@ApiBearerAuth('access-token')
 export class StripeController {
-  constructor(private readonly stripeService: StripeService) {}
+  constructor(private readonly stripeService: StripeService) { }
 
   @Post('checkout-session')
   @UseGuards(JwtAuthGuard)

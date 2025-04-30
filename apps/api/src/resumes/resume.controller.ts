@@ -6,10 +6,12 @@ import { UpdateDefaultResumeDto } from './dto/update-default-resume.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RequestWithUser } from '../types/request.types';
 import { Prisma } from '@ai-resume/db';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('resumes')
+@ApiBearerAuth('access-token')
 export class ResumeController {
-  constructor(private readonly resumeService: ResumeService) {}
+  constructor(private readonly resumeService: ResumeService) { }
 
   @Post()
   @UseGuards(JwtAuthGuard)

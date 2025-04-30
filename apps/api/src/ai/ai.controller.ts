@@ -5,13 +5,15 @@ import { AiEvaluationData } from '@ai-resume/types';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { User } from 'src/decorators/user.decorator';
 import { CurrentUser } from 'src/types/user';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('ai')
 @UseGuards(JwtAuthGuard)
 export class AiController {
-  constructor(private readonly aiService: AiService) {}
+  constructor(private readonly aiService: AiService) { }
 
   @Post('evaluation/:resumeId')
+  @ApiBearerAuth('access-token')
   async evaluateResume(
     @Param('resumeId') resumeId: string,
     @User('id') userId: string
