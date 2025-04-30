@@ -5,7 +5,7 @@ describe('Sign up functionality', () => {
   before(() => {
     cy.task('deleteTestUser', { email: 'testuser@test.com' });
   });
-  it('Should Sign up with valid credentials', () => {
+  it.only('Should Sign up with valid credentials', () => {
     cy.get('span').contains('Profile').parent().click()
     cy.location("pathname").should("eq", "/login")
     cy.get('.text-sm > .text-primary').click()

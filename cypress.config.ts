@@ -1,4 +1,5 @@
 import { defineConfig } from "cypress";
+import { create } from "cypress/types/lodash";
 const { MongoClient } = require('mongodb');
 require('dotenv').config({ path: './apps/api/.env' });
 
@@ -34,6 +35,18 @@ export default defineConfig({
           const db = client.db()
           await db.collection('User').deleteOne({ email })
           await client.close()
+          return null
+        }
+      }),
+      on('task', {
+        async deleteDefaultResume({ email }) {
+          const client = new MongoClient(process.env.DATABASE_URL)
+          await client.connect()
+          const db = client.db()
+          db.collection('User').updateOne(
+            { email },
+            { $set: { defaultResumeJson: null } }
+          )
           return null
         }
       })
