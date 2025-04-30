@@ -1,4 +1,3 @@
-import { ResumeJson, Template, TemplateWithPreviewHtml } from '@ai-resume/types';
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateTemplateDto } from './dto/create-template.dto';
@@ -13,38 +12,38 @@ export class TemplatesController {
 
   // @Post()
   // @Roles(Role.ADMIN)
-  @Post()
-  @UseGuards(JwtAuthGuard)
-  async create(@Body() createTemplateDto: Template) {
-    return this.templatesService.create(createTemplateDto);
-  }
+  // @Post()
+  // @UseGuards(JwtAuthGuard)
+  // async create(@Body() createTemplateDto: Template) {
+  //   return this.templatesService.create(createTemplateDto);
+  // }
 
-  @Get()
-  async findAll() {
-    return this.templatesService.findAll();
-  }
+  // @Get()
+  // async findAll() {
+  //   return this.templatesService.findAll();
+  // }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return this.templatesService.findOne(id);
-  }
+  // @Get(':id')
+  // async findOne(@Param('id') id: string) {
+  //   return this.templatesService.findOne(id);
+  // }
 
-  @Put(':id')
-  @UseGuards(JwtAuthGuard)
-  async update(@Param('id') id: string, @Body() updateTemplateDto: UpdateTemplateDto) {
-    return this.templatesService.update(id, updateTemplateDto);
-  }
+  // @Put(':id')
+  // @UseGuards(JwtAuthGuard)
+  // async update(@Param('id') id: string, @Body() updateTemplateDto: UpdateTemplateDto) {
+  //   return this.templatesService.update(id, updateTemplateDto);
+  // }
 
-  @Delete(':id')
-  @UseGuards(JwtAuthGuard)
-  async remove(@Param('id') id: string) {
-    return this.templatesService.remove(id);
-  }
+  // @Delete(':id')
+  // @UseGuards(JwtAuthGuard)
+  // async remove(@Param('id') id: string) {
+  //   return this.templatesService.remove(id);
+  // }
 
-  @Post('previews')
-  async createTemplatePreviews(
-    @Body() createTemplateDto: CreateTemplateDto
-  ): Promise<TemplateWithPreviewHtml[]> {
-    return this.templatesService.createTemplatePreviews(createTemplateDto.resumeJson);
-  }
+  // @Post('previews')
+  // async createTemplatePreviews(
+  //   @Body() createTemplateDto: CreateTemplateDto
+  // ): Promise<TemplateWithPreviewHtml[]> {
+  //   return this.templatesService.createTemplatePreviews(createTemplateDto.resumeJson);
+  // }
 }

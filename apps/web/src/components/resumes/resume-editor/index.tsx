@@ -15,9 +15,14 @@ import { Download, Save } from 'lucide-react';
 import { useRef, useState } from 'react';
 import StyleSettings from './style-settings';
 import TemplateList from './template-list';
-
+import AIEvaluation from './ai-evaluation';
+import { evaluateResume } from '@/lib/api/ai';
+import { AiEvaluationData } from '@ai-resume/types';
+import { toast } from 'sonner';
+import { useMutation, useMutationState } from '@tanstack/react-query';
 interface ResumeEditorProps {
   resume?: ResumeDetail;
+  isSaving?: boolean;
   onSave: (data: {
     title: string;
     resumeJson: ResumeJson;
@@ -26,10 +31,12 @@ interface ResumeEditorProps {
   }) => void;
 }
 
-export default function ResumeEditor({ resume, onSave }: ResumeEditorProps) {
+export default function ResumeEditor({ resume, onSave, isSaving = false }: ResumeEditorProps) {
   const { user } = useAuthStore();
-  console.log('user', user);
   const [title, setTitle] = useState(resume?.title ?? 'New Resume');
+  const [evaluation, setEvaluation] = useState<AiEvaluationData | null>(
+    resume?.aiEvaluation ?? null
+  );
   const [formData, setFormData] = useState<ResumeJson>(
     resume?.resumeJson ?? {
       firstName: '',
@@ -66,6 +73,29 @@ export default function ResumeEditor({ resume, onSave }: ResumeEditorProps) {
     }
   };
 
+  const { mutateAsync: evaluate, isPending: isEvaluating } = useMutation({
+    mutationFn: async () => {
+      if (!resume?.id) throw new Error('Resume ID missing');
+      return await evaluateResume(resume.id);
+    },
+    onSuccess: (evaluation) => {
+      setEvaluation(evaluation);
+      toast.success('Resume evaluated successfully');
+    },
+    onError: (err) => {
+      toast.error('Failed to evaluate resume');
+    },
+  });
+
+  const handleEvaluate = async () => {
+    try {
+      const result = await evaluate();
+      setEvaluation(result);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <div className="relative bg-gray-100">
       <Container>
@@ -86,9 +116,11 @@ export default function ResumeEditor({ resume, onSave }: ResumeEditorProps) {
                 <TabsTrigger value="2" onClick={() => setCurrentTab('2')}>
                   Design
                 </TabsTrigger>
-                <TabsTrigger value="3" onClick={() => setCurrentTab('3')}>
-                  Ai
-                </TabsTrigger>
+                {resume?.id && (
+                  <TabsTrigger value="3" onClick={() => setCurrentTab('3')}>
+                    AI Evaluation
+                  </TabsTrigger>
+                )}
               </TabsList>
 
               <TabsContent value="1" className={currentTab === '1' ? '' : 'hidden'} forceMount>
@@ -114,6 +146,15 @@ export default function ResumeEditor({ resume, onSave }: ResumeEditorProps) {
                   </div>
                 </div>
               </TabsContent>
+              {resume?.id && (
+                <TabsContent value="3" className={currentTab === '3' ? '' : 'hidden'} forceMount>
+                  <AIEvaluation
+                    evaluation={evaluation}
+                    onEvaluate={handleEvaluate}
+                    isEvaluating={isEvaluating}
+                  />
+                </TabsContent>
+              )}
             </Tabs>
           </div>
 
@@ -148,6 +189,7 @@ export default function ResumeEditor({ resume, onSave }: ResumeEditorProps) {
                       templateJson: styleVars,
                     })
                   }
+                  disabled={isSaving}
                 >
                   <Save className="h-4 w-4" />
                   Save

@@ -6,6 +6,11 @@ import { Input } from '@/components/ui/input';
 import { useFormContext, useFieldArray } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Trash2, Plus } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { composeWithAi } from '@/lib/api/ai';
+import { CoinConfirmDialog } from '@/components/coins/coin-confirm-dialog';
 
 export function WorkHistorySection() {
   const form = useFormContext();
@@ -13,6 +18,33 @@ export function WorkHistorySection() {
     control: form.control,
     name: 'workExperiences',
   });
+
+  const [openDialogIndex, setOpenDialogIndex] = useState<number | null>(null);
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: async (index: number) => {
+      const { jobTitle, employer, city, province, startDate, endDate } = form.getValues(
+        `workExperiences.${index}`
+      );
+      const text = form.getValues(`workExperiences.${index}.achievements`) || '';
+      const meta = { jobTitle, employer, city, province, startDate, endDate };
+      return await composeWithAi('experience', { text, meta });
+    },
+    onSuccess: (data, index) => {
+      form.setValue(`workExperiences.${index}.achievements`, data.result);
+    },
+  });
+
+  const handleComposeWithAI = (index: number) => {
+    setOpenDialogIndex(index);
+  };
+
+  const handleConfirm = async () => {
+    if (openDialogIndex !== null) {
+      await mutateAsync(openDialogIndex);
+      setOpenDialogIndex(null);
+    }
+  };
 
   return (
     <Card>
@@ -116,6 +148,29 @@ export function WorkHistorySection() {
                 )}
               />
             </div>
+            <FormField
+              control={form.control}
+              name={`workExperiences.${index}.achievements`}
+              render={({ field }) => (
+                <FormItem>
+                  <div className="flex justify-between items-end">
+                    <FormLabel>ACHIEVEMENTS</FormLabel>
+                    <Button
+                      type="button"
+                      variant="accentOutline"
+                      size="sm"
+                      onClick={() => handleComposeWithAI(index)}
+                    >
+                      Compose with AI
+                    </Button>
+                  </div>
+                  <FormControl>
+                    <Textarea placeholder="Enter achievements" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
         ))}
         <Button
@@ -129,6 +184,7 @@ export function WorkHistorySection() {
               province: '',
               startDate: '',
               endDate: '',
+              achievements: '',
             })
           }
           className="w-full"
@@ -136,6 +192,13 @@ export function WorkHistorySection() {
           <Plus className="h-4 w-4 mr-2" />
           Add Work Experience
         </Button>
+
+        <CoinConfirmDialog
+          open={openDialogIndex !== null && !isPending}
+          price={1}
+          onCancel={() => setOpenDialogIndex(null)}
+          onConfirm={handleConfirm}
+        />
       </CardContent>
     </Card>
   );

@@ -6,17 +6,17 @@ import { useMutation } from '@tanstack/react-query';
 import { updateDefaultResume } from '@/lib/api/user';
 import { useAuthStore } from '@/lib/store/auth';
 import { ResumeJson } from '@ai-resume/types';
+import { toast } from 'sonner';
 
 export function DefaultResumeForm() {
   const { user } = useAuthStore();
   const updateDefaultResumeMutation = useMutation({
     mutationFn: (data: any) => updateDefaultResume(data),
     onSuccess: () => {
-      // TODO: Show success toast
+      toast.success('Default resume updated successfully');
     },
     onError: (error) => {
-      console.error('Failed to update default resume:', error);
-      // TODO: Show error toast
+      toast.error('Failed to update default resume');
     },
   });
 

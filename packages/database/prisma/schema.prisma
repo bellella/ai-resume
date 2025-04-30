@@ -18,14 +18,14 @@ model User {
   email           String             @unique
   password        String
   name            String?
-  coinBalance     Int                @default(0)
   defaultResumeJson Json?
   imageUrl        String?
+  coins           Int      @default(0)
   createdAt       DateTime           @default(now())
   updatedAt       DateTime           @updatedAt
 
   resumes         Resume[]
-  transactions    CoinTransaction[]
+  transactions    Transaction[]
 }
 
 model Resume {
@@ -38,43 +38,62 @@ model Resume {
   templateId  String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  aiEvaluations  AiEvaluation[]
 }
 
-model CoinTransaction {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  type        TransactionType
-  amount      Int
-  description String?
-  userId      String   @db.ObjectId
-  user        User     @relation(fields: [userId], references: [id])
-  createdAt   DateTime @default(now())
+model CoinItem {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  coins         Int
+  price         Int
+  stripePriceId String   @unique
+
+  transactions  Transaction[] @relation("CoinItemTransactions")
 }
 
-model CoinPackage {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  price     Int
-  coins     Int
-  createdAt DateTime @default(now())
+model PurchasableItem {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  price         Int
+
+  transactions  Transaction[] @relation("PurchasableItemTransactions")
 }
 
-model Template {
-  id              String         @id @default(auto()) @map("_id") @db.ObjectId
-  name            String
-  html            String         // full HTML with inline <style> if needed
-  status          ItemStatus     // view permission level
-  previewImageUrl String?
-  createdAt       DateTime       @default(now())
-}
+model Transaction {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String   @db.ObjectId
+  user              User     @relation(fields: [userId], references: [id])
 
-enum ItemStatus {
-  USER      // only visible to the creator
-  ADMIN     // created or managed by admin
-  DELETED   // hidden from all UIs
+  name              String
+  type              TransactionType
+
+  coinItemId        String?  @db.ObjectId
+  coinItem          CoinItem? @relation(name: "CoinItemTransactions", fields: [coinItemId], references: [id])
+
+  purchasableItemId String?  @db.ObjectId
+  purchasableItem   PurchasableItem? @relation(name: "PurchasableItemTransactions", fields: [purchasableItemId], references: [id])
+
+  meta              Json?
+
+  price             Int
+  createdAt         DateTime @default(now())
 }
 
 enum TransactionType {
   CHARGE
   USAGE
   REFUND
+}
+
+model AiEvaluation {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  resumeId    String   @db.ObjectId
+  score       Int
+  summary     String
+  strengths   String[]
+  weaknesses  String[]
+  createdAt   DateTime @default(now())
+
+  resume      Resume   @relation(fields: [resumeId], references: [id], onDelete: Cascade)
 }

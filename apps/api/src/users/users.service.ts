@@ -16,6 +16,7 @@ export class UsersService {
         name: true,
         defaultResumeJson: true,
         imageUrl: true,
+        coins: true,
       },
     });
 
@@ -29,6 +30,7 @@ export class UsersService {
       name: user.name,
       defaultResumeJson: user.defaultResumeJson as ResumeJson,
       imageUrl: user.imageUrl,
+      coins: user.coins,
     };
   }
 

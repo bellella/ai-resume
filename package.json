@@ -9,7 +9,8 @@
     "check-types": "turbo run check-types",
     "build:web": "turbo run build --filter=@ai-resume/web",
     "build:api": "turbo run build --filter=@ai-resume/api --no-cache",
-    "db:generate": "npm run db:generate --workspace=@ai-resume/db"
+    "db:generate": "npm run db:generate --workspace=@ai-resume/db",
+    "stripe:webhook": "npm run stripe:webhook --workspace=@ai-resume/api"
   },
   "devDependencies": {
     "prettier": "^3.5.3",

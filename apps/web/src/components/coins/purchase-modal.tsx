@@ -15,31 +15,32 @@ import {
 import { FormField } from '@/components/ui/form-field';
 import { Coins, CreditCard, ArrowLeft, CheckCircle } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import { CoinItem } from '@ai-resume/types';
 
 interface PurchaseModalProps {
   isOpen: boolean;
   onClose: () => void;
-  selectedPlan: { amount: number; price: number } | null;
+  selectedCoinItem: CoinItem | null;
 }
 
 export function PurchaseModal({
   isOpen,
   onClose,
-  selectedPlan: initialSelectedPlan,
+  selectedCoinItem: initialSelectedCoinItem,
 }: PurchaseModalProps) {
   const [step, setStep] = useState<'plan' | 'payment' | 'success'>('plan');
   const [isProcessing, setIsProcessing] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<{ amount: number; price: number } | null>(
-    initialSelectedPlan || null
+  const [selectedCoinItem, setSelectedCoinItem] = useState<CoinItem | null>(
+    initialSelectedCoinItem || null
   );
   const { theme } = useTheme();
 
   // Update selected plan when initialSelectedPlan changes
   useEffect(() => {
-    if (initialSelectedPlan) {
-      setSelectedPlan(initialSelectedPlan);
+    if (initialSelectedCoinItem) {
+      setSelectedCoinItem(initialSelectedCoinItem);
     }
-  }, [initialSelectedPlan]);
+  }, [initialSelectedCoinItem]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,11 +78,11 @@ export function PurchaseModal({
                   <div
                     key={plan.amount}
                     className={`border rounded-lg p-4 text-center cursor-pointer hover:border-primary transition-colors ${
-                      selectedPlan?.amount === plan.amount
+                      selectedCoinItem?.coins === plan.amount
                         ? 'border-primary bg-primary/5 dark:bg-primary/10'
                         : 'dark:border-gray-700'
                     }`}
-                    onClick={() => setSelectedPlan(plan)}
+                    onClick={() => setSelectedCoinItem(plan)}
                   >
                     <div className="flex justify-center mb-2">
                       <Coins className="h-6 w-6 text-primary" />
@@ -96,7 +97,7 @@ export function PurchaseModal({
             <DialogFooter>
               <Button
                 onClick={() => setStep('payment')}
-                disabled={!selectedPlan}
+                disabled={!selectedCoinItem}
                 className="w-full"
               >
                 Continue to Payment
@@ -115,13 +116,13 @@ export function PurchaseModal({
                 Payment Information
               </DialogTitle>
               <DialogDescription>
-                {selectedPlan && (
+                {selectedCoinItem && (
                   <div className="mt-2 p-2 bg-muted rounded-md flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Coins className="h-5 w-5 text-primary" />
-                      <span>{selectedPlan.amount} Coins</span>
+                      <span>{selectedCoinItem.coins} Coins</span>
                     </div>
-                    <span className="font-medium">${selectedPlan.price}</span>
+                    <span className="font-medium">${selectedCoinItem.price}</span>
                   </div>
                 )}
               </DialogDescription>
@@ -177,7 +178,7 @@ export function PurchaseModal({
               </div>
               <h2 className="text-2xl font-bold mb-2">Purchase Successful!</h2>
               <p className="text-muted-foreground mb-6">
-                {selectedPlan?.amount} coins have been added to your account.
+                {selectedCoinItem?.coins} coins have been added to your account.
               </p>
               <Button onClick={resetAndClose}>Return to Coins Page</Button>
             </div>

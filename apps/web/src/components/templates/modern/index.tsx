@@ -100,6 +100,11 @@ export default function ModernTemplate({ data }: TemplateProps) {
                   {renderOrPlaceholder(job.endDate, 'End')} /{' '}
                   {renderOrPlaceholder(`${job.city}, ${job.province}`, 'City, Province')}
                 </div>
+                <div className="section-description">
+                  {job.achievements.split('\n').map((line, i) => (
+                    <p key={i}>{line}</p>
+                  ))}
+                </div>
                 {/* <ul className="description-list">
                   {job.descriptions.length > 0
                     ? job.descriptions.map((desc, j) => <li key={j}>{desc}</li>)

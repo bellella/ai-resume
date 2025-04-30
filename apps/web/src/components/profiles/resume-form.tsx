@@ -28,6 +28,7 @@ const formSchema = z.object({
       province: z.string(),
       startDate: z.string(),
       endDate: z.string(),
+      achievements: z.string(),
     })
   ),
   educations: z.array(
@@ -79,6 +80,7 @@ export const ResumeForm = forwardRef<ResumeFormRef, ResumeFormProps>(
             province: '',
             startDate: '',
             endDate: '',
+            achievements: '',
           },
         ],
         educations: [
@@ -101,40 +103,6 @@ export const ResumeForm = forwardRef<ResumeFormRef, ResumeFormProps>(
       },
       getValues: () => form.getValues() as ResumeJson,
     }));
-
-    const {
-      fields: workExperienceFields,
-      append: appendWorkExperience,
-      remove: removeWorkExperience,
-    } = useFieldArray({
-      control: form.control,
-      name: 'workExperiences',
-    });
-
-    const {
-      fields: educationFields,
-      append: appendEducation,
-      remove: removeEducation,
-    } = useFieldArray({
-      control: form.control,
-      name: 'educations',
-    });
-
-    const [skills, setSkills] = useState<string[]>(defaultValues?.skills || []);
-
-    const addSkill = (skill: string) => {
-      if (skill && !skills.includes(skill)) {
-        const newSkills = [...skills, skill];
-        setSkills(newSkills);
-        form.setValue('skills', newSkills);
-      }
-    };
-
-    const removeSkill = (skillToRemove: string) => {
-      const newSkills = skills.filter((skill) => skill !== skillToRemove);
-      setSkills(newSkills);
-      form.setValue('skills', newSkills);
-    };
 
     useEffect(() => {
       const subscription = form.watch((value) => {

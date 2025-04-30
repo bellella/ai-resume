@@ -113,11 +113,11 @@ export default function CreativeTemplate({ data }: TemplateProps) {
                   {renderOrPlaceholder(job.startDate, 'Start')} –{' '}
                   {renderOrPlaceholder(job.endDate, 'End')}
                 </div>
-                {/* <ul>
-                  {job.description?.split('\n').map((d, idx) => (
-                    <li key={idx}>{d}</li>
+                <div className="item-description">
+                  {job.achievements.split('\n').map((line, i) => (
+                    <p key={i}>{line}</p>
                   ))}
-                </ul> */}
+                </div>
               </div>
             ))
           ) : (

@@ -2,10 +2,6 @@ import { Prisma } from '@ai-resume/db';
 
 export interface CreateResumePayload {
   title: string;
-  ai?: {
-    content: boolean;
-    grammar: boolean;
-  };
   resumeJson: ResumeJson;
 }
 
@@ -33,6 +29,7 @@ export type ResumeJson = {
     province: string;
     startDate: string;
     endDate: string;
+    achievements: string;
   }[];
   educations: {
     schoolName: string;

@@ -28,6 +28,7 @@
     "@ai-resume/eslint-config": "*",
     "@ai-resume/types": "*",
     "@nestjs/common": "^11.0.14",
+    "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.14",
     "@nestjs/jwt": "latest",
     "@nestjs/mapped-types": "^2.1.0",
@@ -38,11 +39,13 @@
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "openai": "^4.96.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "puppeteer": "^24.6.1",
     "reflect-metadata": "^0.1.14",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "stripe": "^18.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^11.0.6",
@@ -52,6 +55,7 @@
     "@types/jest": "^29.5.2",
     "@types/node": "^20.3.1",
     "@types/passport-jwt": "^4.0.1",
+    "@types/stripe": "^8.0.416",
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",

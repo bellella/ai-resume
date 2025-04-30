@@ -17,14 +17,6 @@ export class ResumeService {
     createResumeDto: CreateResumeDto,
     userId: string
   ): Promise<Prisma.ResumeGetPayload<{}>> {
-    // check if ai is enabled
-    if (createResumeDto.ai?.content) {
-      // TODO: Implement AI resume creation
-    }
-    if (createResumeDto.ai?.grammar) {
-      // TODO: Implement AI resume grammar check
-    }
-
     // save resume to DB
     const resume = await this.prisma.resume.create({
       data: {
@@ -48,9 +40,30 @@ export class ResumeService {
   }
 
   async findOne(id: string) {
-    return this.prisma.resume.findUnique({
+    const result = await this.prisma.resume.findUnique({
       where: { id },
+      include: {
+        aiEvaluations: {
+          orderBy: { createdAt: 'desc' },
+          take: 1,
+        },
+      },
     });
+
+    const aiEvaluation = result?.aiEvaluations?.[0]
+      ? {
+          score: result.aiEvaluations[0].score,
+          summary: result.aiEvaluations[0].summary,
+          strengths: result.aiEvaluations[0].strengths,
+          weaknesses: result.aiEvaluations[0].weaknesses,
+          lastUpdated: result.aiEvaluations[0].createdAt,
+        }
+      : null;
+
+    return {
+      ...result,
+      aiEvaluation,
+    };
   }
 
   async update(id: string, updateResumeDto: UpdateResumeDto) {

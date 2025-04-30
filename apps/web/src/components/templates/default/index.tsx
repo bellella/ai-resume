@@ -89,6 +89,11 @@ export default function DefaultTemplate({ data }: TemplateProps) {
                   {renderOrPlaceholder(job.startDate, 'Start')} -{' '}
                   {renderOrPlaceholder(job.endDate, 'End')}
                 </div>
+                <div className="item-description">
+                  {job.achievements.split('\n').map((line, i) => (
+                    <p key={i}>{line}</p>
+                  ))}
+                </div>
               </div>
             ))
           ) : (

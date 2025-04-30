@@ -4,3 +4,5 @@ export * from './user';
 export * from './resume';
 export * from './template';
 export * from './auth';
+export * from './coin';
+export * from './ai';

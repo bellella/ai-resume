@@ -13,11 +13,4 @@ export class CreateResumeDto implements CreateResumePayload {
 
   @IsObject()
   templateJson: TemplateJson;
-
-  @IsBoolean()
-  @IsOptional()
-  ai?: {
-    content: boolean;
-    grammar: boolean;
-  };
 }

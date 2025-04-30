@@ -9,6 +9,7 @@ export type UserInfo = Prisma.UserGetPayload<{
     name: true;
     imageUrl: true;
     defaultResumeJson: true;
+    coins: true;
   };
 }>;
 

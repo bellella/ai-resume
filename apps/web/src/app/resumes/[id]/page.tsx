@@ -4,28 +4,38 @@ import ResumeEditor from '@/components/resumes/resume-editor';
 import { toast } from '@/components/ui/use-toast';
 import { fetchResume, updateResume } from '@/lib/api/resume';
 import { ResumeDetail } from '@ai-resume/types';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 export default function NewResumePage({ params }: { params: { id: string } }) {
   const router = useRouter();
+  const queryClient = useQueryClient();
+
   const { data: resume, isLoading } = useQuery<ResumeDetail>({
     queryKey: ['resume', params.id],
     queryFn: () => fetchResume(params.id),
   });
 
-  const handleCreate = async (data: any) => {
-    const result = await updateResume(params.id, data);
-    if (!result.id) {
-      toast.error('Failed to update resume');
-      return;
-    }
-    toast('Success', {
-      description: 'Resume updated successfully!',
-    });
-    setTimeout(() => {
+  const { mutateAsync: updateResumeMutate, isPending: isSaving } = useMutation({
+    mutationFn: (data: any) => updateResume(params.id, data),
+    onSuccess: (data) => {
+      if (!data.id) {
+        toast.error('Failed to update resume');
+        return;
+      }
+      toast('Success', {
+        description: 'Resume updated successfully!',
+      });
+      queryClient.invalidateQueries({ queryKey: ['resume', params.id] });
       router.refresh();
-    }, 1000);
+    },
+    onError: () => {
+      toast.error('Failed to update resume');
+    },
+  });
+
+  const handleCreate = async (data: any) => {
+    await updateResumeMutate(data);
   };
 
   if (isLoading) {
@@ -36,5 +46,5 @@ export default function NewResumePage({ params }: { params: { id: string } }) {
     return <div>Resume not found</div>;
   }
 
-  return <ResumeEditor onSave={handleCreate} resume={resume} />;
+  return <ResumeEditor onSave={handleCreate} resume={resume} isSaving={isSaving} />;
 }
