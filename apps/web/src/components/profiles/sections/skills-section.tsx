@@ -63,7 +63,7 @@ export function SkillsSection() {
             />
             <Button
               type="button"
-              variant="outline"
+              variant="secondary"
               onClick={() => {
                 addSkill(newSkill.trim());
                 setNewSkill('');

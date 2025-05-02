@@ -1,5 +1,5 @@
 import React from 'react';
-import { CreditCard, Coins, Clock, CheckCircle2 } from 'lucide-react';
+import { Wallet2, Coins, Clock, CheckCircle2 } from 'lucide-react';
 import { TransactionItem } from '@ai-resume/types';
 
 interface TransactionListProps {
@@ -13,19 +13,19 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
         <div key={i} className="flex items-center justify-between py-2">
           <div className="flex items-center gap-3">
             {transaction.type === 'CHARGE' ? (
-              <div className="bg-primary/10 p-2 rounded-full">
-                <CreditCard className="h-4 w-4 text-primary" />
+              <div className="bg-accent p-2 rounded-full">
+                <Coins className="h-4 w-4 text-accent-foreground" />
               </div>
             ) : (
-              <div className="bg-muted p-2 rounded-full">
-                <Coins className="h-4 w-4 text-muted-foreground" />
+              <div className="bg-secondary p-2 rounded-full">
+                <Wallet2 className="h-4 w-4 text-primary" />
               </div>
             )}
             <div>
               {transaction.meta?.resumeId ? (
                 <a
                   href={`resumes/${transaction.meta.resumeId}`}
-                  className="font-medium text-blue-500 hover:underline"
+                  className="font-medium text-primary hover:underline"
                 >
                   {transaction.name}
                 </a>

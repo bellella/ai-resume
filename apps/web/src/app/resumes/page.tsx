@@ -1,35 +1,24 @@
 'use client';
 
+import ResumeCard from '@/components/resumes/resume-editor/resume-card';
+import ResumeCardSkeleton from '@/components/resumes/resume-editor/resume-card-skeleton';
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
-import { Input } from '@/components/ui/input';
 import { PageHeader } from '@/components/ui/page-header';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { fetchResumes } from '@/lib/api/resume';
 import { useAuthGuard } from '@/lib/hooks/useAuthGuard';
 import { ResumeItem } from '@ai-resume/types';
 import { useQuery } from '@tanstack/react-query';
-import { Plus, Search, SlidersHorizontal } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import Link from 'next/link';
-import ResumeCard from '@/components/resumes/resume-editor/resume-card';
 
 export default async function ResumesPage() {
-  useAuthGuard();
+  const { isLoading: isAuthLoading } = useAuthGuard();
 
   const { data: resumes, isLoading } = useQuery<ResumeItem[]>({
     queryKey: ['resumes'],
     queryFn: fetchResumes,
   });
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <Container>
@@ -72,7 +61,9 @@ export default async function ResumesPage() {
         </div> */}
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {resumes && resumes.length > 0 ? (
+          {isLoading || isAuthLoading ? (
+            Array.from({ length: 4 }).map((_, index) => <ResumeCardSkeleton key={index} />)
+          ) : resumes && resumes.length > 0 ? (
             resumes.map((resume) => <ResumeCard resume={resume} key={resume.id} />)
           ) : (
             <div className="text-center text-muted-foreground">No resumes available.</div>

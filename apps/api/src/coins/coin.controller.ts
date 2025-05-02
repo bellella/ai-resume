@@ -8,7 +8,7 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('access-token')
 export class CoinController {
-  constructor(private readonly coinService: CoinService) { }
+  constructor(private readonly coinService: CoinService) {}
 
   /**
    * Get user's current coin balance

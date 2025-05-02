@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Open_Sans } from 'next/font/google';
 import './globals.css';
 import { Providers } from './providers';
 import Header from '@/components/layout/header';
 import { AuthHydration } from '@/components/apps/auth-hydration';
 import { Toaster } from '@/components/ui/toaster';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Open_Sans({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'AI Resume',

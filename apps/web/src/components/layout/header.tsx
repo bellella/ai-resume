@@ -12,7 +12,7 @@ export default function Header() {
   const isLoggedIn = true; // This would be determined by auth state
 
   return (
-    <header className="border-b">
+    <header className="bg-white">
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2">
           <FileText className="h-6 w-6" />

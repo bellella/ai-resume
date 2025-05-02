@@ -10,7 +10,7 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 @Controller('ai')
 @UseGuards(JwtAuthGuard)
 export class AiController {
-  constructor(private readonly aiService: AiService) { }
+  constructor(private readonly aiService: AiService) {}
 
   @Post('evaluation/:resumeId')
   @ApiBearerAuth('access-token')

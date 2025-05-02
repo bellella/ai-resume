@@ -58,7 +58,7 @@ export function SummarySection() {
           </div>
           <Button
             type="button"
-            variant="accentOutline"
+            variant="accent"
             size="sm"
             onClick={handleComposeWithAI}
             disabled={isPending}

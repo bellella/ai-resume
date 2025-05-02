@@ -157,7 +157,7 @@ export function WorkHistorySection() {
                     <FormLabel>ACHIEVEMENTS</FormLabel>
                     <Button
                       type="button"
-                      variant="accentOutline"
+                      variant="accent"
                       size="sm"
                       onClick={() => handleComposeWithAI(index)}
                     >
@@ -175,7 +175,7 @@ export function WorkHistorySection() {
         ))}
         <Button
           type="button"
-          variant="outline"
+          variant="secondary"
           onClick={() =>
             append({
               jobTitle: '',

@@ -15,11 +15,11 @@ const TemplateList: React.FC<TemplateListProps> = ({
   const templates = Object.values(TEMPLATES);
   return (
     <ScrollArea className="h-[600px]">
-      <div className="grid grid-cols-2 gap-3 pr-5 space-y-4">
+      <div className="grid grid-cols-2 gap-3 pr-5">
         {templates.map((template) => (
           <Card
             key={template.name}
-            className={`aspect-[210/297] overflow-hidden cursor-pointer hover:border-primary transition-colors ${selectedTemplateId === template.name ? 'border-primary' : ''}`}
+            className={`aspect-a4 overflow-hidden cursor-pointer hover:border-primary transition-colors ${selectedTemplateId === template.id ? 'border-primary' : ''}`}
             onClick={() => setSelectedTemplateId(template.id)}
           >
             <CardContent className="p-4">

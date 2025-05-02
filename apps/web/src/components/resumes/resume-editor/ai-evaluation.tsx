@@ -19,29 +19,33 @@ export default function AIEvaluation({ evaluation, onEvaluate, isEvaluating }: A
         <p className="text-sm text-muted-foreground mb-4">
           This resume has not been evaluated yet.
         </p>
-        <Button onClick={onEvaluate}>Evaluate with AI</Button>
+        <Button variant="accent" onClick={onEvaluate}>
+          Evaluate with AI
+        </Button>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="mt-10 space-y-10">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <div className="w-20 h-20">
             <CircularProgress value={evaluation.score} />
           </div>
           <div>
-            <h2 className="text-lg font-semibold">AI Evaluation Result</h2>
-            <p className="text-sm text-muted-foreground">{evaluation.summary}</p>
+            <div className="flex justify-between items-end">
+              <h2 className="text-lg font-semibold">AI Evaluation Result</h2>
+              <Button size="sm" variant="accent" onClick={onEvaluate} disabled={isEvaluating}>
+                {isEvaluating ? 'Evaluating...' : 'Reevaluate with AI'}
+              </Button>
+            </div>
+            <p className="text-sm text-muted-foreground mt-3">{evaluation.summary}</p>
             <p className="text-xs text-gray-500 mt-1">
               Last evaluated on: {evaluation.lastUpdated.toLocaleString()}
             </p>
           </div>
         </div>
-        <Button size="sm" variant="accentOutline" onClick={onEvaluate} disabled={isEvaluating}>
-          {isEvaluating ? 'Evaluating...' : 'Reevaluate with AI'}
-        </Button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -105,19 +105,19 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Enter Resume Title"
-              className="block my-3 w-full bg-transparent border-2"
+              className="block my-3 w-full bg-white"
             />
 
             <Tabs value={currentTab} className="w-full">
-              <TabsList className="grid grid-cols-3">
-                <TabsTrigger value="1" onClick={() => setCurrentTab('1')}>
+              <TabsList className="flex">
+                <TabsTrigger className="flex-1" value="1" onClick={() => setCurrentTab('1')}>
                   Content
                 </TabsTrigger>
-                <TabsTrigger value="2" onClick={() => setCurrentTab('2')}>
+                <TabsTrigger className="flex-1" value="2" onClick={() => setCurrentTab('2')}>
                   Design
                 </TabsTrigger>
                 {resume?.id && (
-                  <TabsTrigger value="3" onClick={() => setCurrentTab('3')}>
+                  <TabsTrigger className="flex-1" value="3" onClick={() => setCurrentTab('3')}>
                     AI Evaluation
                   </TabsTrigger>
                 )}
@@ -162,14 +162,14 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
             <div className="flex justify-end gap-3 p-3">
               <ActionButtons>
                 <Button
-                  variant="outline"
+                  variant="secondary"
                   onClick={handleLoadDefaultResume}
                   disabled={!user?.defaultResumeJson}
                 >
                   Load Default Profile
                 </Button>
                 <Button
-                  variant="outline"
+                  variant="secondary"
                   size="sm"
                   className="gap-1"
                   onClick={() => handlePdfDownload(selectedTemplateId as TemplateId)}

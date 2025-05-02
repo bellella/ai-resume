@@ -19,7 +19,7 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 @Controller('stripe')
 @ApiBearerAuth('access-token')
 export class StripeController {
-  constructor(private readonly stripeService: StripeService) { }
+  constructor(private readonly stripeService: StripeService) {}
 
   @Post('checkout-session')
   @UseGuards(JwtAuthGuard)

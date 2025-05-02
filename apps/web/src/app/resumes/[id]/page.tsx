@@ -23,9 +23,7 @@ export default function NewResumePage({ params }: { params: { id: string } }) {
         toast.error('Failed to update resume');
         return;
       }
-      toast('Success', {
-        description: 'Resume updated successfully!',
-      });
+      toast.success('Resume updated successfully!');
       queryClient.invalidateQueries({ queryKey: ['resume', params.id] });
       router.refresh();
     },
@@ -37,14 +35,6 @@ export default function NewResumePage({ params }: { params: { id: string } }) {
   const handleCreate = async (data: any) => {
     await updateResumeMutate(data);
   };
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!resume) {
-    return <div>Resume not found</div>;
-  }
 
   return <ResumeEditor onSave={handleCreate} resume={resume} isSaving={isSaving} />;
 }

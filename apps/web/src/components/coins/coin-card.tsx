@@ -21,13 +21,12 @@ interface CoinCardProps {
 
 export function CoinCard({ coinItem, onPurchase }: CoinCardProps) {
   return (
-    <Card className="dark:border-gray-700">
+    <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Coins className="h-5 w-5 text-primary" />
+        <CardTitle className="flex items-center gap-2  text-yellow-500">
+          <Coins className="h-5 w-5" />
           {coinItem.coins} Coins
         </CardTitle>
-        <CardDescription>Use for exports and AI features</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="text-3xl font-bold">${(coinItem.price / 100).toFixed(2)}</div>
@@ -36,20 +35,16 @@ export function CoinCard({ coinItem, onPurchase }: CoinCardProps) {
         <div className="mt-4 space-y-2">
           <div className="flex items-center gap-2">
             <CheckCircle2 className="h-4 w-4 text-primary" />
-            <span className="text-sm">PDF exports</span>
+            <span className="text-sm">AI resume enhancement</span>
           </div>
           <div className="flex items-center gap-2">
             <CheckCircle2 className="h-4 w-4 text-primary" />
-            <span className="text-sm">AI enhancements</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <CheckCircle2 className="h-4 w-4 text-primary" />
-            <span className="text-sm">Premium templates</span>
+            <span className="text-sm">AI evaluation</span>
           </div>
         </div>
       </CardContent>
       <CardFooter>
-        <Button className="w-full" onClick={() => onPurchase(coinItem)}>
+        <Button variant="accent" className="w-full" onClick={() => onPurchase(coinItem)}>
           Purchase
         </Button>
       </CardFooter>

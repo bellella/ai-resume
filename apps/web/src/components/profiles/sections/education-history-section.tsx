@@ -120,7 +120,7 @@ export function EducationHistorySection() {
         ))}
         <Button
           type="button"
-          variant="outline"
+          variant="secondary"
           onClick={() =>
             append({
               schoolName: '',
