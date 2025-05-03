@@ -1,11 +1,13 @@
 'use client';
 
+import FullPageLoading from '@/components/apps/full-page-loading';
 import { CoinCard } from '@/components/coins/coin-card';
 import TransactionList from '@/components/coins/transaction-list';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Container } from '@/components/ui/container';
 import { PageHeader } from '@/components/ui/page-header';
 import { SectionHeader } from '@/components/ui/section-header';
+import { Skeleton } from '@/components/ui/skeleton';
 import { getCoinBalance, getCoinItems, getCoinTransactions } from '@/lib/api/coin';
 import { createCheckoutSession } from '@/lib/api/stripe';
 import { useAuthGuard } from '@/lib/hooks/useAuthGuard';
@@ -22,7 +24,7 @@ export default function CoinsPage() {
     queryFn: getCoinBalance,
   });
 
-  const { data: coinItems = [] } = useQuery({
+  const { data: coinItems = [], isLoading: coinItemsLoading } = useQuery({
     queryKey: ['coin-items'],
     queryFn: getCoinItems,
   });
@@ -49,6 +51,10 @@ export default function CoinsPage() {
       toast.error('Failed to create checkout session');
     }
   };
+
+  if (balanceLoading || coinItemsLoading || transactionsLoading) {
+    return <FullPageLoading />;
+  }
 
   return (
     <Container>
@@ -97,3 +103,11 @@ export default function CoinsPage() {
     </Container>
   );
 }
+
+const CoinSkeleton = () => {
+  return (
+    <div className="flex items-center gap-2">
+      <Skeleton className="h-8 w-8 rounded-full" />
+    </div>
+  );
+};

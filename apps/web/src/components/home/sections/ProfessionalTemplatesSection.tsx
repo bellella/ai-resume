@@ -19,7 +19,7 @@ export function ProfessionalTemplatesSection() {
       <div className="pt-12">
         <TemplateSlider />
         <div className="flex justify-center pt-12">
-          <Link href="/resume/new">
+          <Link href="/resumes/new">
             <Button size="lg">Get Started</Button>
           </Link>
         </div>

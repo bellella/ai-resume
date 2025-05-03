@@ -6,7 +6,7 @@ import './style.css';
 export const styleVars: StyleVars = {
   color: 'black',
   fontSize: 14,
-  sectionSpacing: 32,
+  sectionSpacing: 18,
   fontFamily: 'Arial',
 };
 
@@ -81,7 +81,7 @@ export default function DefaultTemplate({ data }: TemplateProps) {
               <div key={i}>
                 <div className="item-title">
                   {renderOrPlaceholder(job.jobTitle, 'Your Position Title')} at{' '}
-                  {renderOrPlaceholder(job.employer, 'Company')}
+                  {renderOrPlaceholder(job.companyName, 'Company')}
                 </div>
                 <div className="item-sub">
                   {renderOrPlaceholder(job.city, 'City')},{' '}
@@ -90,9 +90,7 @@ export default function DefaultTemplate({ data }: TemplateProps) {
                   {renderOrPlaceholder(job.endDate, 'End')}
                 </div>
                 <div className="item-description">
-                  {job.achievements.split('\n').map((line, i) => (
-                    <p key={i}>{line}</p>
-                  ))}
+                  {job.achievements?.split('\n').map((line, i) => <p key={i}>{line}</p>)}
                 </div>
               </div>
             ))

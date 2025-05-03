@@ -7,6 +7,7 @@ import { ResumeDetail } from '@ai-resume/types';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useAuthGuard } from '@/lib/hooks/useAuthGuard';
+import FullPageLoading from '@/components/apps/full-page-loading';
 export default function NewResumePage({ params }: { params: { id: string } }) {
   useAuthGuard();
   const router = useRouter();
@@ -36,6 +37,10 @@ export default function NewResumePage({ params }: { params: { id: string } }) {
   const handleCreate = async (data: any) => {
     await updateResumeMutate(data);
   };
+
+  if (isLoading) {
+    return <FullPageLoading />;
+  }
 
   return <ResumeEditor onSave={handleCreate} resume={resume} isSaving={isSaving} />;
 }

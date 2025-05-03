@@ -103,9 +103,24 @@ export function PersonalInfoSection() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>EMAIL ADDRESS*</FormLabel>
+                <FormLabel>EMAIL ADDRESS</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="Enter your email" required {...field} />
+                  <Input type="email" placeholder="Enter your email" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div>
+          <FormField
+            control={form.control}
+            name="jobTitle"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>JOB TITLE</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter your job title" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

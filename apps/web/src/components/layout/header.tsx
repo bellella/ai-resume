@@ -12,7 +12,7 @@ import {
 import { useLogout } from '@/lib/hooks/use-logout';
 import { useAuthStore } from '@/lib/store/auth';
 import { cn } from '@/lib/utils';
-import { Coins, FileText, User } from 'lucide-react';
+import { Coins, Sparkles, User } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -24,9 +24,9 @@ export default function Header() {
   return (
     <header className="bg-white">
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
-        <Link href="/" className="flex items-center gap-2">
-          <FileText className="h-6 w-6" />
-          <span className="text-xl font-bold">ResumeAI</span>
+        <Link href="/" className="flex items-center gap-2 text-primary">
+          <Sparkles className="h-6 w-6" />
+          <span className="text-xl font-bold">AI Resume</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">

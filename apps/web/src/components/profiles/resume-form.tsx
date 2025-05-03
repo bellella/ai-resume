@@ -65,6 +65,7 @@ export const ResumeForm = forwardRef<ResumeFormRef, ResumeFormProps>(
       defaultValues: {
         firstName: '',
         lastName: '',
+        jobTitle: '',
         city: '',
         province: '',
         postalCode: '',
@@ -101,7 +102,7 @@ export const ResumeForm = forwardRef<ResumeFormRef, ResumeFormProps>(
       reset: (values?: ResumeJson) => {
         form.reset(values);
       },
-      getValues: () => form.getValues() as ResumeJson,
+      getValues: () => form.getValues() as unknown as ResumeJson,
     }));
 
     useEffect(() => {

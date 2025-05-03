@@ -12,7 +12,7 @@ import usePdfDownload from '@/lib/hooks/usePdfDownload';
 import { useAuthStore } from '@/lib/store/auth';
 import { ResumeDetail, ResumeJson, TemplateJson } from '@ai-resume/types';
 import { Download, Save } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import StyleSettings from './style-settings';
 import TemplateList from './template-list';
 import AIEvaluation from './ai-evaluation';
@@ -41,11 +41,12 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
     resume?.resumeJson ?? {
       firstName: '',
       lastName: '',
-      email: '',
-      phone: '',
+      jobTitle: '',
       city: '',
       province: '',
       postalCode: '',
+      phone: '',
+      email: '',
       professionalSummary: '',
       skills: [],
       workExperiences: [],
@@ -96,6 +97,15 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
     }
   };
 
+  const handleSave = async () => {
+    onSave({
+      title,
+      resumeJson: formData,
+      templateId: selectedTemplateId,
+      templateJson: styleVars,
+    });
+  };
+
   return (
     <div className="relative bg-gray-100">
       <Container>
@@ -128,7 +138,7 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
               </TabsContent>
 
               <TabsContent value="2" className={currentTab === '2' ? '' : 'hidden'} forceMount>
-                <div className="grid grid-cols-[1fr_1fr] gap-6">
+                <div className="grid grid-cols-[2fr_1fr] gap-6">
                   <div className="space-y-4">
                     <TemplateList
                       selectedTemplateId={selectedTemplateId}
@@ -176,19 +186,7 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
                   <Download className="h-4 w-4" />
                   Export PDF
                 </Button>
-                <Button
-                  size="sm"
-                  className="gap-1"
-                  onClick={() =>
-                    onSave({
-                      title,
-                      resumeJson: formData,
-                      templateId: selectedTemplateId,
-                      templateJson: styleVars,
-                    })
-                  }
-                  disabled={isSaving}
-                >
+                <Button size="sm" className="gap-1" onClick={handleSave} disabled={isSaving}>
                   <Save className="h-4 w-4" />
                   Save
                 </Button>

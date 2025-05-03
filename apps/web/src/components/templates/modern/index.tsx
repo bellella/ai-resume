@@ -22,6 +22,7 @@ export default function ModernTemplate({ data }: TemplateProps) {
     skills,
     workExperiences,
     educations,
+    jobTitle,
   } = data;
 
   const renderOrPlaceholder = (value: string, placeholder: string) =>
@@ -35,7 +36,7 @@ export default function ModernTemplate({ data }: TemplateProps) {
           {renderOrPlaceholder(firstName, 'FIRST NAME')}{' '}
           {renderOrPlaceholder(lastName, 'LAST NAME')}
         </h1>
-        <h2 className="template-role">DIRECTOR OF SOFTWARE ENGINEERING</h2>
+        <h2 className="template-role">{renderOrPlaceholder(jobTitle, 'Job Title')}</h2>
       </header>
       <div className="template-summary">
         {professionalSummary || (
@@ -93,7 +94,7 @@ export default function ModernTemplate({ data }: TemplateProps) {
               <div key={i} className="section-block">
                 <div className="section-subtitle">
                   {renderOrPlaceholder(job.jobTitle, 'Job Title')} –{' '}
-                  {renderOrPlaceholder(job.employer, 'Company')}
+                  {renderOrPlaceholder(job.companyName, 'Company')}
                 </div>
                 <div className="section-submeta">
                   {renderOrPlaceholder(job.startDate, 'Start')} -{' '}
@@ -101,9 +102,7 @@ export default function ModernTemplate({ data }: TemplateProps) {
                   {renderOrPlaceholder(`${job.city}, ${job.province}`, 'City, Province')}
                 </div>
                 <div className="section-description">
-                  {job.achievements.split('\n').map((line, i) => (
-                    <p key={i}>{line}</p>
-                  ))}
+                  {job.achievements?.split('\n').map((line, i) => <p key={i}>{line}</p>)}
                 </div>
                 {/* <ul className="description-list">
                   {job.descriptions.length > 0

@@ -11,7 +11,7 @@ export default function HomePage() {
   return (
     <div className="flex flex-col">
       <div className="relative overflow-hidden w-full">
-        <Parallax speed={70}>
+        <Parallax speed={90}>
           <SparkleBackground />
         </Parallax>
         <div className={`container relative xl:px-24 py-24`}>

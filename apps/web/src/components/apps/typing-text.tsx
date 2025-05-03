@@ -17,7 +17,7 @@ export function TypingText({ text, speed = 80 }: { text: string; speed?: number 
   }, [text, speed]);
 
   return (
-    <div className="relative">
+    <div className="relative break-words">
       <h1 className="text-transparent text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl">
         {text}|
       </h1>

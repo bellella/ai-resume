@@ -14,6 +14,7 @@ export default function CreativeTemplate({ data }: TemplateProps) {
   const {
     firstName,
     lastName,
+    jobTitle,
     email,
     phone,
     city,
@@ -88,7 +89,7 @@ export default function CreativeTemplate({ data }: TemplateProps) {
             {renderOrPlaceholder(firstName, 'First Name')}{' '}
             {renderOrPlaceholder(lastName, 'Last Name')}
           </h1>
-          <h2>Marketing Manager</h2>
+          <h2>{renderOrPlaceholder(jobTitle, 'Job Title')}</h2>
         </header>
 
         <section className="summary">
@@ -106,7 +107,7 @@ export default function CreativeTemplate({ data }: TemplateProps) {
             workExperiences.map((job, i) => (
               <div key={i} className="item">
                 <div>
-                  {renderOrPlaceholder(job.employer, 'Company')} –{' '}
+                  {renderOrPlaceholder(job.companyName, 'Company')} –{' '}
                   {renderOrPlaceholder(job.jobTitle, 'Title')}
                 </div>
                 <div className="meta">
@@ -114,9 +115,7 @@ export default function CreativeTemplate({ data }: TemplateProps) {
                   {renderOrPlaceholder(job.endDate, 'End')}
                 </div>
                 <div className="item-description">
-                  {job.achievements.split('\n').map((line, i) => (
-                    <p key={i}>{line}</p>
-                  ))}
+                  {job.achievements?.split('\n').map((line, i) => <p key={i}>{line}</p>)}
                 </div>
               </div>
             ))

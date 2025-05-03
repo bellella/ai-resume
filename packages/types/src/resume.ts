@@ -15,6 +15,7 @@ export interface CreateResumeResponse
 export type ResumeJson = {
   firstName: string;
   lastName: string;
+  jobTitle: string;
   city: string;
   province: string;
   postalCode: string;
@@ -23,8 +24,8 @@ export type ResumeJson = {
   professionalSummary: string;
   skills: string[];
   workExperiences: {
+    companyName: string;
     jobTitle: string;
-    employer: string;
     city: string;
     province: string;
     startDate: string;

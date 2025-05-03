@@ -40,7 +40,7 @@ export default function ResumePreview({ formData, template, styleVars }: ResumeP
       <CardContent className="p-0">
         <div
           ref={wrapperRef}
-          className="relative w-full max-h-[90vh] mx-auto aspect-[210/297] bg-white overflow-hidden"
+          className="relative w-full max-h-[90vh] mx-auto aspect-[210/297] bg-white overflow-y-auto overflow-x-hidden"
         >
           <div
             className="absolute top-0 left-0 origin-top-left"

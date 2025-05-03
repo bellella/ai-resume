@@ -61,3 +61,6 @@
   font-size: 0.875em;
   color: #555;
 }
+.default-template .section-title {
+  color: rgba(var(--main-color));
+}

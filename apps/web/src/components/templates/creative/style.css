@@ -62,3 +62,7 @@
   color: #aaa;
   font-style: italic;
 }
+
+.template-creative .heading {
+  color: rgba(var(--main-color));
+}

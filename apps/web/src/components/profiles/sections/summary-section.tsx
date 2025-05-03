@@ -31,6 +31,7 @@ export function SummarySection() {
     },
     onSuccess: (data) => {
       form.setValue('professionalSummary', data.result);
+      toast.success('Professional summary composed with AI');
     },
     onError: (error) => {
       toast.error('Failed to compose with AI');
@@ -43,9 +44,7 @@ export function SummarySection() {
 
   const handleConfirm = async () => {
     setOpenDialog(false);
-    const result = await mutateAsync();
-    console.log(result);
-    alert(result.result);
+    mutateAsync();
   };
 
   return (

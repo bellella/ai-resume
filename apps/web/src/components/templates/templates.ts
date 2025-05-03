@@ -70,6 +70,8 @@ export const TEMPLATES: Templates = {
   // },
 };
 
+export const TEMPLATE_LIST = Object.values(TEMPLATES);
+
 export type TemplateId = 'default' | 'modern' | 'creative'; // | 'elegant' | 'professional' | 'minimal';
 
 export type TemplateColor = keyof typeof TEMPLATE_COLORS;
@@ -110,10 +112,10 @@ export const FONT_SIZES = {
 };
 
 export const SECTION_SPACING = {
-  min: 24,
-  max: 48,
+  min: 18,
+  max: 32,
   step: 4,
-  defaultValue: 32,
+  defaultValue: 18,
 };
 
 export type Templates = {

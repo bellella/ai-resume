@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { composeWithAi } from '@/lib/api/ai';
 import { CoinConfirmDialog } from '@/components/coins/coin-confirm-dialog';
+import { toast } from 'sonner';
 
 export function WorkHistorySection() {
   const form = useFormContext();
@@ -32,6 +33,7 @@ export function WorkHistorySection() {
     },
     onSuccess: (data, index) => {
       form.setValue(`workExperiences.${index}.achievements`, data.result);
+      toast.success('Work experience composed with AI');
     },
   });
 
@@ -160,6 +162,7 @@ export function WorkHistorySection() {
                       variant="accent"
                       size="sm"
                       onClick={() => handleComposeWithAI(index)}
+                      disabled={isPending}
                     >
                       Compose with AI
                     </Button>

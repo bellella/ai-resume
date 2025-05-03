@@ -39,7 +39,6 @@ export default function LoginPage() {
 
   const handleSubmit = (data: FormValues) => {
     login(data);
-    router.push('/resumes');
   };
 
   return (

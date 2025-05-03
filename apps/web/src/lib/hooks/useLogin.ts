@@ -11,7 +11,7 @@ export const useLogin = () => {
   const { setUserInfo } = useAuthStore();
   const router = useRouter();
 
-  const { mutate: loginUser, isPending } = useMutation<LoginResponse, Error, LoginPayload>({
+  const { mutateAsync: loginUser, isPending } = useMutation<LoginResponse, Error, LoginPayload>({
     mutationFn: login,
     onSuccess: async (res) => {
       const token = res.token;

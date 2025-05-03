@@ -20,7 +20,7 @@ const Sparkle = ({
 );
 
 export function SparkleBackground() {
-  const sparkles = Array.from({ length: 100 }).map((_, i) => {
+  const sparkles = Array.from({ length: 200 }).map((_, i) => {
     const top = Math.random() * 100;
     const left = Math.random() * 100;
     const size = Math.random() * 10 + 10;

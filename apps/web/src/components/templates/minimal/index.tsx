@@ -57,7 +57,7 @@ export default function MinimalTemplate({ data }: TemplateProps) {
             {workExperiences.map((job, i) => (
               <div key={i} className="template-item">
                 <div className="template-item-title">
-                  {job.jobTitle} - {job.employer}
+                  {job.jobTitle} - {job.companyName}
                 </div>
                 <div className="template-item-sub">
                   {job.city}, {job.province} | {job.startDate} - {job.endDate}

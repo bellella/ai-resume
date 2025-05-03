@@ -3,6 +3,7 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export function UserTestimonialsSection() {
   const ref = useRef(null);
@@ -63,7 +64,10 @@ export function UserTestimonialsSection() {
                 suggestions were spot on!"
               </p>
               <div className="flex items-center space-x-2">
-                <div className="h-10 w-10 rounded-full bg-muted"></div>
+                <Avatar>
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
                 <div>
                   <p className="font-medium">User {i}</p>
                   <p className="text-sm text-muted-foreground">Software Engineer</p>

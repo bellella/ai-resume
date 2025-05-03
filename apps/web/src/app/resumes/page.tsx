@@ -1,5 +1,6 @@
 'use client';
 
+import FullPageLoading from '@/components/apps/full-page-loading';
 import ResumeCard from '@/components/resumes/resume-editor/resume-card';
 import ResumeCardSkeleton from '@/components/resumes/resume-editor/resume-card-skeleton';
 import { Button } from '@/components/ui/button';
@@ -12,14 +13,16 @@ import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
 
-export default async function ResumesPage() {
-  const { isLoading: isAuthLoading } = useAuthGuard();
-  console.log(isAuthLoading, 'autgh..')
-
+export default function ResumesPage() {
+  useAuthGuard();
   const { data: resumes, isLoading } = useQuery<ResumeItem[]>({
     queryKey: ['resumes'],
     queryFn: fetchResumes,
   });
+
+  if (isLoading) {
+    return <FullPageLoading />;
+  }
 
   return (
     <Container>
@@ -62,9 +65,7 @@ export default async function ResumesPage() {
         </div> */}
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {isLoading || isAuthLoading ? (
-            Array.from({ length: 4 }).map((_, index) => <ResumeCardSkeleton key={index} />)
-          ) : resumes && resumes.length > 0 ? (
+          {resumes && resumes.length > 0 ? (
             resumes.map((resume) => <ResumeCard resume={resume} key={resume.id} />)
           ) : (
             <div className="text-center text-muted-foreground">No resumes available.</div>
