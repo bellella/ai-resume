@@ -5,7 +5,7 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/comp
 import { Input } from '@/components/ui/input';
 import { useFormContext, useFieldArray } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
-import { Trash2, Plus } from 'lucide-react';
+import { Trash2, Plus, Car } from 'lucide-react';
 
 export function EducationHistorySection() {
   const form = useFormContext();
@@ -22,7 +22,7 @@ export function EducationHistorySection() {
       </CardHeader>
       <CardContent className="space-y-6">
         {fields.map((field, index) => (
-          <div key={field.id} className="space-y-4 p-4 border rounded-lg relative">
+          <Card key={field.id} className="space-y-4 p-4 border rounded-lg relative">
             <Button
               type="button"
               variant="ghost"
@@ -32,7 +32,7 @@ export function EducationHistorySection() {
             >
               <Trash2 className="h-4 w-4" />
             </Button>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="pt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField
                 control={form.control}
                 name={`educations.${index}.schoolName`}
@@ -116,7 +116,7 @@ export function EducationHistorySection() {
                 )}
               />
             </div>
-          </div>
+          </Card>
         ))}
         <Button
           type="button"

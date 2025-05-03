@@ -6,8 +6,9 @@ import { fetchResume, updateResume } from '@/lib/api/resume';
 import { ResumeDetail } from '@ai-resume/types';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-
+import { useAuthGuard } from '@/lib/hooks/useAuthGuard';
 export default function NewResumePage({ params }: { params: { id: string } }) {
+  useAuthGuard();
   const router = useRouter();
   const queryClient = useQueryClient();
 

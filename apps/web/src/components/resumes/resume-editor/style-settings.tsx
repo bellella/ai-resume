@@ -20,6 +20,7 @@ import {
 } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { TemplateJson } from '@ai-resume/types';
+import { Check } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 interface StyleSettingsProps {
   template: Template;
@@ -63,13 +64,14 @@ const StyleSettings: React.FC<StyleSettingsProps> = ({ template, onStyleChange, 
         {Object.values(TEMPLATE_COLORS).map((c) => (
           <div
             key={c.value}
-            className="w-8 h-8 rounded-full cursor-pointer border"
+            className="w-8 h-8 rounded-full cursor-pointer flex items-center justify-center"
             style={{
               backgroundColor: `rgb(${c.value})`,
-              border: color === c.name ? '2px solid black' : '1px solid #ccc',
             }}
             onClick={() => setColor(c.name)}
-          />
+          >
+            {color === c.name && <Check className="text-white w-4 h-4" />}
+          </div>
         ))}
       </div>
 

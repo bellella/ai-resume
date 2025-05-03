@@ -16,7 +16,7 @@ export function CTASection() {
             </p>
           </div>
           <div className="flex flex-col gap-2 min-[400px]:flex-row">
-            <Link href="/resume/new">
+            <Link href="/resumes/new">
               <Button size="lg" variant="accent" className="gap-1">
                 <FileText className="h-4 w-4" />
                 Create Resume

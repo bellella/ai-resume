@@ -8,12 +8,15 @@ import { PageHeader } from '@/components/ui/page-header';
 import { SectionHeader } from '@/components/ui/section-header';
 import { getCoinBalance, getCoinItems, getCoinTransactions } from '@/lib/api/coin';
 import { createCheckoutSession } from '@/lib/api/stripe';
+import { useAuthGuard } from '@/lib/hooks/useAuthGuard';
 import { CoinItem } from '@ai-resume/types';
 import { useQuery } from '@tanstack/react-query';
 import { Coins } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function CoinsPage() {
+  useAuthGuard();
+
   const { data: balanceData, isLoading: balanceLoading } = useQuery({
     queryKey: ['coin-balance'],
     queryFn: getCoinBalance,

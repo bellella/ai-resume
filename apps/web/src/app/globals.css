@@ -82,6 +82,8 @@
   --chart-5: #f58a2a;
 
   --radius: 0.75rem;
+
+  --content-min-height: calc(100vh - 64px);
 }
 
 
@@ -99,6 +101,9 @@
     margin-left: auto;
     padding-right: 2rem;
     padding-left: 2rem;
+  }
+  .h-content-min-height {
+    min-height: var(--content-min-height);
   }
 
 }

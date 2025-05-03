@@ -8,7 +8,7 @@ import { fetchUserInfo } from '../api/user';
 interface AuthState {
   user: UserInfo | null;
   isLoading: boolean;
-  setUserInfo: (user: UserInfo) => void;
+  setUserInfo: (user: UserInfo | null) => void;
   clearUserInfo: () => void;
   hydrateUser: () => Promise<void>;
 }
@@ -33,7 +33,7 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'auth-storage',
-      partialize: (state) => ({ user: state.user }), // isLoading is not persisted
+      partialize: (state) => ({ user: state.user }),
     }
   )
 );

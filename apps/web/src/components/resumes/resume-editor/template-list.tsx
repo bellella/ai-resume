@@ -14,8 +14,8 @@ const TemplateList: React.FC<TemplateListProps> = ({
 }) => {
   const templates = Object.values(TEMPLATES);
   return (
-    <ScrollArea className="h-[600px]">
-      <div className="grid grid-cols-2 gap-3 pr-5">
+    <ScrollArea className="h-[calc(var(--content-min-height)-180px)]">
+      <div className="grid md:grid-cols-2 gap-3 pr-5">
         {templates.map((template) => (
           <Card
             key={template.name}

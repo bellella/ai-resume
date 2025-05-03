@@ -5,8 +5,10 @@ import { createResume } from '@/lib/api/resume';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { useMutation } from '@tanstack/react-query';
+import { useAuthGuard } from '@/lib/hooks/useAuthGuard';
 
 export default function NewResumePage() {
+  useAuthGuard();
   const router = useRouter();
 
   const { mutateAsync: createResumeMutate, isPending: isSaving } = useMutation({

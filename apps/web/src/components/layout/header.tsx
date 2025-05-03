@@ -1,15 +1,25 @@
 'use client';
 
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ModeToggle } from '@/components/mode-toggle';
-import { usePathname } from 'next/navigation';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { useLogout } from '@/lib/hooks/use-logout';
+import { useAuthStore } from '@/lib/store/auth';
 import { cn } from '@/lib/utils';
-import { FileText, User, Coins } from 'lucide-react';
+import { Coins, FileText, User } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Header() {
   const pathname = usePathname();
-  const isLoggedIn = true; // This would be determined by auth state
+  const { logout } = useLogout();
+  const { user } = useAuthStore();
 
   return (
     <header className="bg-white">
@@ -20,6 +30,15 @@ export default function Header() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">
+          <Link
+            href="/"
+            className={cn(
+              'text-sm font-medium transition-colors hover:text-primary',
+              pathname.startsWith('/home') ? 'text-primary' : 'text-muted-foreground'
+            )}
+          >
+            Home
+          </Link>
           <Link
             href="/resumes"
             className={cn(
@@ -43,14 +62,26 @@ export default function Header() {
         <div className="flex items-center gap-2">
           {/* <ModeToggle /> */}
 
-          {isLoggedIn ? (
+          {user ? (
             <>
-              <Link href="/profile">
-                <Button variant="ghost" size="icon">
-                  <User className="h-5 w-5" />
-                  <span className="sr-only">Profile</span>
-                </Button>
-              </Link>
+              <div className="relative">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                      <User className="h-5 w-5" />
+                      <span className="sr-only">Profile</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>
+                      <Link href="/profile">Profile</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
               <Link href="/coins">
                 <Button variant="ghost" size="icon">
                   <Coins className="h-5 w-5" />

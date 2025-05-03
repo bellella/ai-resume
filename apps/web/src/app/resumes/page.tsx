@@ -14,6 +14,7 @@ import Link from 'next/link';
 
 export default async function ResumesPage() {
   const { isLoading: isAuthLoading } = useAuthGuard();
+  console.log(isAuthLoading, 'autgh..')
 
   const { data: resumes, isLoading } = useQuery<ResumeItem[]>({
     queryKey: ['resumes'],

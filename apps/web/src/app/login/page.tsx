@@ -1,7 +1,5 @@
 'use client';
 
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -13,11 +11,12 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Github, Twitter } from 'lucide-react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
 import { useLogin } from '@/lib/hooks/useLogin';
+import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 
 const formSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -44,7 +43,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="container flex h-screen items-center justify-center px-4 md:px-6">
+    <div className="container flex h-content-min-height items-center justify-center px-4 md:px-6">
       <div className="w-full max-w-md space-y-6">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold">Login</h1>
@@ -75,12 +74,12 @@ export default function LoginPage() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password">Password</Label>
-                  <Link
+                  {/* <Link
                     href="/forgot-password"
                     className="text-sm text-primary underline-offset-4 hover:underline"
                   >
                     Forgot password?
-                  </Link>
+                  </Link> */}
                 </div>
                 <Input id="password" type="password" {...form.register('password')} />
                 {form.formState.errors.password && (
@@ -89,20 +88,18 @@ export default function LoginPage() {
               </div>
 
               {/* Submit button */}
-              <Button className="w-full" type="submit" disabled={isPending}>
+              <Button className="w-full mt-6" type="submit" disabled={isPending}>
                 {isPending ? 'Logging in...' : 'Login'}
               </Button>
             </form>
 
-            {/* OR divider */}
-            <div className="relative flex items-center justify-center">
+            {/* <div className="relative flex items-center justify-center">
               <div className="absolute inset-0 flex items-center">
                 <span className="w-full border-t" />
               </div>
               <span className="relative bg-card px-2 text-muted-foreground text-sm">or</span>
             </div>
 
-            {/* Social login buttons */}
             <div className="grid grid-cols-2 gap-4">
               <Button variant="outline" className="w-full">
                 <Github className="mr-2 h-4 w-4" />
@@ -112,7 +109,7 @@ export default function LoginPage() {
                 <Twitter className="mr-2 h-4 w-4" />
                 Twitter
               </Button>
-            </div>
+            </div> */}
           </CardContent>
 
           {/* Footer: signup redirect */}

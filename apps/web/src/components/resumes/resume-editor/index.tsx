@@ -99,8 +99,8 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
   return (
     <div className="relative bg-gray-100">
       <Container>
-        <div className="lg:grid lg:grid-cols-[2fr_450px] gap-6">
-          <div>
+        <div className="grid grid-cols-1 lg:grid-cols-[2fr_450px] gap-6">
+          <div className="order-2 lg:order-1">
             <Input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -128,21 +128,19 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
               </TabsContent>
 
               <TabsContent value="2" className={currentTab === '2' ? '' : 'hidden'} forceMount>
-                <div className="space-y-6">
-                  <div className="grid grid-cols-[2fr_1fr] gap-6">
-                    <div className="space-y-4">
-                      <TemplateList
-                        selectedTemplateId={selectedTemplateId}
-                        setSelectedTemplateId={setSelectedTemplateId}
-                      />
-                    </div>
-                    <div>
-                      <StyleSettings
-                        template={template}
-                        templateJson={styleVars}
-                        onStyleChange={setStyleVars}
-                      />
-                    </div>
+                <div className="grid grid-cols-[1fr_1fr] gap-6">
+                  <div className="space-y-4">
+                    <TemplateList
+                      selectedTemplateId={selectedTemplateId}
+                      setSelectedTemplateId={setSelectedTemplateId}
+                    />
+                  </div>
+                  <div>
+                    <StyleSettings
+                      template={template}
+                      templateJson={styleVars}
+                      onStyleChange={setStyleVars}
+                    />
                   </div>
                 </div>
               </TabsContent>
@@ -158,7 +156,7 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
             </Tabs>
           </div>
 
-          <div className="sticky top-4 h-0">
+          <div className="lg:sticky top-4 lg:h-0 order-1 lg:order-2">
             <div className="flex justify-end gap-3 p-3">
               <ActionButtons>
                 <Button
