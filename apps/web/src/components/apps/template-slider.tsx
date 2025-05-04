@@ -3,23 +3,23 @@
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { Template, TEMPLATE_LIST } from '../templates/templates';
-import { Card, CardContent } from '../ui/card';
+import { Card } from '../ui/card';
+
 export function TemplateSlider() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [offset, setOffset] = useState(0);
-
+  const speed = 1;
+  const slidesNumber = 3;
   useEffect(() => {
     let animationFrame: number;
-    const speed = 1; // px per frame
 
     const animate = () => {
       setOffset((prev) => {
         const container = containerRef.current;
-        const firstChild = container?.children[0] as HTMLElement;
+        const totalWidth = container?.scrollWidth || 0;
 
-        if (firstChild && -prev >= firstChild.offsetWidth) {
-          container?.appendChild(firstChild);
-          return prev + firstChild.offsetWidth;
+        if (Math.abs(prev) >= totalWidth / slidesNumber) {
+          return 0;
         }
 
         return prev - speed;
@@ -37,14 +37,16 @@ export function TemplateSlider() {
       <div
         ref={containerRef}
         className="flex gap-6"
-        style={{ transform: `translateX(${offset}px)` }}
+        style={{
+          transform: `translateX(${offset}px)`,
+          transition: 'transform 0.016s linear',
+        }}
       >
-        {TEMPLATE_LIST.map((template, idx) => (
-          <TemplateExampleCard key={idx} template={template} />
-        ))}
-        {TEMPLATE_LIST.map((template, idx) => (
-          <TemplateExampleCard key={idx + 2} template={template} />
-        ))}
+        {Array.from({ length: slidesNumber }, (_, idx) =>
+          TEMPLATE_LIST.map((template, idx) => (
+            <TemplateExampleCard key={idx} template={template} />
+          ))
+        )}
       </div>
     </div>
   );
@@ -52,7 +54,7 @@ export function TemplateSlider() {
 
 function TemplateExampleCard({ template }: { template: Template }) {
   return (
-    <Card className="rounded-sm overflow-hidden">
+    <Card className="rounded-sm overflow-hidden flex-shrink-0 w-48">
       <Image
         src={template.thumbnail}
         alt={template.name}

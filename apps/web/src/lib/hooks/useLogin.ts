@@ -9,23 +9,17 @@ import { useRouter } from 'next/navigation';
 
 export const useLogin = () => {
   const { setUserInfo } = useAuthStore();
-  const router = useRouter();
 
   const { mutateAsync: loginUser, isPending } = useMutation<LoginResponse, Error, LoginPayload>({
     mutationFn: login,
     onSuccess: async (res) => {
       const token = res.token;
       if (token) {
-        // 1. Store token (ex: localStorage)
         localStorage.setItem('access_token', token);
 
         try {
-          // 2. Fetch user profile
           const userRes = await fetchUserInfo();
           setUserInfo(userRes);
-
-          // 3. Redirect
-          router.replace('/profile');
         } catch (err) {
           console.error('Failed to fetch user profile:', err);
         }

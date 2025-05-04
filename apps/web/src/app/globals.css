@@ -84,9 +84,16 @@
   --radius: 0.75rem;
 
   --content-min-height: calc(100vh - 64px);
+
+  --sidebar: #ffffff;
+  --sidebar-foreground: hsl(240 5.3% 26.1%);
+  --sidebar-primary: hsl(240 5.9% 10%);
+  --sidebar-primary-foreground: hsl(0 0% 98%);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--accent-foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
 }
-
-
 
 @layer base {
   * {
@@ -106,4 +113,13 @@
     min-height: var(--content-min-height);
   }
 
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }

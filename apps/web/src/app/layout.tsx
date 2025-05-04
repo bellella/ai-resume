@@ -5,6 +5,7 @@ import { Providers } from './providers';
 import Header from '@/components/layout/header';
 import { AuthHydration } from '@/components/apps/auth-hydration';
 import { Toaster } from '@/components/ui/toaster';
+import { AppSidebar } from '@/components/layout/sidebar';
 
 const inter = Open_Sans({ subsets: ['latin'] });
 
@@ -17,13 +18,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={inter.className}>
+        <AuthHydration />
         <Providers>
-          <AuthHydration />
-          <div className="min-h-screen flex flex-col">
-            <Header />
-            <main className="flex-1">{children}</main>
+          <div className="w-full">
+            <div className="min-h-screen flex flex-col">
+              <AppSidebar />
+              <Header />
+              <main className="flex-1">{children}</main>
+            </div>
+            <Toaster />
           </div>
-          <Toaster />
         </Providers>
       </body>
     </html>

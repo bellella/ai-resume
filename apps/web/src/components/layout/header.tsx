@@ -16,6 +16,7 @@ import { Coins, Sparkles, User } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import { SidebarTrigger } from '../ui/sidebar';
 export default function Header() {
   const pathname = usePathname();
   const { logout } = useLogout();
@@ -24,7 +25,8 @@ export default function Header() {
   return (
     <header className="bg-white">
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
-        <Link href="/" className="flex items-center gap-2 text-primary">
+        <SidebarTrigger className="md:hidden" />
+        <Link href="/" className="hidden md:flex items-center gap-2 text-primary">
           <Sparkles className="h-6 w-6" />
           <span className="text-xl font-bold">AI Resume</span>
         </Link>

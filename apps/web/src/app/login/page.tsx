@@ -12,10 +12,13 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useLogin } from '@/lib/hooks/useLogin';
+import { useAuthStore } from '@/lib/store/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import * as z from 'zod';
 
 const formSchema = z.object({
@@ -28,6 +31,13 @@ type FormValues = z.infer<typeof formSchema>;
 export default function LoginPage() {
   const router = useRouter();
   const { login, isPending } = useLogin();
+  const { user } = useAuthStore();
+
+  useEffect(() => {
+    if (user) {
+      router.push('/profile');
+    }
+  }, [user, router]);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -37,8 +47,10 @@ export default function LoginPage() {
     },
   });
 
-  const handleSubmit = (data: FormValues) => {
-    login(data);
+  const handleSubmit = async (data: FormValues) => {
+    await login(data);
+    toast.success('Login successful');
+    router.push('/profile');
   };
 
   return (
