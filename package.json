@@ -26,7 +26,6 @@
     "packages/*"
   ],
   "dependencies": {
-    "@nestjs/swagger": "^11.1.5",
-    "swagger-ui-express": "^5.0.1"
+    "mongodb": "^6.16.0"
   }
 }
