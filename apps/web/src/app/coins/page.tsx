@@ -1,6 +1,6 @@
 'use client';
 
-import FullPageLoading from '@/components/apps/full-page-loading';
+import FullPageLoading from '@/components/home/sections/elements/full-page-loading';
 import { CoinCard } from '@/components/coins/coin-card';
 import TransactionList from '@/components/coins/transaction-list';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,7 +10,7 @@ import { SectionHeader } from '@/components/ui/section-header';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getCoinBalance, getCoinItems, getCoinTransactions } from '@/lib/api/coin';
 import { createCheckoutSession } from '@/lib/api/stripe';
-import { useAuthGuard } from '@/lib/hooks/useAuthGuard';
+import { useAuthGuard } from '@/lib/hooks/use-auth-guard';
 import { CoinItem } from '@ai-resume/types';
 import { useQuery } from '@tanstack/react-query';
 import { Coins } from 'lucide-react';

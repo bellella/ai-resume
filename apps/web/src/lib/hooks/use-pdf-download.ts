@@ -45,7 +45,7 @@ function usePdfDownload() {
 
   const downloadPdfMutation = useMutation({
     mutationFn: async ({ fullHtml }: { fullHtml: string }) => {
-      const blob = await generatePdf(fullHtml);
+      const blob = await generatePdf({ html: fullHtml });
       return blob as Blob;
     },
     onSuccess: (blob) => {

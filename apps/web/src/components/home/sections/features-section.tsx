@@ -5,7 +5,7 @@ import { motion, useInView } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-export function UserTestimonialsSection() {
+export function FeaturesSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: false, margin: '-100px' });
 
@@ -14,10 +14,10 @@ export function UserTestimonialsSection() {
       <div className="flex flex-col items-center justify-center space-y-4 text-center">
         <div className="space-y-2">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            What Our Users Say
+            Features Section
           </h2>
           <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-            Thousands of job seekers have found success with our platform.
+            Explore the features that make our platform unique.
           </p>
         </div>
       </div>
@@ -37,15 +37,15 @@ export function UserTestimonialsSection() {
                     animate={
                       isInView
                         ? {
-                            scale: 1,
-                            opacity: 1,
-                            transition: {
-                              delay: starIndex * 0.1,
-                              type: 'spring',
-                              stiffness: 300,
-                              damping: 20,
-                            },
-                          }
+                          scale: 1,
+                          opacity: 1,
+                          transition: {
+                            delay: starIndex * 0.1,
+                            type: 'spring',
+                            stiffness: 300,
+                            damping: 20,
+                          },
+                        }
                         : {}
                     }
                     xmlns="http://www.w3.org/2000/svg"
@@ -60,8 +60,7 @@ export function UserTestimonialsSection() {
                 ))}
               </div>
               <p className="text-muted-foreground">
-                "ResumeAI helped me create a professional resume that landed me my dream job. The AI
-                suggestions were spot on!"
+                "The features offered by this platform are unparalleled."
               </p>
               <div className="flex items-center space-x-2">
                 <Avatar>
@@ -70,7 +69,7 @@ export function UserTestimonialsSection() {
                 </Avatar>
                 <div>
                   <p className="font-medium">User {i}</p>
-                  <p className="text-sm text-muted-foreground">Software Engineer</p>
+                  <p className="text-sm text-muted-foreground">UX Designer</p>
                 </div>
               </div>
             </CardContent>
@@ -79,4 +78,4 @@ export function UserTestimonialsSection() {
       </div>
     </section>
   );
-}
+} 

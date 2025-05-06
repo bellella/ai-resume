@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { TemplateSlider } from '@/components/apps/template-slider';
+import { TemplateSlider } from './elements/template-slider';
 
-export function ProfessionalTemplatesSection() {
+export function TemplateSection() {
   return (
     <div className="py-12 md:py-24 lg:py-28">
       <div className="flex flex-col items-center justify-center space-y-4 text-center">

@@ -1,10 +1,10 @@
-import { Parallax } from '@/components/apps/parallax';
-import { SparkleBackground } from '@/components/apps/sparkle-background';
-import { CTASection } from '@/components/home/sections/CTASection';
-import { FeaturesSection } from '@/components/home/sections/FeaturesSection';
-import { HeroSection } from '@/components/home/sections/HeroSection';
-import { ProfessionalTemplatesSection } from '@/components/home/sections/ProfessionalTemplatesSection';
-import { UserTestimonialsSection } from '@/components/home/sections/UserTestimonialsSection';
+import { Parallax } from '@/components/home/sections/elements/parallax';
+import { SparkleBackground } from '@/components/home/sections/elements/sparkle-background';
+import { CTASection } from '@/components/home/sections/cta-section';
+import { FeaturesSection } from '@/components/home/sections/features-section';
+import { HeroSection } from '@/components/home/sections/hero-section';
+import { TemplateSection } from '@/components/home/sections/template-section';
+import { UserReviewSection } from '@/components/home/sections/user-review-section';
 
 export default function HomePage() {
   const sectionPadding = 'py-6 md:py-12 lg:py-24';
@@ -21,10 +21,10 @@ export default function HomePage() {
           <FeaturesSection />
         </section>
         <section className={`relative ${sectionPadding} `}>
-          <ProfessionalTemplatesSection />
+          <TemplateSection />
         </section>
         <section className={`container relative ${sectionPadding} px-4 md:px-6`}>
-          <UserTestimonialsSection />
+          <UserReviewSection />
         </section>
         <section className="w-full bg-primary text-primary-foreground">
           <CTASection />

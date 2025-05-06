@@ -5,7 +5,7 @@ import { createResume } from '@/lib/api/resume';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { useMutation } from '@tanstack/react-query';
-import { useAuthGuard } from '@/lib/hooks/useAuthGuard';
+import { useAuthGuard } from '@/lib/hooks/use-auth-guard';
 
 export default function NewResumePage() {
   useAuthGuard();

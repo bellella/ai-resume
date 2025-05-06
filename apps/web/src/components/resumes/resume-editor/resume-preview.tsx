@@ -1,16 +1,16 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { ResumeJson } from '@ai-resume/types';
-import { StyleVars, Template, TEMPLATE_COLORS } from './templates/templates';
+import { StyleVars, Template, TEMPLATE_COLORS } from '../../templates/templates';
 
 interface ResumePreviewProps {
-  formData: ResumeJson;
+  resumeJson: ResumeJson;
   template: Template;
   styleVars: StyleVars;
 }
 
 import { useEffect, useRef, useState } from 'react';
 
-export default function ResumePreview({ formData, template, styleVars }: ResumePreviewProps) {
+export default function ResumePreview({ resumeJson, template, styleVars }: ResumePreviewProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
   const SelectedTemplateComponent = template.component;
@@ -61,8 +61,8 @@ export default function ResumePreview({ formData, template, styleVars }: ResumeP
                 }
               `}
               </style>
-              {formData && SelectedTemplateComponent ? (
-                <SelectedTemplateComponent data={formData} />
+              {resumeJson && SelectedTemplateComponent ? (
+                <SelectedTemplateComponent data={resumeJson} />
               ) : (
                 <div className="text-muted-foreground">Select a template to preview</div>
               )}

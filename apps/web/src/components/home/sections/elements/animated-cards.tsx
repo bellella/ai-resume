@@ -4,7 +4,7 @@ import { Clock, Zap } from 'lucide-react';
 
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
-import { Card, CardContent } from '../ui/card';
+import { Card, CardContent } from '../../../ui/card';
 
 const cardVariants = {
   hidden: { opacity: 0, scale: 0.8 },

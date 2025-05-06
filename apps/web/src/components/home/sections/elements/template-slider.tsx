@@ -2,8 +2,8 @@
 
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
-import { Template, TEMPLATE_LIST } from '../templates/templates';
-import { Card } from '../ui/card';
+import { Template, TEMPLATE_LIST } from '../../../templates/templates';
+import { Card } from '../../../ui/card';
 
 export function TemplateSlider() {
   const containerRef = useRef<HTMLDivElement>(null);

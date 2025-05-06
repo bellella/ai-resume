@@ -6,8 +6,8 @@ import { fetchUserInfo } from '@/lib/api/user';
 import { useAuthStore } from '@/lib/store/auth';
 import { useRouter } from 'next/navigation';
 import type {
-  SignupPayload,
-  LoginPayload,
+  SignupRequest,
+  LoginRequest,
   ApiResponse,
   LoginResponse,
   UserInfo,
@@ -24,13 +24,13 @@ export const useSignup = () => {
   const { setUserInfo } = useAuthStore();
   const router = useRouter();
 
-  const { mutate: signupUser, isPending } = useMutation<void, Error, SignupPayload>({
+  const { mutate: signupUser, isPending } = useMutation<void, Error, SignupRequest>({
     mutationFn: async (payload) => {
       // 1. Send signup request
       await signup(payload);
 
       // 2. Automatically login after successful signup
-      const loginPayload: LoginPayload = {
+      const loginPayload: LoginRequest = {
         email: payload.email,
         password: payload.password,
       };

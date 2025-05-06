@@ -6,7 +6,7 @@ import { Container } from '@/components/ui/container';
 import { PageHeader } from '@/components/ui/page-header';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useAuthGuard } from '@/lib/hooks/useAuthGuard';
+import { useAuthGuard } from '@/lib/hooks/use-auth-guard';
 
 function PersonalInfoSkeleton() {
   return (

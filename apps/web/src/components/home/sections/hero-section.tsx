@@ -1,8 +1,8 @@
-import { TypingText } from '@/components/apps/typing-text';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FileText, Sparkles } from 'lucide-react';
 import Link from 'next/link';
+import { TypingText } from './elements/typing-text';
 
 export function HeroSection() {
   return (

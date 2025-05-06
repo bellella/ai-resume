@@ -1,25 +1,24 @@
 'use client';
 
-import { ResumeForm, ResumeFormRef } from '@/components/profiles/resume-form';
-import ResumePreview from '@/components/ResumePreview';
+import { ResumeForm, ResumeFormRef } from '@/components/forms/resume-form';
 import TEMPLATES, { StyleVars, TemplateId } from '@/components/templates/templates';
 import { ActionButtons } from '@/components/ui/action-buttons';
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import usePdfDownload from '@/lib/hooks/usePdfDownload';
+import { evaluateResume } from '@/lib/api/ai';
+import usePdfDownload from '@/lib/hooks/use-pdf-download';
 import { useAuthStore } from '@/lib/store/auth';
-import { ResumeDetail, ResumeJson, TemplateJson } from '@ai-resume/types';
+import { AiEvaluationData, ResumeDetail, ResumeJson, TemplateJson } from '@ai-resume/types';
+import { useMutation } from '@tanstack/react-query';
 import { Download, Save } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import { toast } from 'sonner';
+import AIEvaluation from './ai-evaluation';
+import ResumePreview from './resume-preview';
 import StyleSettings from './style-settings';
 import TemplateList from './template-list';
-import AIEvaluation from './ai-evaluation';
-import { evaluateResume } from '@/lib/api/ai';
-import { AiEvaluationData } from '@ai-resume/types';
-import { toast } from 'sonner';
-import { useMutation, useMutationState } from '@tanstack/react-query';
 interface ResumeEditorProps {
   resume?: ResumeDetail;
   isSaving?: boolean;
@@ -37,7 +36,7 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
   const [evaluation, setEvaluation] = useState<AiEvaluationData | null>(
     resume?.aiEvaluation ?? null
   );
-  const [formData, setFormData] = useState<ResumeJson>(
+  const [resumeJson, setResumeJson] = useState<ResumeJson>(
     resume?.resumeJson ?? {
       firstName: '',
       lastName: '',
@@ -70,7 +69,7 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
     if (user?.defaultResumeJson) {
       const defaultResume = user.defaultResumeJson as ResumeJson;
       formRef.current?.reset(defaultResume);
-      setFormData(defaultResume);
+      setResumeJson(defaultResume);
     }
   };
 
@@ -100,7 +99,7 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
   const handleSave = async () => {
     onSave({
       title,
-      resumeJson: formData,
+      resumeJson,
       templateId: selectedTemplateId,
       templateJson: styleVars,
     });
@@ -134,7 +133,7 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
               </TabsList>
 
               <TabsContent value="1" className={currentTab === '1' ? '' : 'hidden'} forceMount>
-                <ResumeForm ref={formRef} onChange={setFormData} defaultValues={formData} />
+                <ResumeForm ref={formRef} onChange={setResumeJson} defaultValues={resumeJson} />
               </TabsContent>
 
               <TabsContent value="2" className={currentTab === '2' ? '' : 'hidden'} forceMount>
@@ -192,7 +191,7 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
                 </Button>
               </ActionButtons>
             </div>
-            <ResumePreview formData={formData} template={template} styleVars={styleVars} />
+            <ResumePreview resumeJson={resumeJson} template={template} styleVars={styleVars} />
           </div>
         </div>
       </Container>

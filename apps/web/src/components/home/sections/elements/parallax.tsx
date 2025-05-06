@@ -20,7 +20,7 @@ export function Parallax({
   const rawY = useTransform(scrollYProgress, [0, 1], [0, speed]);
 
   const smoothY = useSpring(rawY, {
-    stiffness: 1000,
+    stiffness: 500,
     damping: 50,
     mass: 0.5,
   });
