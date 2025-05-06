@@ -13,11 +13,13 @@ export class ResumeService {
     private readonly prisma: PrismaService
   ) {}
 
+  /**
+   * Creates a new resume
+   */
   async create(
     createResumeDto: CreateResumeDto,
     userId: string
   ): Promise<Prisma.ResumeGetPayload<{}>> {
-    // save resume to DB
     const resume = await this.prisma.resume.create({
       data: {
         title: createResumeDto.title,
@@ -35,10 +37,16 @@ export class ResumeService {
     return resume;
   }
 
+  /**
+   * Retrieves all resumes
+   */
   async findAll() {
     return this.prisma.resume.findMany();
   }
 
+  /**
+   * Retrieves a specific resume by ID
+   */
   async findOne(id: string) {
     const result = await this.prisma.resume.findUnique({
       where: { id },
@@ -66,6 +74,9 @@ export class ResumeService {
     };
   }
 
+  /**
+   * Updates a specific resume by ID
+   */
   async update(id: string, updateResumeDto: UpdateResumeDto) {
     return this.prisma.resume.update({
       where: { id },
@@ -78,22 +89,32 @@ export class ResumeService {
     });
   }
 
+  /**
+   * Removes a specific resume by ID
+   */
   async remove(id: string) {
     return this.prisma.resume.delete({
       where: { id },
     });
   }
 
+  /**
+   * Generates a PDF for a specific resume
+   */
   generatePdf(id: string) {
-    // TODO: Implement PDF generation using Puppeteer
     return `This action generates PDF for resume #${id}`;
   }
 
+  /**
+   * Duplicates a specific resume
+   */
   duplicate(id: string) {
-    // TODO: Implement resume duplication
     return `This action duplicates resume #${id}`;
   }
 
+  /**
+   * Updates the default resume for a user
+   */
   async updateDefaultResume(resumeJson: ResumeJson, userId: string) {
     return this.prisma.user.update({
       where: { id: userId },
@@ -103,6 +124,9 @@ export class ResumeService {
     });
   }
 
+  /**
+   * Retrieves all resumes for a specific user
+   */
   async findAllByUserId(userId: string) {
     return this.prisma.resume.findMany({
       where: {

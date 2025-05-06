@@ -13,6 +13,9 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 export class ResumeController {
   constructor(private readonly resumeService: ResumeService) {}
 
+  /**
+   * Creates a new resume for the authenticated user.
+   */
   @Post()
   @UseGuards(JwtAuthGuard)
   async create(
@@ -22,24 +25,36 @@ export class ResumeController {
     return this.resumeService.create(createResumeDto, req.user.id);
   }
 
+  /**
+   * Retrieves all resumes.
+   */
   @Get()
   @UseGuards(JwtAuthGuard)
   findAll() {
     return this.resumeService.findAll();
   }
 
+  /**
+   * Retrieves all resumes for the authenticated user.
+   */
   @Get('user')
   @UseGuards(JwtAuthGuard)
   findAllByUserId(@Req() req: RequestWithUser) {
     return this.resumeService.findAllByUserId(req.user.id);
   }
 
+  /**
+   * Retrieves a specific resume by ID.
+   */
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   findOne(@Param('id') id: string) {
     return this.resumeService.findOne(id);
   }
 
+  /**
+   * Updates the default resume for the authenticated user.
+   */
   @Patch('default')
   @UseGuards(JwtAuthGuard)
   async updateDefaultResume(
@@ -52,24 +67,36 @@ export class ResumeController {
     );
   }
 
+  /**
+   * Updates a specific resume by ID.
+   */
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
   update(@Param('id') id: string, @Body() updateResumeDto: UpdateResumeDto) {
     return this.resumeService.update(id, updateResumeDto);
   }
 
+  /**
+   * Removes a specific resume by ID.
+   */
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
     return this.resumeService.remove(id);
   }
 
+  /**
+   * Generates a PDF for a specific resume by ID.
+   */
   @Post(':id/pdf')
   @UseGuards(JwtAuthGuard)
   generatePdf(@Param('id') id: string) {
     return this.resumeService.generatePdf(id);
   }
 
+  /**
+   * Duplicates a specific resume by ID.
+   */
   @Post(':id/duplicate')
   @UseGuards(JwtAuthGuard)
   duplicate(@Param('id') id: string) {

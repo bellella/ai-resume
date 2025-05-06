@@ -1,9 +1,15 @@
 import { Prisma } from '@ai-resume/db';
 
+/**
+ * Response for coin balance
+ * */
 export interface CoinBalanceResponse {
   coins: number;
 }
 
+/**
+ * Represents a transaction item
+ * */
 export interface TransactionItem {
   id: string;
   type: 'CHARGE' | 'USAGE' | 'REFUND';
@@ -15,11 +21,17 @@ export interface TransactionItem {
   meta?: any;
 }
 
+/**
+ * Response for using coins
+ * */
 export interface UseCoinResponse {
   success: boolean;
   remainingCoins: number;
 }
 
+/**
+ * Represents a coin item with selected fields
+ * */
 export type CoinItem = Prisma.CoinItemGetPayload<{
   select: {
     id: true;

@@ -23,16 +23,25 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  /**
+   * Retrieves the user information for the currently authenticated user.
+   */
   @Get('me')
   getUserInfo(@Req() req: RequestWithUser): Promise<UserInfo> {
     return this.usersService.getUserInfo(req.user.id);
   }
 
+  /**
+   * Updates the profile of the currently authenticated user.
+   */
   @Put('me')
   updateProfile(@Body() updateUserDto: UpdateUserDto) {
     return this.usersService.updateProfile(updateUserDto);
   }
 
+  /**
+   * Uploads a profile image for the currently authenticated user.
+   */
   @Post('me/image')
   @UseInterceptors(FileInterceptor('file'))
   uploadProfileImage(@UploadedFile() file: any) {

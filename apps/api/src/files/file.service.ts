@@ -3,6 +3,9 @@ import * as puppeteer from 'puppeteer';
 
 @Injectable()
 export class FilesService {
+  /**
+   * Generates a PDF from HTML content
+   */
   async generatePdfFromHtml(bodyContent: string): Promise<Buffer> {
     const html = this.wrapHtml(bodyContent);
 
@@ -24,6 +27,9 @@ export class FilesService {
     return Buffer.from(pdfBuffer);
   }
 
+  /**
+   * Wraps HTML content with a basic HTML structure
+   */
   private wrapHtml(body: string): string {
     return `
       <!DOCTYPE html>

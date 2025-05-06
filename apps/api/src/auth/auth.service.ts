@@ -13,6 +13,9 @@ export class AuthService {
     private prisma: PrismaService
   ) {}
 
+  /**
+   * Registers a new user.
+   */
   async signup(signupDto: SignupDto) {
     const { email, password, name } = signupDto;
 
@@ -52,6 +55,9 @@ export class AuthService {
     };
   }
 
+  /**
+   * Authenticates a user and generates a JWT token.
+   */
   async login(loginDto: LoginDto) {
     const { email, password } = loginDto;
     // Find user

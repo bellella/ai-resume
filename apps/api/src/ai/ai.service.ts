@@ -13,6 +13,9 @@ export class AiService {
     private readonly coinService: CoinService
   ) {}
 
+  /**
+   * Retrieves the latest AI evaluation for a resume
+   */
   async getEvaluation(resumeId: string) {
     return this.prisma.aiEvaluation.findFirst({
       where: { resumeId },
@@ -20,6 +23,9 @@ export class AiService {
     });
   }
 
+  /**
+   * Evaluates a resume using AI and deducts coins from the user
+   */
   async evaluateResumeWithAi(resumeId: string, userId: string) {
     const price = 1;
     return await this.prisma.$transaction(async (tx) => {
@@ -62,6 +68,9 @@ export class AiService {
     });
   }
 
+  /**
+   * Builds a prompt for AI to evaluate a resume
+   */
   private buildEvaluationPrompt(resume: any): string {
     return `
   You are an expert resume reviewer.
@@ -79,6 +88,9 @@ export class AiService {
     `.trim();
   }
 
+  /**
+   * Parses the AI response into a structured format
+   */
   private parseResponse(responseText: string): {
     score: number;
     summary: string;
@@ -110,6 +122,9 @@ export class AiService {
     }
   }
 
+  /**
+   * Composes a section of a resume using AI and deducts coins from the user
+   */
   async composeSectionWithAi(
     type: GenerateSectionType,
     userId: string,
@@ -141,6 +156,9 @@ export class AiService {
     });
   }
 
+  /**
+   * Builds a prompt for AI to compose a resume section
+   */
   private buildSectionPrompt(
     type: GenerateSectionType,
     text: string,
@@ -174,6 +192,9 @@ ${JSON.stringify(otherInfo, null, 2)}
 `.trim();
   }
 
+  /**
+   * Sends a prompt to the AI chat model and returns the response
+   */
   async chat(prompt: string) {
     const res = await this.openai.chat.completions.create({
       model: 'gpt-4o-mini',

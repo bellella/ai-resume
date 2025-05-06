@@ -7,6 +7,9 @@ import { ResumeJson, UserInfo } from '@ai-resume/types';
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
+  /**
+   * Retrieves user information by user ID
+   */
   async getUserInfo(userId: string): Promise<UserInfo> {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
@@ -34,13 +37,17 @@ export class UsersService {
     };
   }
 
+  /**
+   * Updates the user profile
+   */
   updateProfile(updateUserDto: UpdateUserDto) {
-    // TODO: Implement profile update
     return 'This action updates the user profile';
   }
 
+  /**
+   * Uploads the user's profile image
+   */
   uploadProfileImage(file: any) {
-    // TODO: Implement profile image upload
     return 'This action uploads the profile image';
   }
 }

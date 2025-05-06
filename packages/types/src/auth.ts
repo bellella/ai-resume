@@ -1,9 +1,9 @@
 import { UserInfo } from './user';
 
 /**
- * Payload for user signup
+ * Request for user signup
  */
-export interface SignupPayload {
+export interface SignupRequest {
   name: string;
   email: string;
   password: string;
@@ -18,9 +18,9 @@ export interface SignupResponse {
 }
 
 /**
- * Payload for user login
+ * Request for user login
  */
-export interface LoginPayload {
+export interface LoginRequest {
   email: string;
   password: string;
 }

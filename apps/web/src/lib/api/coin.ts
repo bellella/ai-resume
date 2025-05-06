@@ -27,7 +27,7 @@ export const useCoins = async (data: { purchasableItemId: string }): Promise<Use
 };
 
 /**
- * Get coin items
+ * Get purchasable coin items
  */
 export const getCoinItems = async (): Promise<CoinItem[]> => {
   return await api.get('api/coins/items').json();

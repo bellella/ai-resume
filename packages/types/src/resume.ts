@@ -1,10 +1,16 @@
 import { Prisma } from '@ai-resume/db';
 
+/**
+ * Payload for creating a resume
+ * */
 export interface CreateResumePayload {
   title: string;
   resumeJson: ResumeJson;
 }
 
+/**
+ * Response for creating a resume
+ * */
 export interface CreateResumeResponse
   extends Prisma.ResumeGetPayload<{
     select: {
@@ -12,6 +18,9 @@ export interface CreateResumeResponse
     };
   }> {}
 
+/**
+ * JSON structure for a resume
+ * */
 export type ResumeJson = {
   firstName: string;
   lastName: string;
@@ -49,12 +58,14 @@ export type ResumeJson = {
 //   sectionSpacing: number;
 //   fontFamily: string;
 // }
+/** * JSON structure for a template */
 export type TemplateJson = {
   color: string;
   fontSize: number;
   sectionSpacing: number;
   fontFamily: string;
 };
+/** * Represents a resume item with selected fields */
 export interface ResumeItem
   extends Prisma.ResumeGetPayload<{
     select: {
@@ -68,6 +79,9 @@ export interface ResumeItem
     };
   }> {}
 
+/**
+ * Detailed information about a resume
+ * */
 export interface ResumeDetail
   extends Prisma.ResumeGetPayload<{
     select: {

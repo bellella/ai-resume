@@ -8,11 +8,17 @@ import { LoginResponse, SignupResponse } from '@ai-resume/types';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  /**
+   * Handles user login.
+   */
   @Post('login')
   login(@Body() loginDto: LoginDto): Promise<LoginResponse> {
     return this.authService.login(loginDto);
   }
 
+  /**
+   * Handles user signup.
+   */
   @Post('signup')
   signup(@Body() signupDto: SignupDto): Promise<SignupResponse> {
     return this.authService.signup(signupDto);

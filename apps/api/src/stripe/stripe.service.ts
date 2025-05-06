@@ -16,8 +16,11 @@ export class StripeService {
     });
   }
 
-  // Create a checkout session for purchasing coins
+  /**
+   * Creates a checkout session for purchasing coins
+   */
   async createCheckoutSession(priceId: string, coinItemId: string, userId: string) {
+    // Creates a checkout session for purchasing coins
     const session = await this.stripe.checkout.sessions.create({
       mode: 'payment',
       payment_method_types: ['card'], // Only allow card payments
@@ -38,8 +41,11 @@ export class StripeService {
     return session.url;
   }
 
-  // Handle Stripe webhook events
+  /**
+   * Handles Stripe webhook events
+   */
   async handleWebhook(rawBody: Buffer, signature: string) {
+    // Handles Stripe webhook events
     const endpointSecret = this.configService.get<string>('STRIPE_WEBHOOK_SECRET');
     let event: Stripe.Event;
     try {

@@ -7,7 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { TemplatesModule } from './templates/templates.module';
-import { FilesModule } from './files/files.module';
+import { FileModule } from './files/file.module';
 import { ConfigModule } from '@nestjs/config';
 import { StripeModule } from './stripe/stripe.module';
 import { AiModule } from './ai/ai.module';
@@ -17,7 +17,7 @@ import { AiModule } from './ai/ai.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    FilesModule,
+    FileModule,
     PrismaModule,
     ResumeModule,
     CoinModule,

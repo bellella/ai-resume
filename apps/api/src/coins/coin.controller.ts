@@ -11,7 +11,7 @@ export class CoinController {
   constructor(private readonly coinService: CoinService) {}
 
   /**
-   * Get user's current coin balance
+   * Retrieves the current coin balance for the authenticated user.
    */
   @Get('balance')
   async getBalance(@Req() req: RequestWithUser) {
@@ -20,7 +20,7 @@ export class CoinController {
   }
 
   /**
-   * Get user's transaction history (coin usage & purchases)
+   * Retrieves the transaction history for the authenticated user, including coin usage and purchases.
    */
   @Get('transactions')
   async getTransactions(@Req() req: RequestWithUser) {
@@ -28,6 +28,9 @@ export class CoinController {
     return this.coinService.getTransactions(userId);
   }
 
+  /**
+   * Retrieves the list of available coin items.
+   */
   @Get('items')
   async getCoinItems() {
     return this.coinService.getCoinItems();

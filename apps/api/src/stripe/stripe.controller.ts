@@ -21,6 +21,9 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 export class StripeController {
   constructor(private readonly stripeService: StripeService) {}
 
+  /**
+   * Creates a checkout session for the authenticated user.
+   */
   @Post('checkout-session')
   @UseGuards(JwtAuthGuard)
   async createCheckoutSession(
@@ -33,6 +36,9 @@ export class StripeController {
     return res.json({ url });
   }
 
+  /**
+   * Handles incoming Stripe webhook events.
+   */
   @Post('webhook')
   @HttpCode(200)
   async handleStripeWebhook(

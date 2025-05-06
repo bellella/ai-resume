@@ -5,6 +5,9 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class CoinService {
   constructor(private readonly prisma: PrismaService) {}
 
+  /**
+   * Retrieves the coin balance for a user
+   */
   async getBalance(userId: string) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
@@ -13,6 +16,9 @@ export class CoinService {
     return { coins: user?.coins ?? 0 };
   }
 
+  /**
+   * Retrieves the transaction history for a user
+   */
   async getTransactions(userId: string) {
     return this.prisma.transaction.findMany({
       where: { userId },
@@ -20,6 +26,9 @@ export class CoinService {
     });
   }
 
+  /**
+   * Retrieves the list of available coin items
+   */
   async getCoinItems() {
     return this.prisma.coinItem.findMany({
       select: {
@@ -33,6 +42,9 @@ export class CoinService {
     });
   }
 
+  /**
+   * Deducts coins from a user's balance
+   */
   async deductCoins(tx: any, userId: string, coinCost: number) {
     const user = await tx.user.findUnique({ where: { id: userId } });
     if (!user || user.coins < coinCost) {
