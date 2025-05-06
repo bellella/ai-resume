@@ -15,6 +15,7 @@ import { CreateCheckoutSessionDto } from './dto/create-checkout-session.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RequestWithUser } from 'src/types/request.types';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { CreateCheckoutSessionResponse } from '@ai-resume/types';
 
 @Controller('stripe')
 @ApiBearerAuth('access-token')
@@ -28,12 +29,11 @@ export class StripeController {
   @UseGuards(JwtAuthGuard)
   async createCheckoutSession(
     @Body() createCheckoutSessionDto: CreateCheckoutSessionDto,
-    @Req() req: RequestWithUser,
-    @Res() res: Response
-  ) {
+    @Req() req: RequestWithUser
+  ): Promise<CreateCheckoutSessionResponse> {
     const { priceId, coinItemId } = createCheckoutSessionDto;
     const url = await this.stripeService.createCheckoutSession(priceId, coinItemId, req.user.id);
-    return res.json({ url });
+    return { url };
   }
 
   /**
@@ -42,7 +42,6 @@ export class StripeController {
   @Post('webhook')
   @HttpCode(200)
   async handleStripeWebhook(
-    @Req() req: Request,
     @Headers('stripe-signature') signature: string,
     @RawBody() rawBody: Buffer
   ) {

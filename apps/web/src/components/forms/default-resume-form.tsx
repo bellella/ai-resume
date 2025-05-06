@@ -1,10 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Save } from 'lucide-react';
-import { ResumeForm } from '@/components/profiles/resume-form';
+import { ResumeForm } from '@/components/forms/resume-form';
 import { useMutation } from '@tanstack/react-query';
-import { updateDefaultResume } from '@/lib/api/user';
-import { useAuthStore } from '@/lib/store/auth';
+import { updateDefaultResume } from '@/lib/api/user.api';
+import { useAuthStore } from '@/lib/store/auth.store';
 import { ResumeJson } from '@ai-resume/types';
 import { toast } from 'sonner';
 

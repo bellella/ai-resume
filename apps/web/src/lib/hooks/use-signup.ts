@@ -1,9 +1,9 @@
 'use client';
 
 import { useMutation } from '@tanstack/react-query';
-import { signup, login } from '@/lib/api/auth';
-import { fetchUserInfo } from '@/lib/api/user';
-import { useAuthStore } from '@/lib/store/auth';
+import { signup, login } from '@/lib/api/auth.api';
+import { fetchUser } from '@/lib/api/user.api';
+import { useAuthStore } from '@/lib/store/auth.store';
 import { useRouter } from 'next/navigation';
 import type {
   SignupRequest,
@@ -41,7 +41,7 @@ export const useSignup = () => {
       localStorage.setItem('access_token', token);
 
       // 4. Fetch user profile and store it in Zustand
-      const userRes: UserInfo = await fetchUserInfo();
+      const userRes: UserInfo = await fetchUser();
       setUserInfo(userRes);
 
       // 5. Redirect to profile page

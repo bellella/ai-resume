@@ -9,7 +9,7 @@ import { Trash2, Plus } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { composeWithAi } from '@/lib/api/ai';
+import { enhanceWorkExperience } from '@/lib/api/ai.api';
 import { CoinConfirmDialog } from '@/components/coins/coin-confirm-dialog';
 import { toast } from 'sonner';
 
@@ -24,20 +24,21 @@ export function WorkHistorySection() {
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: async (index: number) => {
-      const { jobTitle, employer, city, province, startDate, endDate } = form.getValues(
-        `workExperiences.${index}`
-      );
-      const text = form.getValues(`workExperiences.${index}.achievements`) || '';
-      const meta = { jobTitle, employer, city, province, startDate, endDate };
-      return await composeWithAi('experience', { text, meta });
+      const workExperience = form.getValues(`workExperiences.${index}`);
+      const userInput = form.getValues(`workExperiences.${index}.achievements`) || '';
+      return await enhanceWorkExperience({
+        userInput,
+        meta: { workExperience },
+        resumeId: form.getValues('id'),
+      });
     },
     onSuccess: (data, index) => {
       form.setValue(`workExperiences.${index}.achievements`, data.result);
-      toast.success('Work experience composed with AI');
+      toast.success('Work experience enhanced with AI');
     },
   });
 
-  const handleComposeWithAI = (index: number) => {
+  const handleEnhanceWithAI = (index: number) => {
     setOpenDialogIndex(index);
   };
 
@@ -161,10 +162,10 @@ export function WorkHistorySection() {
                       type="button"
                       variant="accent"
                       size="sm"
-                      onClick={() => handleComposeWithAI(index)}
+                      onClick={() => handleEnhanceWithAI(index)}
                       disabled={isPending}
                     >
-                      Compose with AI
+                      {isPending ? 'Enhancing...' : 'Enhance with AI'}
                     </Button>
                   </div>
                   <FormControl>

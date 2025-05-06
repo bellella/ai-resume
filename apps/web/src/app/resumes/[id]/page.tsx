@@ -2,7 +2,7 @@
 
 import ResumeEditor from '@/components/resumes/resume-editor';
 import { toast } from '@/components/ui/use-toast';
-import { fetchResume, updateResume } from '@/lib/api/resume';
+import { fetchResume, updateResume } from '@/lib/api/resume.api';
 import { ResumeDetail } from '@ai-resume/types';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';

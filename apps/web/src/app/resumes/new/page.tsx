@@ -1,7 +1,7 @@
 'use client';
 
 import ResumeEditor from '@/components/resumes/resume-editor';
-import { createResume } from '@/lib/api/resume';
+import { createResume } from '@/lib/api/resume.api';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { useMutation } from '@tanstack/react-query';

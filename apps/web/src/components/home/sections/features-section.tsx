@@ -37,15 +37,15 @@ export function FeaturesSection() {
                     animate={
                       isInView
                         ? {
-                          scale: 1,
-                          opacity: 1,
-                          transition: {
-                            delay: starIndex * 0.1,
-                            type: 'spring',
-                            stiffness: 300,
-                            damping: 20,
-                          },
-                        }
+                            scale: 1,
+                            opacity: 1,
+                            transition: {
+                              delay: starIndex * 0.1,
+                              type: 'spring',
+                              stiffness: 300,
+                              damping: 20,
+                            },
+                          }
                         : {}
                     }
                     xmlns="http://www.w3.org/2000/svg"
@@ -78,4 +78,4 @@ export function FeaturesSection() {
       </div>
     </section>
   );
-} 
+}

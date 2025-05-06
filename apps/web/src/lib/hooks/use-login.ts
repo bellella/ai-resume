@@ -1,16 +1,15 @@
 'use client';
 
-import { login } from '@/lib/api/auth';
-import { fetchUserInfo } from '@/lib/api/user';
-import { useAuthStore } from '@/lib/store/auth';
-import type { LoginPayload, LoginResponse } from '@ai-resume/types';
+import { login } from '@/lib/api/auth.api';
+import { fetchUser } from '@/lib/api/user.api';
+import { useAuthStore } from '@/lib/store/auth.store';
+import type { LoginRequest, LoginResponse } from '@ai-resume/types';
 import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 
 export const useLogin = () => {
   const { setUserInfo } = useAuthStore();
 
-  const { mutateAsync: loginUser, isPending } = useMutation<LoginResponse, Error, LoginPayload>({
+  const { mutateAsync: loginUser, isPending } = useMutation<LoginResponse, Error, LoginRequest>({
     mutationFn: login,
     onSuccess: async (res) => {
       const token = res.token;
@@ -18,7 +17,7 @@ export const useLogin = () => {
         localStorage.setItem('access_token', token);
 
         try {
-          const userRes = await fetchUserInfo();
+          const userRes = await fetchUser();
           setUserInfo(userRes);
         } catch (err) {
           console.error('Failed to fetch user profile:', err);

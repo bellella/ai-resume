@@ -1,10 +1,11 @@
-import { Controller, Post, Body, Param, UseGuards, Req } from '@nestjs/common';
-import { AiService } from './ai.service';
-import { GenerateSectionDto } from './dto/generate-section.dto';
-import { AiEvaluationData } from '@ai-resume/types';
+import { AiEvaluationResponse, EnhanceContentResponse } from '@ai-resume/types';
+import { Body, Controller, Param, Post, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { User } from 'src/decorators/user.decorator';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { AiService } from './ai.service';
+import { EnhanceSummaryRequestDto } from './dto/enhance-summary-request.dto';
+import { EnhanceWorkExperienceRequestDto } from './dto/enhance-work-experience-request.dto';
 
 @Controller('ai')
 @UseGuards(JwtAuthGuard)
@@ -19,7 +20,7 @@ export class AiController {
   async evaluateResume(
     @Param('resumeId') resumeId: string,
     @User('id') userId: string
-  ): Promise<AiEvaluationData> {
+  ): Promise<AiEvaluationResponse> {
     return this.aiService.evaluateResumeWithAi(resumeId, userId);
   }
 
@@ -27,21 +28,21 @@ export class AiController {
    * Composes a summary section for a resume using AI, based on the provided data.
    */
   @Post('summary')
-  async composeSummary(@Body() dto: GenerateSectionDto, @User('id') userId: string) {
-    return this.aiService.composeSectionWithAi('summary', userId, dto.resumeId, dto.text, dto.meta);
+  async enhanceSummary(
+    @Body() dto: EnhanceSummaryRequestDto,
+    @User('id') userId: string
+  ): Promise<EnhanceContentResponse> {
+    return this.aiService.enhanceSummaryWithAi(userId, dto);
   }
 
   /**
    * Composes an experience section for a resume using AI, based on the provided data.
    */
   @Post('experience')
-  async composeExperience(@Body() dto: GenerateSectionDto, @User('id') userId: string) {
-    return this.aiService.composeSectionWithAi(
-      'experience',
-      userId,
-      dto.resumeId,
-      dto.text,
-      dto.meta
-    );
+  async enhanceWorkExperience(
+    @Body() dto: EnhanceWorkExperienceRequestDto,
+    @User('id') userId: string
+  ): Promise<EnhanceContentResponse> {
+    return this.aiService.enhanceWorkExperienceWithAi(userId, dto);
   }
 }

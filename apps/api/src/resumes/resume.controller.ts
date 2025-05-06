@@ -1,12 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
-import { ResumeService } from './resume.service';
-import { CreateResumeDto } from './dto/create-resume.dto';
-import { UpdateResumeDto } from './dto/update-resume.dto';
-import { UpdateDefaultResumeDto } from './dto/update-default-resume.dto';
+import {
+  CreateResumeResponse,
+  FetchResumeResponse,
+  FetchResumesResponse,
+  UpdateDefaultResumeResponse,
+  UpdateResumeResponse,
+} from '@ai-resume/types';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RequestWithUser } from '../types/request.types';
-import { Prisma } from '@ai-resume/db';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { CreateResumeDto } from './dto/create-resume.dto';
+import { UpdateDefaultResumeDto } from './dto/update-default-resume.dto';
+import { UpdateResumeDto } from './dto/update-resume.dto';
+import { ResumeService } from './resume.service';
 
 @Controller('resumes')
 @ApiBearerAuth('access-token')
@@ -21,17 +27,8 @@ export class ResumeController {
   async create(
     @Body() createResumeDto: CreateResumeDto,
     @Req() req: RequestWithUser
-  ): Promise<Prisma.ResumeGetPayload<{}>> {
+  ): Promise<CreateResumeResponse> {
     return this.resumeService.create(createResumeDto, req.user.id);
-  }
-
-  /**
-   * Retrieves all resumes.
-   */
-  @Get()
-  @UseGuards(JwtAuthGuard)
-  findAll() {
-    return this.resumeService.findAll();
   }
 
   /**
@@ -39,7 +36,7 @@ export class ResumeController {
    */
   @Get('user')
   @UseGuards(JwtAuthGuard)
-  findAllByUserId(@Req() req: RequestWithUser) {
+  findAllByUserId(@Req() req: RequestWithUser): Promise<FetchResumesResponse> {
     return this.resumeService.findAllByUserId(req.user.id);
   }
 
@@ -48,7 +45,7 @@ export class ResumeController {
    */
   @Get(':id')
   @UseGuards(JwtAuthGuard)
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string): Promise<FetchResumeResponse> {
     return this.resumeService.findOne(id);
   }
 
@@ -60,7 +57,7 @@ export class ResumeController {
   async updateDefaultResume(
     @Body() updateDefaultResumeDto: UpdateDefaultResumeDto,
     @Req() req: RequestWithUser
-  ) {
+  ): Promise<UpdateDefaultResumeResponse> {
     return this.resumeService.updateDefaultResume(
       updateDefaultResumeDto.defaultResumeJson,
       req.user.id
@@ -72,7 +69,10 @@ export class ResumeController {
    */
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
-  update(@Param('id') id: string, @Body() updateResumeDto: UpdateResumeDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateResumeDto: UpdateResumeDto
+  ): Promise<UpdateResumeResponse> {
     return this.resumeService.update(id, updateResumeDto);
   }
 
@@ -83,15 +83,6 @@ export class ResumeController {
   @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
     return this.resumeService.remove(id);
-  }
-
-  /**
-   * Generates a PDF for a specific resume by ID.
-   */
-  @Post(':id/pdf')
-  @UseGuards(JwtAuthGuard)
-  generatePdf(@Param('id') id: string) {
-    return this.resumeService.generatePdf(id);
   }
 
   /**

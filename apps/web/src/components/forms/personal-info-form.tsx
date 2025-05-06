@@ -8,8 +8,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useMutation } from '@tanstack/react-query';
-import { updateUserInfo } from '@/lib/api/user';
-import { useAuthStore } from '@/lib/store/auth';
+import { updatePersonalInfo } from '@/lib/api/user.api';
+import { useAuthStore } from '@/lib/store/auth.store';
 
 const personalInfoSchema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -33,7 +33,7 @@ export function PersonalInfoForm() {
   });
 
   const updatePersonalInfoMutation = useMutation({
-    mutationFn: (data: PersonalInfoForm) => updateUserInfo(data),
+    mutationFn: (data: PersonalInfoForm) => updatePersonalInfo(data),
     onSuccess: () => {
       // TODO: Show success toast
     },

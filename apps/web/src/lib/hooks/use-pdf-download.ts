@@ -1,5 +1,5 @@
 import { TemplateId, TEMPLATES } from '@/components/templates/templates';
-import { generatePdf } from '@/lib/api/file';
+import { generatePdf } from '@/lib/api/file.api';
 import { useMutation } from '@tanstack/react-query';
 import templateCss from '!!raw-loader!@/components/templates/template-style.css';
 

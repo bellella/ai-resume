@@ -6,7 +6,7 @@ import ResumeCardSkeleton from '@/components/resumes/resume-editor/resume-card-s
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import { PageHeader } from '@/components/ui/page-header';
-import { fetchResumes } from '@/lib/api/resume';
+import { fetchResumes } from '@/lib/api/resume.api';
 import { useAuthGuard } from '@/lib/hooks/use-auth-guard';
 import { ResumeItem } from '@ai-resume/types';
 import { useQuery } from '@tanstack/react-query';

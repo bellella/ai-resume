@@ -3,6 +3,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RequestWithUser } from 'src/types/request.types';
 import { CoinService } from './coin.service';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { CoinBalanceResponse, CoinItemsResponse, CoinTransactionsResponse } from '@ai-resume/types';
 
 @Controller('coins')
 @UseGuards(JwtAuthGuard)
@@ -14,7 +15,7 @@ export class CoinController {
    * Retrieves the current coin balance for the authenticated user.
    */
   @Get('balance')
-  async getBalance(@Req() req: RequestWithUser) {
+  async getBalance(@Req() req: RequestWithUser): Promise<CoinBalanceResponse> {
     const userId = req.user.id;
     return this.coinService.getBalance(userId);
   }
@@ -23,7 +24,7 @@ export class CoinController {
    * Retrieves the transaction history for the authenticated user, including coin usage and purchases.
    */
   @Get('transactions')
-  async getTransactions(@Req() req: RequestWithUser) {
+  async getTransactions(@Req() req: RequestWithUser): Promise<CoinTransactionsResponse> {
     const userId = req.user.id;
     return this.coinService.getTransactions(userId);
   }
@@ -32,7 +33,7 @@ export class CoinController {
    * Retrieves the list of available coin items.
    */
   @Get('items')
-  async getCoinItems() {
+  async getCoinItems(): Promise<CoinItemsResponse> {
     return this.coinService.getCoinItems();
   }
 }

@@ -1,3 +1,16 @@
-import { User } from '@ai-resume/db';
+import { SignupRequest } from '@ai-resume/types';
+import { IsString } from 'class-validator';
+import { IsEmail } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 
-export type SignupDto = Pick<User, 'email' | 'password' | 'name'>;
+export class SignupDto implements SignupRequest {
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  password: string;
+
+  @IsString()
+  name: string;
+}

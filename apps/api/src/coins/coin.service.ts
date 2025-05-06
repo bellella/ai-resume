@@ -1,3 +1,9 @@
+import {
+  CoinBalanceResponse,
+  CoinItemsResponse,
+  CoinTransactionsResponse,
+  UseCoinResponse,
+} from '@ai-resume/types';
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -8,7 +14,7 @@ export class CoinService {
   /**
    * Retrieves the coin balance for a user
    */
-  async getBalance(userId: string) {
+  async getBalance(userId: string): Promise<CoinBalanceResponse> {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
       select: { coins: true },
@@ -19,17 +25,29 @@ export class CoinService {
   /**
    * Retrieves the transaction history for a user
    */
-  async getTransactions(userId: string) {
-    return this.prisma.transaction.findMany({
+  async getTransactions(userId: string): Promise<CoinTransactionsResponse> {
+    const result = await this.prisma.transaction.findMany({
       where: { userId },
       orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        type: true,
+        name: true,
+        price: true,
+        createdAt: true,
+        meta: true,
+      },
     });
+    return result.map((transaction) => ({
+      ...transaction,
+      meta: transaction.meta as { resumeId?: string },
+    }));
   }
 
   /**
    * Retrieves the list of available coin items
    */
-  async getCoinItems() {
+  async getCoinItems(): Promise<CoinItemsResponse> {
     return this.prisma.coinItem.findMany({
       select: {
         id: true,
@@ -45,7 +63,7 @@ export class CoinService {
   /**
    * Deducts coins from a user's balance
    */
-  async deductCoins(tx: any, userId: string, coinCost: number) {
+  async deductCoins(tx: any, userId: string, coinCost: number): Promise<UseCoinResponse> {
     const user = await tx.user.findUnique({ where: { id: userId } });
     if (!user || user.coins < coinCost) {
       throw new BadRequestException('Not enough coins');
@@ -55,5 +73,6 @@ export class CoinService {
       where: { id: userId },
       data: { coins: { decrement: coinCost } },
     });
+    return { success: true, remainingCoins: user.coins - coinCost };
   }
 }

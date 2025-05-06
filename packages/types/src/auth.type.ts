@@ -1,33 +1,33 @@
-import { UserInfo } from './user';
+import { UserInfo } from './user.type';
 
 /**
  * Request for user signup
  */
-export interface SignupRequest {
+export type SignupRequest = {
   name: string;
   email: string;
   password: string;
-}
+};
 
 /**
  * Response data returned after successful signup
  */
-export interface SignupResponse {
+export type SignupResponse = {
   token: string;
   user: UserInfo;
-}
+};
 
 /**
  * Request for user login
  */
-export interface LoginRequest {
+export type LoginRequest = {
   email: string;
   password: string;
-}
+};
 
 /**
  * Response data returned after successful login
  */
-export interface LoginResponse {
+export type LoginResponse = {
   token: string;
-}
+};

@@ -1,7 +1,7 @@
 import { IsObject, IsString, IsBoolean, IsOptional } from 'class-validator';
-import { ResumeJson, CreateResumePayload, TemplateJson } from '@ai-resume/types';
+import { ResumeJson, CreateResumeRequest, TemplateJson } from '@ai-resume/types';
 
-export class CreateResumeDto implements CreateResumePayload {
+export class CreateResumeDto implements CreateResumeRequest {
   @IsString()
   title: string;
 

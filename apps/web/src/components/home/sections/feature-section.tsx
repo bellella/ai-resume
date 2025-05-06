@@ -1,4 +1,4 @@
-import { AnimatedCards } from "./elements/animated-cards";
+import { AnimatedCards } from './elements/animated-cards';
 
 export function FeaturesSection() {
   return (

@@ -1,8 +1,12 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { AiEvaluationResponse } from '@ai-resume/types';
+import { Injectable } from '@nestjs/common';
 import OpenAI from 'openai';
-import { GenerateSectionType } from '@ai-resume/types';
+import { PRICING } from 'src/lib/constants/pricing';
+import { resumePrompts } from 'src/lib/resume-prompts';
 import { CoinService } from '../coins/coin.service';
+import { PrismaService } from '../prisma/prisma.service';
+import { EnhanceSummaryRequestDto } from './dto/enhance-summary-request.dto';
+import { EnhanceWorkExperienceRequestDto } from './dto/enhance-work-experience-request.dto';
 
 @Injectable()
 export class AiService {
@@ -26,14 +30,14 @@ export class AiService {
   /**
    * Evaluates a resume using AI and deducts coins from the user
    */
-  async evaluateResumeWithAi(resumeId: string, userId: string) {
-    const price = 1;
+  async evaluateResumeWithAi(resumeId: string, userId: string): Promise<AiEvaluationResponse> {
+    const price = PRICING.EVALUATE_RESUME;
     return await this.prisma.$transaction(async (tx) => {
       await this.coinService.deductCoins(tx, userId, price);
 
       const resume = await tx.resume.findUnique({ where: { id: resumeId } });
       const prompt = this.buildEvaluationPrompt(resume);
-      const raw = await this.chat(prompt);
+      const raw = await this.requestResumeAIResponse(prompt);
       const parsed = this.parseResponse(raw);
 
       const evaluation = await tx.aiEvaluation.create({
@@ -123,31 +127,25 @@ export class AiService {
   }
 
   /**
-   * Composes a section of a resume using AI and deducts coins from the user
+   * Enhances a summary section using AI
    */
-  async composeSectionWithAi(
-    type: GenerateSectionType,
-    userId: string,
-    resumeId?: string,
-    text: string = '',
-    otherInfo: Record<string, any> = {}
-  ) {
-    const price = 1;
-
+  async enhanceSummaryWithAi(userId: string, dto: EnhanceSummaryRequestDto) {
+    const price = PRICING.ENHANCE_SUMMARY;
     return await this.prisma.$transaction(async (tx) => {
       await this.coinService.deductCoins(tx, userId, price);
-
-      const prompt = this.buildSectionPrompt(type, text, otherInfo);
-      const result = await this.chat(prompt);
-
+      const prompt = resumePrompts.summary({
+        userInput: dto.userInput,
+        meta: dto.meta,
+      });
+      const result = await this.requestResumeAIResponse(prompt);
       await tx.transaction.create({
         data: {
           userId,
           type: 'USAGE',
           price,
-          name: `Compose ${type} section`,
+          name: `Enhance Summary`,
           meta: {
-            resumeId,
+            resumeId: dto.resumeId,
           },
         },
       });
@@ -157,45 +155,37 @@ export class AiService {
   }
 
   /**
-   * Builds a prompt for AI to compose a resume section
+   * Enhances a work experience section using AI
    */
-  private buildSectionPrompt(
-    type: GenerateSectionType,
-    text: string,
-    otherInfo: Record<string, any>
-  ): string {
-    const sectionName = type === 'summary' ? 'Professional Summary' : 'Work Experience';
-    const userText = text?.trim() || '(none)';
+  async enhanceWorkExperienceWithAi(userId: string, dto: EnhanceWorkExperienceRequestDto) {
+    const price = PRICING.ENHANCE_WORK_EXPERIENCE;
+    return await this.prisma.$transaction(async (tx) => {
+      await this.coinService.deductCoins(tx, userId, price);
+      const prompt = resumePrompts.workExperience({
+        userInput: dto.userInput,
+        meta: dto.meta,
+      });
+      const result = await this.requestResumeAIResponse(prompt);
+      await tx.transaction.create({
+        data: {
+          userId,
+          type: 'USAGE',
+          price,
+          name: `Enhance Work Experience`,
+          meta: {
+            resumeId: dto.resumeId,
+          },
+        },
+      });
 
-    return `
-You are a professional AI resume assistant.
-
-The user has requested help with their "${sectionName}" section.
-
----
-
-✏️ User's current ${sectionName}:
-"""
-${userText}
-"""
-
-📄 Additional information in JSON format:
-${JSON.stringify(otherInfo, null, 2)}
-
----
-
-🧠 Instructions:
-- If the user's input is well-written and complete, improve it to sound more professional and impactful.
-- If the input is missing or too short, generate a brand-new ${sectionName} using the metadata above.
-- Keep it concise, professional, and optimized for recruiters.
-- Return only the improved or newly generated text. Do not include explanations.
-`.trim();
+      return { result };
+    });
   }
 
   /**
    * Sends a prompt to the AI chat model and returns the response
    */
-  async chat(prompt: string) {
+  async requestResumeAIResponse(prompt: string) {
     const res = await this.openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [

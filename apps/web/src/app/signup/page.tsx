@@ -17,7 +17,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { toast } from 'sonner';
-import { signup } from '@/lib/api/auth';
+import { signup } from '@/lib/api/auth.api';
 
 const formSchema = z
   .object({

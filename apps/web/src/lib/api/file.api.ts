@@ -1,5 +1,6 @@
 import { api } from './ky';
 import { GeneratePdfRequest, GeneratePdfResponse } from '@ai-resume/types';
+
 /**
  * generate pdf from html
  */

@@ -1,17 +1,20 @@
 import { Prisma } from '@ai-resume/db';
-import { ResumeJson } from '@ai-resume/types';
-import { Injectable } from '@nestjs/common';
+import {
+  FetchResumeResponse,
+  FetchResumesResponse,
+  ResumeJson,
+  TemplateJson,
+  UpdateDefaultResumeResponse,
+  UpdateResumeResponse,
+} from '@ai-resume/types';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { TemplatesService } from '../templates/templates.service';
 import { CreateResumeDto } from './dto/create-resume.dto';
 import { UpdateResumeDto } from './dto/update-resume.dto';
 
 @Injectable()
 export class ResumeService {
-  constructor(
-    private readonly templateService: TemplatesService,
-    private readonly prisma: PrismaService
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   /**
    * Creates a new resume
@@ -47,9 +50,9 @@ export class ResumeService {
   /**
    * Retrieves a specific resume by ID
    */
-  async findOne(id: string) {
+  async findOne(resumeId: string): Promise<FetchResumeResponse> {
     const result = await this.prisma.resume.findUnique({
-      where: { id },
+      where: { id: resumeId },
       include: {
         aiEvaluations: {
           orderBy: { createdAt: 'desc' },
@@ -57,6 +60,10 @@ export class ResumeService {
         },
       },
     });
+
+    if (!result) {
+      throw new NotFoundException('Resume not found');
+    }
 
     const aiEvaluation = result?.aiEvaluations?.[0]
       ? {
@@ -66,10 +73,17 @@ export class ResumeService {
           weaknesses: result.aiEvaluations[0].weaknesses,
           lastUpdated: result.aiEvaluations[0].createdAt,
         }
-      : null;
+      : undefined;
 
+    const { id, title, createdAt, updatedAt, templateId, resumeJson, templateJson } = result;
     return {
-      ...result,
+      id,
+      title,
+      createdAt,
+      updatedAt,
+      templateId,
+      resumeJson: resumeJson as ResumeJson,
+      templateJson: templateJson as TemplateJson,
       aiEvaluation,
     };
   }
@@ -77,7 +91,7 @@ export class ResumeService {
   /**
    * Updates a specific resume by ID
    */
-  async update(id: string, updateResumeDto: UpdateResumeDto) {
+  async update(id: string, updateResumeDto: UpdateResumeDto): Promise<UpdateResumeResponse> {
     return this.prisma.resume.update({
       where: { id },
       data: {
@@ -99,13 +113,6 @@ export class ResumeService {
   }
 
   /**
-   * Generates a PDF for a specific resume
-   */
-  generatePdf(id: string) {
-    return `This action generates PDF for resume #${id}`;
-  }
-
-  /**
    * Duplicates a specific resume
    */
   duplicate(id: string) {
@@ -115,7 +122,10 @@ export class ResumeService {
   /**
    * Updates the default resume for a user
    */
-  async updateDefaultResume(resumeJson: ResumeJson, userId: string) {
+  async updateDefaultResume(
+    resumeJson: ResumeJson,
+    userId: string
+  ): Promise<UpdateDefaultResumeResponse> {
     return this.prisma.user.update({
       where: { id: userId },
       data: {
@@ -127,13 +137,20 @@ export class ResumeService {
   /**
    * Retrieves all resumes for a specific user
    */
-  async findAllByUserId(userId: string) {
+  async findAllByUserId(userId: string): Promise<FetchResumesResponse> {
     return this.prisma.resume.findMany({
       where: {
         userId: userId,
       },
       orderBy: {
         createdAt: 'desc',
+      },
+      select: {
+        id: true,
+        title: true,
+        createdAt: true,
+        updatedAt: true,
+        templateId: true,
       },
     });
   }

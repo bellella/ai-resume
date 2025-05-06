@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useLogout } from '@/lib/hooks/use-logout';
-import { useAuthStore } from '@/lib/store/auth';
+import { useAuthStore } from '@/lib/store/auth.store';
 import { cn } from '@/lib/utils';
 import { Coins, Sparkles, User } from 'lucide-react';
 import Link from 'next/link';

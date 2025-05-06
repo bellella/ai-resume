@@ -3,7 +3,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { UserInfo } from '@ai-resume/types';
-import { fetchUserInfo } from '../api/user';
+import { fetchUser } from '../api/user.api';
 
 interface AuthState {
   user: UserInfo | null;
@@ -22,7 +22,7 @@ export const useAuthStore = create<AuthState>()(
       clearUserInfo: () => set({ user: null, isLoading: false }),
       hydrateUser: async () => {
         try {
-          const res = await fetchUserInfo();
+          const res = await fetchUser();
           set({ user: res });
         } catch (error) {
           set({ user: null });

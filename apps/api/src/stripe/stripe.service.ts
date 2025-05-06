@@ -19,7 +19,11 @@ export class StripeService {
   /**
    * Creates a checkout session for purchasing coins
    */
-  async createCheckoutSession(priceId: string, coinItemId: string, userId: string) {
+  async createCheckoutSession(
+    priceId: string,
+    coinItemId: string,
+    userId: string
+  ): Promise<string> {
     // Creates a checkout session for purchasing coins
     const session = await this.stripe.checkout.sessions.create({
       mode: 'payment',
@@ -37,7 +41,9 @@ export class StripeService {
       success_url: `${this.configService.get('WEB_URL')}/coins`, // Redirect after success
       cancel_url: `${this.configService.get('WEB_URL')}/coins`, // Redirect after cancel
     });
-
+    if (!session.url) {
+      throw new BadRequestException('Failed to create checkout session');
+    }
     return session.url;
   }
 

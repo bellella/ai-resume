@@ -7,13 +7,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { FormField, FormItem, FormControl, FormMessage } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
-import { composeWithAi } from '@/lib/api/ai';
 import { CoinConfirmDialog } from '@/components/coins/coin-confirm-dialog';
 import { toast } from 'sonner';
 import { useParams } from 'next/navigation';
+import { enhanceSummary } from '@/lib/api/ai.api';
 
 export function SummarySection() {
-  const resumeId = useParams().id;
+  const resumeId = useParams().id as string;
 
   const form = useFormContext();
   const [openDialog, setOpenDialog] = useState(false);
@@ -22,23 +22,24 @@ export function SummarySection() {
     mutationFn: async () => {
       const skills = form.getValues('skills');
       const workExperiences = form.getValues('workExperiences');
-      const text = form.getValues('professionalSummary') || '';
-      return await composeWithAi('summary', {
-        text,
-        meta: { skills, workExperiences },
-        resumeId: resumeId as string,
+      const educations = form.getValues('educations');
+      const userInput = form.getValues('professionalSummary') || '';
+      return await enhanceSummary({
+        userInput,
+        meta: { skills, workExperiences, educations },
+        resumeId,
       });
     },
     onSuccess: (data) => {
       form.setValue('professionalSummary', data.result);
-      toast.success('Professional summary composed with AI');
+      toast.success('Professional summary enhanced with AI');
     },
     onError: (error) => {
-      toast.error('Failed to compose with AI');
+      toast.error('Failed to enhance with AI');
     },
   });
 
-  const handleComposeWithAI = async () => {
+  const handleEnhanceWithAI = async () => {
     setOpenDialog(true);
   };
 
@@ -59,10 +60,10 @@ export function SummarySection() {
             type="button"
             variant="accent"
             size="sm"
-            onClick={handleComposeWithAI}
+            onClick={handleEnhanceWithAI}
             disabled={isPending}
           >
-            {isPending ? 'Composing...' : 'Compose with AI'}
+            {isPending ? 'Enhancing...' : 'Enhance with AI'}
           </Button>
         </div>
       </CardHeader>
