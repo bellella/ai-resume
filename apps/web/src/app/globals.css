@@ -40,6 +40,9 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+
+  --color-coin: var(--coin);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -81,6 +84,8 @@
   --chart-4: #f4b740;
   --chart-5: #f58a2a;
 
+  --coin: oklch(79.5% 0.184 86.047);
+
   --radius: 0.75rem;
 
   --content-min-height: calc(100vh - 64px);
@@ -118,7 +123,9 @@
   .h-content-min-height {
     min-height: var(--content-min-height);
   }
-
+  .h-min-content {
+    min-height: var(--content-min-height);
+  }
 }
 
 @layer base {

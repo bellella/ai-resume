@@ -4,10 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import templateCss from '!!raw-loader!@/components/templates/template-style.css';
 
 function usePdfDownload() {
-  const handlePdfDownload = async (
-    selectedTemplateId: TemplateId,
-    styleVars?: Record<string, string | number>
-  ) => {
+  const downloadPdf = async (selectedTemplateId: TemplateId) => {
     const el = document.getElementById('resume-preview');
     if (!el) return alert('Resume preview not found');
 
@@ -62,7 +59,7 @@ function usePdfDownload() {
     },
   });
 
-  return { handlePdfDownload, downloadPdfMutation };
+  return { downloadPdf, downloadPdfMutation };
 }
 
 export default usePdfDownload;

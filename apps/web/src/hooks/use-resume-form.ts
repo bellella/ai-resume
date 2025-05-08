@@ -54,7 +54,7 @@ export const resumeFormSchema = z.object({
   province: z.string(),
   postalCode: z.string(),
   phone: z.string(),
-  email: z.string().email('Invalid email address'),
+  email: z.string(),
   jobTitle: z.string(),
   workExperiences: z.array(
     z.object({

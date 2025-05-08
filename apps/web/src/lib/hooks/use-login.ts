@@ -15,7 +15,6 @@ export const useLogin = () => {
       const token = res.token;
       if (token) {
         localStorage.setItem('access_token', token);
-
         try {
           const userRes = await fetchUser();
           setUserInfo(userRes);

@@ -13,7 +13,12 @@ import { enhanceWorkExperience } from '@/lib/api/ai.api';
 import { CoinConfirmDialog } from '@/components/coins/coin-confirm-dialog';
 import { toast } from 'sonner';
 import { useParams } from 'next/navigation';
-export function WorkHistorySection() {
+
+type WorkHistorySectionProps = {
+  requireAuth: () => boolean;
+};
+
+export function WorkHistorySection({ requireAuth }: WorkHistorySectionProps) {
   const form = useFormContext();
   const resumeId = useParams().id as string;
   const { fields, append, remove } = useFieldArray({
@@ -40,6 +45,7 @@ export function WorkHistorySection() {
   });
 
   const handleEnhanceWithAI = (index: number) => {
+    if (!requireAuth()) return;
     setOpenDialogIndex(index);
   };
 

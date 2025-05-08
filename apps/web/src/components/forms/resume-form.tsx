@@ -6,11 +6,12 @@ import { SkillsSection } from './sections/skills-section';
 import { SummarySection } from './sections/summary-section';
 import { WorkHistorySection } from './sections/work-history-section';
 
+// TODO: decide to use this or not
 export function ResumeForm() {
   return (
     <>
       <PersonalInfoSection />
-      <WorkHistorySection />
+      <WorkHistorySection requireAuth={() => true} />
       <EducationHistorySection />
       <SkillsSection />
       <SummarySection />

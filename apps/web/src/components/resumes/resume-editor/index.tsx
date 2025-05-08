@@ -14,13 +14,20 @@ import usePdfDownload from '@/lib/hooks/use-pdf-download';
 import { useAuthStore } from '@/lib/store/auth.store';
 import { AiEvaluationData, ResumeDetail, ResumeJson, TemplateJson } from '@ai-resume/types';
 import { useMutation } from '@tanstack/react-query';
-import { Download, Save } from 'lucide-react';
+import { Download, Eye, Save } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import AIEvaluation from './ai-evaluation';
 import ResumePreview from './resume-preview';
 import StyleSettings from './style-settings';
 import TemplateList from './template-list';
+import AuthModal from '@/components/auth/auth-modal';
+import { PersonalInfoSection } from '@/components/forms/sections/personal-info-section';
+import { EducationHistorySection } from '@/components/forms/sections/education-history-section';
+import { SummarySection } from '@/components/forms/sections/summary-section';
+import { SkillsSection } from '@/components/forms/sections/skills-section';
+import { WorkHistorySection } from '@/components/forms/sections/work-history-section';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
 export type ResumeEditorProps = {
   resume?: ResumeDetail;
@@ -44,7 +51,7 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
     (templateId as TemplateId) ?? 'default'
   );
   const [currentTab, setCurrentTab] = useState('1');
-
+  const [authModalOpen, setAuthModalOpen] = useState(false);
   const template = TEMPLATES[selectedTemplateId];
 
   const [templateOptions, setTemplateOptions] = useState<TemplateOptions>(
@@ -53,7 +60,7 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
 
   const form = useResumeForm(resumeJson);
 
-  const { handlePdfDownload, downloadPdfMutation } = usePdfDownload();
+  const { downloadPdf, downloadPdfMutation } = usePdfDownload();
 
   const { mutateAsync: evaluate, isPending: isEvaluating } = useMutation({
     mutationFn: async () => {
@@ -81,6 +88,7 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
   };
 
   const handleEvaluate = async () => {
+    if (!requireAuth()) return;
     try {
       const result = await evaluate();
       setEvaluation(result);
@@ -89,7 +97,13 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
     }
   };
 
+  const handleDownloadPdf = async () => {
+    if (!requireAuth()) return;
+    await downloadPdf(selectedTemplateId as TemplateId);
+  };
+
   const handleSubmit = (data: ResumeFormValues) => {
+    if (!requireAuth()) return;
     const { title, ...resumeJson } = data;
     onSave({
       title,
@@ -98,13 +112,21 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
       templateJson: templateOptions,
     });
   };
+  // if user is not logged in, open the auth modal
+  const requireAuth = () => {
+    if (!user) {
+      setAuthModalOpen(true);
+      return false;
+    }
+    return true;
+  };
 
   return (
     <div className="relative bg-gray-100">
       <Container>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)}>
-            <div className="grid grid-cols-1 lg:grid-cols-[2fr_450px] gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-[2fr_450px] lg:gap-6">
               <div className="order-2 lg:order-1">
                 <Input
                   {...form.register('title')}
@@ -129,7 +151,13 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
 
                   {/* Content Tab */}
                   <TabsContent value="1" className={currentTab === '1' ? '' : 'hidden'} forceMount>
-                    <ResumeForm />
+                    <div className="flex flex-col gap-4">
+                      <PersonalInfoSection />
+                      <WorkHistorySection requireAuth={requireAuth} />
+                      <EducationHistorySection />
+                      <SkillsSection />
+                      <SummarySection />
+                    </div>
                   </TabsContent>
 
                   {/* Design Tab */}
@@ -168,12 +196,13 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
                 </Tabs>
               </div>
 
-              <div className="lg:sticky top-4 lg:h-0 order-1 lg:order-2">
-                <div className="flex justify-end gap-3 p-3">
+              <div className="sticky top-4 lg:h-0 order-1 lg:order-2">
+                <div className="flex justify-end gap-3 py-3">
                   <ActionButtons>
                     <Button
                       variant="secondary"
                       type="button"
+                      size="responsive"
                       onClick={handleLoadDefaultResume}
                       disabled={!user?.defaultResumeJson}
                     >
@@ -181,31 +210,58 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
                     </Button>
                     <Button
                       variant="secondary"
-                      size="sm"
+                      size="responsive"
                       type="button"
                       className="gap-1"
-                      onClick={() => handlePdfDownload(selectedTemplateId as TemplateId)}
+                      onClick={handleDownloadPdf}
                       disabled={downloadPdfMutation.isPending}
                     >
                       <Download className="h-4 w-4" />
                       Export PDF
                     </Button>
-                    <Button type="submit" size="sm" className="gap-1" disabled={isSaving}>
+                    <Button type="submit" size="responsive" className="gap-1" disabled={isSaving}>
                       <Save className="h-4 w-4" />
                       Save
                     </Button>
                   </ActionButtons>
                 </div>
-                <ResumePreview
-                  resumeJson={form.watch()}
-                  template={template}
-                  templateOptions={templateOptions}
-                />
+                <div className="block lg:hidden">
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <div className="text-right py-1">
+                        <Button
+                          type="button"
+                          variant="accent"
+                          size="responsive"
+                          className=" border-accent-foreground"
+                        >
+                          <Eye className="h-4 w-4" />
+                          Preview Resume
+                        </Button>
+                      </div>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <ResumePreview
+                        resumeJson={form.watch()}
+                        template={template}
+                        templateOptions={templateOptions}
+                      />
+                    </DialogContent>
+                  </Dialog>
+                </div>
+                <div className="hidden lg:block">
+                  <ResumePreview
+                    resumeJson={form.watch()}
+                    template={template}
+                    templateOptions={templateOptions}
+                  />
+                </div>
               </div>
             </div>
           </form>
         </Form>
       </Container>
+      <AuthModal open={authModalOpen} onOpenChange={setAuthModalOpen} />
     </div>
   );
 }
