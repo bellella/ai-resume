@@ -38,7 +38,7 @@ export class AiController {
   /**
    * Composes an experience section for a resume using AI, based on the provided data.
    */
-  @Post('experience')
+  @Post('work-experience')
   async enhanceWorkExperience(
     @Body() dto: EnhanceWorkExperienceRequestDto,
     @User('id') userId: string

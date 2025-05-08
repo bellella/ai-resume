@@ -1,4 +1,4 @@
-import { AiEvaluationResponse } from '@ai-resume/types';
+import { AiEvaluationResponse, ResumeJson } from '@ai-resume/types';
 import { Injectable } from '@nestjs/common';
 import OpenAI from 'openai';
 import { PRICING } from 'src/lib/constants/pricing';
@@ -36,7 +36,8 @@ export class AiService {
       await this.coinService.deductCoins(tx, userId, price);
 
       const resume = await tx.resume.findUnique({ where: { id: resumeId } });
-      const prompt = this.buildEvaluationPrompt(resume);
+      const prompt = resumePrompts.evaluateResume(resume?.resumeJson as ResumeJson);
+      // get json string data from openai and parse it
       const raw = await this.requestResumeAIResponse(prompt);
       const parsed = this.parseResponse(raw);
 
@@ -70,26 +71,6 @@ export class AiService {
         lastUpdated: evaluation.createdAt,
       };
     });
-  }
-
-  /**
-   * Builds a prompt for AI to evaluate a resume
-   */
-  private buildEvaluationPrompt(resume: any): string {
-    return `
-  You are an expert resume reviewer.
-  Evaluate the following resume and return your response strictly in JSON format as shown below:
-  
-  {
-    "score": number,                // A score between 0 and 100
-    "summary": string,              // A brief summary of the resume's overall quality
-    "strengths": string[],          // 2–3 key strengths
-    "weaknesses": string[]          // 2–3 key areas for improvement
-  }
-  
-  Resume:
-  ${JSON.stringify(resume, null, 2)}
-    `.trim();
   }
 
   /**

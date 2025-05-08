@@ -1,14 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useLogin } from '@/lib/hooks/use-login';
@@ -48,23 +41,23 @@ export default function LoginPage() {
   });
 
   const handleSubmit = async (data: FormValues) => {
-    await login(data);
-    toast.success('Login successful');
-    router.push('/profile');
+    try {
+      await login(data);
+      toast.success('Login successful');
+      router.push('/profile');
+    } catch (err) {
+      toast.error('Login failed. Check your email and password.');
+    }
   };
 
   return (
-    <div className="container flex h-content-min-height items-center justify-center px-4 md:px-6">
+    <div className="page h-full flex items-center justify-center px-4 md:px-6">
       <div className="w-full max-w-md space-y-6">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold">Login</h1>
           <p className="text-muted-foreground">Sign in to your account</p>
         </div>
         <Card>
-          <CardHeader>
-            <CardTitle>Login</CardTitle>
-            <CardDescription>Sign in with your email</CardDescription>
-          </CardHeader>
           <CardContent className="space-y-4">
             <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
               {/* Email input */}
@@ -126,8 +119,8 @@ export default function LoginPage() {
           {/* Footer: signup redirect */}
           <CardFooter className="flex flex-col space-y-4">
             <div className="text-sm text-muted-foreground text-center">
-              Don’t have an account?{' '}
-              <Link href="/signup" className="text-primary underline-offset-4 hover:underline">
+              Don’t have an account?
+              <Link href="/signup" className="ml-1 text-primary underline-offset-4 hover:underline">
                 Sign up
               </Link>
             </div>

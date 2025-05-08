@@ -109,6 +109,12 @@
     padding-right: 2rem;
     padding-left: 2rem;
   }
+  .page {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 2rem;
+  }
   .h-content-min-height {
     min-height: var(--content-min-height);
   }

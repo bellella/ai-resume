@@ -9,6 +9,11 @@ interface TransactionListProps {
 const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
   return (
     <div className="space-y-4">
+      {transactions.length === 0 && (
+        <div className="flex items-center justify-center h-full">
+          <p className="text-muted-foreground">No transactions found</p>
+        </div>
+      )}
       {transactions.map((transaction, i) => (
         <div key={i} className="flex items-center justify-between py-2">
           <div className="flex items-center gap-3">

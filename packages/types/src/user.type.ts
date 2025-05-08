@@ -56,10 +56,11 @@ export type UserInfo = Prisma.UserGetPayload<{
     email: true;
     name: true;
     imageUrl: true;
-    defaultResumeJson: true;
     coins: true;
   };
-}>;
+}> & {
+  defaultResumeJson: ResumeJson;
+};
 
 /**
  * Structure for personal information

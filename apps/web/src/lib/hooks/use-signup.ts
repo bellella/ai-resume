@@ -43,9 +43,6 @@ export const useSignup = () => {
       // 4. Fetch user profile and store it in Zustand
       const userRes: UserInfo = await fetchUser();
       setUserInfo(userRes);
-
-      // 5. Redirect to profile page
-      router.replace('/profile');
     },
     onError: (err) => {
       console.error('Signup failed:', err);

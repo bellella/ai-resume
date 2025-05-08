@@ -1,23 +1,16 @@
 'use client';
 
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useForm } from 'react-hook-form';
+import { useSignup } from '@/lib/hooks/use-signup';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { signup } from '@/lib/api/auth.api';
+import * as z from 'zod';
 
 const formSchema = z
   .object({
@@ -34,6 +27,7 @@ const formSchema = z
 type FormValues = z.infer<typeof formSchema>;
 
 export default function SignupPage() {
+  const { signup, isPending } = useSignup();
   const router = useRouter();
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -47,14 +41,14 @@ export default function SignupPage() {
 
   async function onSubmit(data: FormValues) {
     try {
-      const res = await signup(data);
-
-      // Store JWT token and user info
-      localStorage.setItem('token', res.token);
-      localStorage.setItem('user', JSON.stringify(res.user));
+      await signup({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      });
 
       toast.success('Signup successful!');
-      router.push('/login'); // Redirect to resume list page
+      router.push('/login');
     } catch (error) {
       console.error('Error occurred:', error);
       toast.error('Signup failed. Please try again.');
@@ -62,17 +56,13 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="container flex h-screen items-center justify-center px-4 md:px-6">
+    <div className="page flex items-center justify-center px-4 md:px-6">
       <div className="w-full max-w-md space-y-6">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold">Sign Up</h1>
           <p className="text-muted-foreground">Create your account</p>
         </div>
         <Card>
-          <CardHeader>
-            <CardTitle>Sign Up</CardTitle>
-            <CardDescription>Fill in your information to create an account</CardDescription>
-          </CardHeader>
           <CardContent className="space-y-4">
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               {/* Name input */}
@@ -119,15 +109,15 @@ export default function SignupPage() {
               </div>
 
               {/* Submit button */}
-              <Button className="w-full" type="submit">
-                Sign Up
+              <Button className="w-full" type="submit" disabled={isPending}>
+                {isPending ? 'Signing up...' : 'Sign Up'}
               </Button>
             </form>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
             <div className="text-sm text-muted-foreground text-center">
-              Already have an account?{' '}
-              <Link href="/login" className="text-primary underline-offset-4 hover:underline">
+              Already have an account?
+              <Link href="/login" className="ml-1 text-primary underline-offset-4 hover:underline">
                 Login
               </Link>
             </div>

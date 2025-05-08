@@ -1,17 +1,19 @@
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Save } from 'lucide-react';
 import { ResumeForm } from '@/components/forms/resume-form';
-import { useMutation } from '@tanstack/react-query';
+import { Button } from '@/components/ui/button';
+import { ResumeFormValues, ResumeJsonFormValues, useResumeForm } from '@/hooks/use-resume-form';
 import { updateDefaultResume } from '@/lib/api/user.api';
 import { useAuthStore } from '@/lib/store/auth.store';
 import { ResumeJson } from '@ai-resume/types';
+import { useMutation } from '@tanstack/react-query';
+import { Save } from 'lucide-react';
 import { toast } from 'sonner';
+import { Form } from '../ui/form';
 
 export function DefaultResumeForm() {
   const { user } = useAuthStore();
+  const form = useResumeForm(user?.defaultResumeJson);
   const updateDefaultResumeMutation = useMutation({
-    mutationFn: (data: any) => updateDefaultResume(data),
+    mutationFn: (defaultResumeJson: ResumeJson) => updateDefaultResume({ defaultResumeJson }),
     onSuccess: () => {
       toast.success('Default resume updated successfully');
     },
@@ -20,39 +22,22 @@ export function DefaultResumeForm() {
     },
   });
 
-  const handleResumeSubmit = (data: any) => {
-    updateDefaultResumeMutation.mutate(data);
+  const handleSubmit = (data: ResumeFormValues) => {
+    const { title, ...resumeJson } = data;
+    updateDefaultResumeMutation.mutate(resumeJson);
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Default Resume</CardTitle>
-        <CardDescription>
-          Set your default resume information that will be used when creating new resumes.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <ResumeForm
-          onSubmit={handleResumeSubmit}
-          defaultValues={user?.defaultResumeJson as ResumeJson}
-        />
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleSubmit)}>
+        <ResumeForm />
         <div className="flex justify-end mt-4">
-          <Button
-            className="gap-1"
-            onClick={() => {
-              const form = document.querySelector('form');
-              if (form) {
-                form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-              }
-            }}
-            disabled={updateDefaultResumeMutation.isPending}
-          >
+          <Button className="gap-1" type="submit" disabled={updateDefaultResumeMutation.isPending}>
             <Save className="h-4 w-4" />
-            Save Changes
+            Save Changesㅁ
           </Button>
         </div>
-      </CardContent>
-    </Card>
+      </form>
+    </Form>
   );
 }

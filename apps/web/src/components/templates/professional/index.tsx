@@ -1,16 +1,16 @@
 import React from 'react';
 import { TemplateProps } from '@/types/template.type';
-import { StyleVars } from '../templates';
+import { TemplateOptions } from '../templates';
 import './style.css';
 
-export const styleVars: StyleVars = {
+export const templateOptions: TemplateOptions = {
   color: 'blue',
   fontSize: 14,
   sectionSpacing: 20,
   fontFamily: 'Times New Roman',
 };
 
-export default function ProfessionalTemplate({ data }: TemplateProps) {
+export default function ProfessionalTemplate({ resumeJson }: TemplateProps) {
   const {
     firstName,
     lastName,
@@ -23,7 +23,7 @@ export default function ProfessionalTemplate({ data }: TemplateProps) {
     skills,
     workExperiences,
     educations,
-  } = data;
+  } = resumeJson;
 
   return (
     <div id="resume-template" className="template-professional">

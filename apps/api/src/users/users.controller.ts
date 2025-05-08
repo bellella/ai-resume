@@ -8,15 +8,16 @@ import {
   UseInterceptors,
   UploadedFile,
   Req,
+  Patch,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UsersService } from './users.service';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RequestWithUser } from '../types/request.types';
 import { UserInfo } from '@ai-resume/types';
 import { ApiBearerAuth } from '@nestjs/swagger';
-
+import { UpdatePersonalInfoDto } from './dto/update-personal-info.dto';
+import { User } from 'src/decorators/user.decorator';
 @Controller('users')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('access-token')
@@ -27,16 +28,19 @@ export class UsersController {
    * Retrieves the user information for the currently authenticated user.
    */
   @Get('me')
-  getUserInfo(@Req() req: RequestWithUser): Promise<UserInfo> {
-    return this.usersService.getUserInfo(req.user.id);
+  getUserInfo(@User('id') userId: string): Promise<UserInfo> {
+    return this.usersService.getUserInfo(userId);
   }
 
   /**
    * Updates the profile of the currently authenticated user.
    */
-  @Put('me')
-  updateProfile(@Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.updateProfile(updateUserDto);
+  @Patch('me')
+  updatePersonalInfo(
+    @Body() updatePersonalInfoDto: UpdatePersonalInfoDto,
+    @User('id') userId: string
+  ) {
+    return this.usersService.updatePersonalInfo(userId, updatePersonalInfoDto);
   }
 
   /**

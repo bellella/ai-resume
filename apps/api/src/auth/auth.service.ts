@@ -1,10 +1,10 @@
+import { ResumeJson } from '@ai-resume/types';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { PrismaService } from '../prisma/prisma.service';
-import { SignupDto } from './dto/signup.dto';
-import { LoginDto } from './dto/login.dto';
 import * as bcrypt from 'bcrypt';
-import { UserInfo } from '@ai-resume/types';
+import { PrismaService } from '../prisma/prisma.service';
+import { LoginDto } from './dto/login.dto';
+import { SignupDto } from './dto/signup.dto';
 
 @Injectable()
 export class AuthService {
@@ -51,7 +51,10 @@ export class AuthService {
 
     return {
       token,
-      user: userInfo,
+      user: {
+        ...userInfo,
+        defaultResumeJson: userInfo.defaultResumeJson as ResumeJson,
+      },
     };
   }
 

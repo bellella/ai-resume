@@ -1,13 +1,13 @@
 'use client';
 
-import ResumeEditor from '@/components/resumes/resume-editor';
-import { toast } from '@/components/ui/use-toast';
-import { fetchResume, updateResume } from '@/lib/api/resume.api';
-import { ResumeDetail } from '@ai-resume/types';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
-import { useAuthGuard } from '@/lib/hooks/use-auth-guard';
 import FullPageLoading from '@/components/home/sections/elements/full-page-loading';
+import ResumeEditor, { ResumeSubmitData } from '@/components/resumes/resume-editor';
+import { fetchResume, updateResume } from '@/lib/api/resume.api';
+import { useAuthGuard } from '@/lib/hooks/use-auth-guard';
+import { ResumeDetail } from '@ai-resume/types';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 export default function NewResumePage({ params }: { params: { id: string } }) {
   useAuthGuard();
   const router = useRouter();
@@ -34,7 +34,7 @@ export default function NewResumePage({ params }: { params: { id: string } }) {
     },
   });
 
-  const handleCreate = async (data: any) => {
+  const handleCreate = async (data: ResumeSubmitData) => {
     await updateResumeMutate(data);
   };
 

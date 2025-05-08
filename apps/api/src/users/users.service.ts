@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { PrismaService } from '../prisma/prisma.service';
 import { ResumeJson, UserInfo } from '@ai-resume/types';
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { UpdatePersonalInfoDto } from './dto/update-personal-info.dto';
 
 @Injectable()
 export class UsersService {
@@ -40,8 +40,11 @@ export class UsersService {
   /**
    * Updates the user profile
    */
-  updateProfile(updateUserDto: UpdateUserDto) {
-    return 'This action updates the user profile';
+  updatePersonalInfo(userId: string, updatePersonalInfoDto: UpdatePersonalInfoDto) {
+    return this.prisma.user.update({
+      where: { id: userId },
+      data: updatePersonalInfoDto,
+    });
   }
 
   /**

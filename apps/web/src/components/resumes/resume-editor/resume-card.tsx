@@ -1,17 +1,16 @@
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { FileText, Pencil, Download, Share, Trash } from 'lucide-react';
+import { TemplateId, TEMPLATES } from '@/components/templates/templates';
+import { Card, CardContent } from '@/components/ui/card';
 import { ResumeItem } from '@ai-resume/types';
-import { TEMPLATES } from '@/components/templates/templates';
+import { FileText } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface ResumeCardProps {
   resume: ResumeItem;
 }
 
 function ResumeCard({ resume }: ResumeCardProps) {
-  const image = TEMPLATES[resume.templateId as keyof typeof TEMPLATES]?.thumbnail;
+  const image = TEMPLATES[resume.templateId as TemplateId]?.thumbnail;
   return (
     <Link href={`/resumes/${resume.id}`} key={resume.id}>
       <Card className="overflow-hidden aspect-a4 flex flex-col">

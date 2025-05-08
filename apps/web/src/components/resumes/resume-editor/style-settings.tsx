@@ -4,8 +4,8 @@ import {
   FONT_FAMILY,
   FONT_SIZES,
   SECTION_SPACING,
-  StyleVars,
   Template,
+  TemplateOptions,
   TEMPLATE_COLORS,
   TemplateColor,
 } from '@/components/templates/templates';
@@ -25,20 +25,22 @@ import React, { memo, useEffect, useRef, useState } from 'react';
 interface StyleSettingsProps {
   template: Template;
   templateJson: TemplateJson;
-  onStyleChange: (style: StyleVars) => void;
+  onStyleChange: (style: TemplateOptions) => void;
 }
 
 const StyleSettings: React.FC<StyleSettingsProps> = memo(
   ({ template, onStyleChange, templateJson }) => {
     const didInit = useRef(false);
     const [fontFamily, setFontFamily] = useState(
-      templateJson.fontFamily ?? template.styleVars.fontFamily
+      templateJson.fontFamily ?? template.templateOptions.fontFamily
     );
-    const [fontSize, setFontSize] = useState(templateJson.fontSize ?? template.styleVars.fontSize);
+    const [fontSize, setFontSize] = useState(
+      templateJson.fontSize ?? template.templateOptions.fontSize
+    );
     const [sectionSpacing, setSectionSpacing] = useState(
-      templateJson.sectionSpacing ?? template.styleVars.sectionSpacing
+      templateJson.sectionSpacing ?? template.templateOptions.sectionSpacing
     );
-    const [color, setColor] = useState(templateJson.color ?? template.styleVars.color);
+    const [color, setColor] = useState(templateJson.color ?? template.templateOptions.color);
 
     useEffect(() => {
       if (!didInit.current && templateJson) {
@@ -48,10 +50,10 @@ const StyleSettings: React.FC<StyleSettingsProps> = memo(
         setColor(templateJson.color);
         didInit.current = true;
       } else {
-        setFontFamily(template.styleVars.fontFamily);
-        setFontSize(template.styleVars.fontSize);
-        setSectionSpacing(template.styleVars.sectionSpacing);
-        setColor(template.styleVars.color);
+        setFontFamily(template.templateOptions.fontFamily);
+        setFontSize(template.templateOptions.fontSize);
+        setSectionSpacing(template.templateOptions.sectionSpacing);
+        setColor(template.templateOptions.color);
       }
     }, [template]);
 

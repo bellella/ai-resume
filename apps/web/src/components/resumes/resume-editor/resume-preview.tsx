@@ -1,16 +1,20 @@
 import { Card, CardContent } from '@/components/ui/card';
-import { ResumeJson } from '@ai-resume/types';
-import { StyleVars, Template, TEMPLATE_COLORS } from '../../templates/templates';
+import { ResumeFormValues, ResumeJsonFormValues } from '@/hooks/use-resume-form';
+import { Template, TemplateOptions, TEMPLATE_COLORS } from '../../templates/templates';
 
 interface ResumePreviewProps {
-  resumeJson: ResumeJson;
+  resumeJson: ResumeFormValues;
   template: Template;
-  styleVars: StyleVars;
+  templateOptions: TemplateOptions;
 }
 
 import { useEffect, useRef, useState } from 'react';
 
-export default function ResumePreview({ resumeJson, template, styleVars }: ResumePreviewProps) {
+export default function ResumePreview({
+  resumeJson,
+  template,
+  templateOptions,
+}: ResumePreviewProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
   const SelectedTemplateComponent = template.component;
@@ -54,15 +58,15 @@ export default function ResumePreview({ resumeJson, template, styleVars }: Resum
               <style>
                 {`
                 #resume-template {
-                  --main-color: ${TEMPLATE_COLORS[styleVars.color].value};
-                  --base-font-size: ${styleVars.fontSize}px;
-                  --section-spacing: ${styleVars.sectionSpacing}px;
-                  font-family: ${styleVars.fontFamily};
+                  --main-color: ${TEMPLATE_COLORS[templateOptions.color].value};
+                  --base-font-size: ${templateOptions.fontSize}px;
+                  --section-spacing: ${templateOptions.sectionSpacing}px;
+                  font-family: ${templateOptions.fontFamily};
                 }
               `}
               </style>
               {resumeJson && SelectedTemplateComponent ? (
-                <SelectedTemplateComponent data={resumeJson} />
+                <SelectedTemplateComponent resumeJson={resumeJson} />
               ) : (
                 <div className="text-muted-foreground">Select a template to preview</div>
               )}

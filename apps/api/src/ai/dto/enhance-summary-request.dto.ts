@@ -6,6 +6,7 @@ export class EnhanceSummaryRequestDto implements EnhanceSummaryRequest {
   userInput?: string;
 
   @IsString()
+  @IsOptional()
   resumeId: string;
 
   @IsObject()

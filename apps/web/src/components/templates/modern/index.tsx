@@ -1,15 +1,15 @@
 import React from 'react';
 import { TemplateProps } from '@/types/template.type';
-import { StyleVars } from '../templates';
+import { TemplateOptions } from '../templates';
 import './style.css';
-export const styleVars: StyleVars = {
+export const templateOptions: TemplateOptions = {
   color: 'black',
   fontSize: 14,
   sectionSpacing: 32,
   fontFamily: 'Georgia',
 };
 
-export default function ModernTemplate({ data }: TemplateProps) {
+export default function ModernTemplate({ resumeJson }: TemplateProps) {
   const {
     firstName,
     lastName,
@@ -23,7 +23,7 @@ export default function ModernTemplate({ data }: TemplateProps) {
     workExperiences,
     educations,
     jobTitle,
-  } = data;
+  } = resumeJson;
 
   const renderOrPlaceholder = (value: string, placeholder: string) =>
     value ? value : <span className="placeholder">{placeholder}</span>;

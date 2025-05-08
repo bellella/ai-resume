@@ -12,9 +12,10 @@ import { useMutation } from '@tanstack/react-query';
 import { enhanceWorkExperience } from '@/lib/api/ai.api';
 import { CoinConfirmDialog } from '@/components/coins/coin-confirm-dialog';
 import { toast } from 'sonner';
-
+import { useParams } from 'next/navigation';
 export function WorkHistorySection() {
   const form = useFormContext();
+  const resumeId = useParams().id as string;
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: 'workExperiences',
@@ -29,7 +30,7 @@ export function WorkHistorySection() {
       return await enhanceWorkExperience({
         userInput,
         meta: { workExperience },
-        resumeId: form.getValues('id'),
+        resumeId,
       });
     },
     onSuccess: (data, index) => {
@@ -83,12 +84,12 @@ export function WorkHistorySection() {
               />
               <FormField
                 control={form.control}
-                name={`workExperiences.${index}.employer`}
+                name={`workExperiences.${index}.companyName`}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>EMPLOYER</FormLabel>
+                    <FormLabel>COMPANY</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter employer name" {...field} />
+                      <Input placeholder="Enter company name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

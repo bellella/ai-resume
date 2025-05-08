@@ -4,8 +4,8 @@ import './globals.css';
 import { Providers } from './providers';
 import Header from '@/components/layout/header';
 import { AuthHydration } from '@/components/apps/auth-hydration';
-import { Toaster } from '@/components/ui/toaster';
 import { AppSidebar } from '@/components/layout/sidebar';
+import { Toaster } from '@/components/ui/sonner';
 
 const inter = Open_Sans({ subsets: ['latin'] });
 
@@ -21,10 +21,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AuthHydration />
         <Providers>
           <div className="w-full">
-            <div className="min-h-screen flex flex-col">
+            <div className="min-h-screen">
               <AppSidebar />
               <Header />
-              <main className="flex-1">{children}</main>
+              <main className="h-content-min-height">{children}</main>
             </div>
             <Toaster />
           </div>

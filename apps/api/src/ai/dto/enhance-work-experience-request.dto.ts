@@ -6,6 +6,7 @@ export class EnhanceWorkExperienceRequestDto implements EnahanceWorkExperienceRe
   userInput?: string;
 
   @IsString()
+  @IsOptional()
   resumeId: string;
 
   @IsObject()

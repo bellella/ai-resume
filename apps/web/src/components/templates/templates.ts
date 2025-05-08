@@ -1,17 +1,14 @@
-import DefaultTemplate, { styleVars as defaultStyleVars } from '@/components/templates/default';
-import ModernTemplate, { styleVars as modernStyleVars } from '@/components/templates/modern';
+import creativeCss from '!!raw-loader!@/components/templates/creative/style.css';
 import defaultCss from '!!raw-loader!@/components/templates/default/style.css';
 import modernCss from '!!raw-loader!@/components/templates/modern/style.css';
-import CreativeTemplate, { styleVars as creativeStyleVars } from '@/components/templates/creative';
-import creativeCss from '!!raw-loader!@/components/templates/creative/style.css';
-import ElegantTemplate, { styleVars as elegantStyleVars } from '@/components/templates/elegant';
-import elegantCss from '!!raw-loader!@/components/templates/elegant/style.css';
-import ProfessionalTemplate, {
-  styleVars as professionalStyleVars,
-} from '@/components/templates/professional';
-import professionalCss from '!!raw-loader!@/components/templates/professional/style.css';
-import MinimalTemplate, { styleVars as minimalStyleVars } from '@/components/templates/minimal';
-import minimalCss from '!!raw-loader!@/components/templates/minimal/style.css';
+import CreativeTemplate, {
+  templateOptions as creativeStyleVars,
+} from '@/components/templates/creative';
+import DefaultTemplate, {
+  templateOptions as defaultStyleVars,
+} from '@/components/templates/default';
+import ModernTemplate, { templateOptions as modernStyleVars } from '@/components/templates/modern';
+import { TemplateProps } from '@/types/template.type';
 
 export const TEMPLATES: Templates = {
   default: {
@@ -19,7 +16,7 @@ export const TEMPLATES: Templates = {
     name: 'Default',
     component: DefaultTemplate,
     css: defaultCss,
-    styleVars: defaultStyleVars,
+    templateOptions: defaultStyleVars,
     fontFamily: 'Arial',
     thumbnail: '/images/templates/default.png',
   },
@@ -28,7 +25,7 @@ export const TEMPLATES: Templates = {
     name: 'Modern',
     component: ModernTemplate,
     css: modernCss,
-    styleVars: modernStyleVars,
+    templateOptions: modernStyleVars,
     fontFamily: 'Arial',
     thumbnail: '/images/templates/modern.png',
   },
@@ -37,7 +34,7 @@ export const TEMPLATES: Templates = {
     name: 'Creative',
     component: CreativeTemplate,
     css: creativeCss,
-    styleVars: creativeStyleVars,
+    templateOptions: creativeStyleVars,
     fontFamily: 'Arial',
     thumbnail: '/images/templates/creative.png',
   },
@@ -125,14 +122,14 @@ export type Templates = {
 export type Template = {
   id: TemplateId;
   name: string;
-  component: React.ComponentType<any>;
+  component: React.ComponentType<TemplateProps>;
   css: string;
-  styleVars: StyleVars;
+  templateOptions: TemplateOptions;
   fontFamily: string;
   thumbnail: string;
 };
 
-export interface StyleVars {
+export interface TemplateOptions {
   color: TemplateColor;
   fontSize: number;
   sectionSpacing: number;

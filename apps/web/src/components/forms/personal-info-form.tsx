@@ -10,6 +10,7 @@ import * as z from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { updatePersonalInfo } from '@/lib/api/user.api';
 import { useAuthStore } from '@/lib/store/auth.store';
+import { toast } from 'sonner';
 
 const personalInfoSchema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -35,11 +36,10 @@ export function PersonalInfoForm() {
   const updatePersonalInfoMutation = useMutation({
     mutationFn: (data: PersonalInfoForm) => updatePersonalInfo(data),
     onSuccess: () => {
-      // TODO: Show success toast
+      toast.success('Personal info updated successfully');
     },
     onError: (error) => {
-      console.error('Failed to update personal info:', error);
-      // TODO: Show error toast
+      toast.error('Failed to update personal info');
     },
   });
 

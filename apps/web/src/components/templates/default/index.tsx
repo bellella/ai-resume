@@ -1,16 +1,16 @@
 import React from 'react';
 import { TemplateProps } from '@/types/template.type';
-import { StyleVars } from '../templates';
+import { TemplateOptions } from '../templates';
 import './style.css';
 
-export const styleVars: StyleVars = {
+export const templateOptions: TemplateOptions = {
   color: 'black',
   fontSize: 14,
   sectionSpacing: 18,
   fontFamily: 'Arial',
 };
 
-export default function DefaultTemplate({ data }: TemplateProps) {
+export default function DefaultTemplate({ resumeJson }: TemplateProps) {
   const {
     firstName,
     lastName,
@@ -23,7 +23,7 @@ export default function DefaultTemplate({ data }: TemplateProps) {
     skills,
     workExperiences,
     educations,
-  } = data;
+  } = resumeJson;
 
   const renderOrPlaceholder = (value: string, placeholder: string) =>
     value ? value : <span className="placeholder">{placeholder}</span>;

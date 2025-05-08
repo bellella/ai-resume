@@ -22,7 +22,7 @@ export type AiEvaluationData = {
 export type EnhanceSummaryRequest = {
   userInput?: string;
   meta: SummaryMeta;
-  resumeId: string;
+  resumeId?: string;
 };
 
 export type SummaryMeta = {
@@ -37,7 +37,7 @@ export type SummaryMeta = {
 export type EnahanceWorkExperienceRequest = {
   userInput?: string;
   meta: WorkExperienceMeta;
-  resumeId: string;
+  resumeId?: string;
 };
 
 export type WorkExperienceMeta = {
