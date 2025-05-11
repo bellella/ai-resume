@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { cn } from '@/lib/utils';
 
+const cardPadding = 'p-4 sm:p-8';
+
 const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
     <div
@@ -19,7 +21,7 @@ const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn('flex flex-col gap-1.5 px-6 py-4 bg-secondary/40 backdrop-blur-sm', className)}
+      className={cn('flex flex-col gap-1.5 px-6 py-4 bg-secondary/40 backdrop-blur-sm', cardPadding, className)}
       {...props}
     />
   )
@@ -45,7 +47,7 @@ const CardDescription = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HT
 CardDescription.displayName = 'CardDescription';
 
 const CardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => <div ref={ref} className={cn('p-6', className)} {...props} />
+  ({ className, ...props }, ref) => <div ref={ref} className={cn(cardPadding, className)} {...props} />
 );
 CardContent.displayName = 'CardContent';
 
@@ -54,7 +56,8 @@ const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
     <div
       ref={ref}
       className={cn(
-        'flex items-center justify-between px-6 py-4 border-t border-border',
+        'flex items-center justify-between',
+        cardPadding,
         className
       )}
       {...props}

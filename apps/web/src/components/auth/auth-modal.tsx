@@ -30,7 +30,7 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="p-4 content-center rounded-none w-full md:rounded-lg md:max-w-lg" onOpenAutoFocus={(e) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle>{mode === 'login' ? 'Login' : 'Sign Up'}</DialogTitle>
           <DialogDescription>

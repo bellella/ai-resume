@@ -5,6 +5,8 @@ import { BadgeCheck, AlertTriangle } from 'lucide-react';
 import { CircularProgress } from './circular-progress';
 import { Button } from '@/components/ui/button';
 import { AiEvaluationData } from '@ai-resume/types';
+import { CoinConfirmDialog } from '@/components/coins/coin-confirm-dialog';
+import { useState } from 'react';
 
 interface AIEvaluationProps {
   evaluation: AiEvaluationData | null;
@@ -13,13 +15,17 @@ interface AIEvaluationProps {
 }
 
 export default function AIEvaluation({ evaluation, onEvaluate, isEvaluating }: AIEvaluationProps) {
+  const [openDialog, setOpenDialog] = useState(false);
+  const handleEvaluate = () => {
+    setOpenDialog(true);
+  };
   if (!evaluation) {
     return (
       <div className="text-center py-8">
         <p className="text-sm text-muted-foreground mb-4">
           This resume has not been evaluated yet.
         </p>
-        <Button variant="accent" onClick={onEvaluate}>
+        <Button type="button" variant="accent" onClick={handleEvaluate}>
           Evaluate with AI
         </Button>
       </div>
@@ -36,7 +42,13 @@ export default function AIEvaluation({ evaluation, onEvaluate, isEvaluating }: A
           <div>
             <div className="flex justify-between items-end">
               <h2 className="text-lg font-semibold">AI Evaluation Result</h2>
-              <Button size="sm" variant="accent" onClick={onEvaluate} disabled={isEvaluating}>
+              <Button
+                type="button"
+                size="sm"
+                variant="accent"
+                onClick={handleEvaluate}
+                disabled={isEvaluating}
+              >
                 {isEvaluating ? 'Evaluating...' : 'Reevaluate with AI'}
               </Button>
             </div>
@@ -79,6 +91,18 @@ export default function AIEvaluation({ evaluation, onEvaluate, isEvaluating }: A
           </CardContent>
         </Card>
       </div>
+      <CoinConfirmDialog
+        open={openDialog && !isEvaluating}
+        price={1}
+        onCancel={() => setOpenDialog(false)}
+        onConfirm={onEvaluate}
+        message={
+          <p className="text-center">
+            This will consume <strong className="text-coin">1 coin</strong> to evaluate your resume
+            using AI.
+          </p>
+        }
+      />
     </div>
   );
 }

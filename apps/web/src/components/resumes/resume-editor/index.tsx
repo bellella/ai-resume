@@ -22,11 +22,11 @@ import ResumePreview from './resume-preview';
 import StyleSettings from './style-settings';
 import TemplateList from './template-list';
 import AuthModal from '@/components/auth/auth-modal';
-import { PersonalInfoSection } from '@/components/forms/sections/personal-info-section';
-import { EducationHistorySection } from '@/components/forms/sections/education-history-section';
-import { SummarySection } from '@/components/forms/sections/summary-section';
-import { SkillsSection } from '@/components/forms/sections/skills-section';
-import { WorkHistorySection } from '@/components/forms/sections/work-history-section';
+import { PersonalInfoSection } from '@/components/forms/resume-form/personal-info-section';
+import { EducationHistorySection } from '@/components/forms/resume-form/education-history-section';
+import { SummarySection } from '@/components/forms/resume-form/summary-section';
+import { SkillsSection } from '@/components/forms/resume-form/skills-section';
+import { WorkHistorySection } from '@/components/forms/resume-form/work-history-section';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
 export type ResumeEditorProps = {

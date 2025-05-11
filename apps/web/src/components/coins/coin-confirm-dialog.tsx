@@ -14,19 +14,17 @@ interface Props {
   price: number;
   onConfirm: () => void;
   onCancel: () => void;
+  message?: React.ReactNode;
 }
 
-export function CoinConfirmDialog({ open, price, onConfirm, onCancel }: Props) {
+export function CoinConfirmDialog({ open, price, onConfirm, onCancel, message }: Props) {
   return (
     <Dialog open={open} onOpenChange={onCancel}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Use {price} Coin?</DialogTitle>
         </DialogHeader>
-        <p className="text-center">
-          This will consume <strong className="text-coin">1 coin</strong> to enhance content using
-          AI.
-        </p>
+        {message}
         <DialogFooter>
           <Button variant="accent" onClick={onCancel}>
             Cancel

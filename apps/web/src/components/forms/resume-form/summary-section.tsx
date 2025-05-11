@@ -91,6 +91,12 @@ export function SummarySection() {
         price={1}
         onCancel={() => setOpenDialog(false)}
         onConfirm={handleConfirm}
+        message={
+          <p className="text-center">
+            This will consume <strong className="text-coin">1 coin</strong> to enhance your
+            professional summary using AI.
+          </p>
+        }
       />
     </Card>
   );

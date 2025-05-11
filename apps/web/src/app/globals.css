@@ -126,6 +126,9 @@
   .h-min-content {
     min-height: var(--content-min-height);
   }
+  .form-list-item {
+    @apply relative pb-8 border-b border-dashed last:pb-0 last:border-b-0 border-gray-300;
+  }
 }
 
 @layer base {

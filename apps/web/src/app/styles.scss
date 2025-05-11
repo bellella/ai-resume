@@ -19,3 +19,11 @@
 .animate-sparkle {
   animation: sparkle 3s ease-in-out infinite;
 }
+
+/**
+ * Text Editor
+ */
+.tiptap ul {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+}
