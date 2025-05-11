@@ -1,6 +1,6 @@
 'use client';
 
-import FullPageLoading from '@/components/home/sections/elements/full-page-loading';
+import FullPageLoading from '@/components/home/sections/ui/full-page-loading';
 import ResumeCard from '@/components/resumes/resume-editor/resume-card';
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';

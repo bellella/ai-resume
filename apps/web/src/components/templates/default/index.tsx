@@ -89,9 +89,7 @@ export default function DefaultTemplate({ resumeJson }: TemplateProps) {
                   {renderOrPlaceholder(job.startDate, 'Start')} -{' '}
                   {renderOrPlaceholder(job.endDate, 'End')}
                 </div>
-                <div className="item-description">
-                  {job.achievements?.split('\n').map((line, i) => <p key={i}>{line}</p>)}
-                </div>
+                <div className="item-description" dangerouslySetInnerHTML={{ __html: job.achievements }} />
               </div>
             ))
           ) : (

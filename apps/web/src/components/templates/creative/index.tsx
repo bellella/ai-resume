@@ -114,16 +114,14 @@ export default function CreativeTemplate({ resumeJson }: TemplateProps) {
                   {renderOrPlaceholder(job.startDate, 'Start')} –{' '}
                   {renderOrPlaceholder(job.endDate, 'End')}
                 </div>
-                <div className="item-description">
-                  {job.achievements?.split('\n').map((line, i) => <p key={i}>{line}</p>)}
-                </div>
+                <div className="item-description" dangerouslySetInnerHTML={{ __html: job.achievements }} />
               </div>
             ))
           ) : (
             <div className="placeholder">Add your work experience here</div>
           )}
         </section>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import FullPageLoading from '@/components/home/sections/elements/full-page-loading';
+import FullPageLoading from '@/components/home/sections/ui/full-page-loading';
 import ResumeEditor, { ResumeSubmitData } from '@/components/resumes/resume-editor';
 import { fetchResume, updateResume } from '@/lib/api/resume.api';
 import { useAuthGuard } from '@/lib/hooks/use-auth-guard';

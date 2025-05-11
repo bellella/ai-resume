@@ -10,7 +10,7 @@ import BulletList from '@tiptap/extension-bullet-list';
 import ListItem from '@tiptap/extension-list-item';
 import { Bold, Italic, List, Undo2, Redo2 } from 'lucide-react';
 import { useEffect } from 'react';
-import { cn } from '@/lib/utils'; // Tailwind helper (optional)
+import { cn } from '@/lib/utils';
 
 interface Props {
   value: string;
@@ -27,7 +27,7 @@ export default function TextEditor({ value, onChange }: Props) {
     editorProps: {
       attributes: {
         class:
-          'prose prose-sm min-h-[120px] border border-input rounded-md p-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
+          'min-h-[120px] p-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
       },
     },
   });
@@ -41,8 +41,8 @@ export default function TextEditor({ value, onChange }: Props) {
   if (!editor) return null;
 
   return (
-    <div className="space-y-2">
-      <div className="flex gap-2 border rounded-md px-2 py-1 bg-muted">
+    <div className="border rounded-md">
+      <div className="flex gap-2 border-b px-2 py-1 bg-muted">
         <EditorButton icon={Bold} active={editor.isActive('bold')} onClick={() => editor.chain().focus().toggleBold().run()} />
         <EditorButton icon={Italic} active={editor.isActive('italic')} onClick={() => editor.chain().focus().toggleItalic().run()} />
         <EditorButton icon={List} active={editor.isActive('bulletList')} onClick={() => editor.chain().focus().toggleBulletList().run()} />
