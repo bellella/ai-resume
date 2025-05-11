@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { TemplateSlider } from './elements/template-slider';
+import { TemplateSlider } from './ui/template-slider';
 
 export function TemplateSection() {
   return (

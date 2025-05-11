@@ -32,45 +32,49 @@ export class AiService {
    */
   async evaluateResumeWithAi(resumeId: string, userId: string): Promise<AiEvaluationResponse> {
     const price = PRICING.EVALUATE_RESUME;
-    return await this.prisma.$transaction(async (tx) => {
-      await this.coinService.deductCoins(tx, userId, price);
+    return this.prisma.$transaction(
+      async (tx) => {
+        await this.coinService.deductCoins(tx, userId, price);
 
-      const resume = await tx.resume.findUnique({ where: { id: resumeId } });
-      const prompt = resumePrompts.evaluateResume(resume?.resumeJson as ResumeJson);
-      // get json string data from openai and parse it
-      const raw = await this.requestResumeAIResponse(prompt);
-      const parsed = this.parseResponse(raw);
+        const resume = await tx.resume.findUnique({ where: { id: resumeId } });
+        const prompt = resumePrompts.evaluateResume(resume?.resumeJson as ResumeJson);
+        // get json string data from openai and parse it
+        const raw = await this.requestResumeAIResponse(prompt);
+        const parsed = this.parseResponse(raw);
 
-      const evaluation = await tx.aiEvaluation.create({
-        data: {
-          resumeId,
-          score: parsed.score,
-          summary: parsed.summary,
-          strengths: parsed.strengths,
-          weaknesses: parsed.weaknesses,
-        },
-      });
-
-      await tx.transaction.create({
-        data: {
-          userId,
-          type: 'USAGE',
-          price,
-          name: 'Evaluate resume',
-          meta: {
+        const evaluation = await tx.aiEvaluation.create({
+          data: {
             resumeId,
+            score: parsed.score,
+            summary: parsed.summary,
+            strengths: parsed.strengths,
+            weaknesses: parsed.weaknesses,
           },
-        },
-      });
+        });
 
-      return {
-        score: evaluation.score,
-        summary: evaluation.summary,
-        strengths: evaluation.strengths,
-        weaknesses: evaluation.weaknesses,
-        lastUpdated: evaluation.createdAt,
-      };
-    });
+        await tx.transaction.create({
+          data: {
+            userId,
+            type: 'USAGE',
+            price,
+            name: 'Evaluate resume',
+            meta: {
+              resumeId,
+            },
+          },
+        });
+        console.log('evaluation', evaluation);
+
+        return {
+          score: evaluation.score,
+          summary: evaluation.summary,
+          strengths: evaluation.strengths,
+          weaknesses: evaluation.weaknesses,
+          lastUpdated: evaluation.createdAt,
+        };
+      },
+      { timeout: 8000 }
+    );
   }
 
   /**
@@ -83,13 +87,15 @@ export class AiService {
     weaknesses: string[];
   } {
     try {
-      const trimmed = responseText.trim();
+      const start = responseText.indexOf('{');
+      const end = responseText.lastIndexOf('}');
 
-      if (!trimmed.startsWith('{') || !trimmed.endsWith('}')) {
-        throw new Error('Response is not in JSON format.');
+      if (start === -1 || end === -1 || end <= start) {
+        throw new Error('No valid JSON boundaries found.');
       }
 
-      const parsed = JSON.parse(trimmed);
+      const jsonText = responseText.slice(start, end + 1);
+      const parsed = JSON.parse(jsonText);
 
       if (
         typeof parsed.score === 'number' &&

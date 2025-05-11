@@ -13,4 +13,7 @@ export class CreateResumeDto implements CreateResumeRequest {
 
   @IsObject()
   templateJson: TemplateJson;
+
+  @IsString()
+  thubmnailImage?: string;
 }

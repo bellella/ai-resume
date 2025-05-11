@@ -16,6 +16,7 @@ export type FetchResumeResponse = ResumeDetail;
 export type CreateResumeRequest = {
   title: string;
   resumeJson: ResumeJson;
+  thubmnailImage?: string;
 };
 
 /**
@@ -31,6 +32,7 @@ export type CreateResumeResponse = {
 export type UpdateResumeRequest = {
   title: string;
   resumeJson: ResumeJson;
+  thubmnailImage?: string;
 };
 
 /**
@@ -46,6 +48,7 @@ export type UpdateResumeResponse = {
 export type ResumeJson = {
   firstName: string;
   lastName: string;
+  profileImage: string;
   jobTitle: string;
   city: string;
   province: string;
@@ -93,6 +96,7 @@ export interface ResumeItem
       title: true;
       createdAt: true;
       updatedAt: true;
+      thubmnailImage: true;
       templateId: true;
     };
   }> {}

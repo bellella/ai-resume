@@ -87,7 +87,7 @@ export function SummarySection() {
       </CardContent>
 
       <CoinConfirmDialog
-        open={openDialog && !isPending}
+        open={openDialog}
         price={1}
         onCancel={() => setOpenDialog(false)}
         onConfirm={handleConfirm}

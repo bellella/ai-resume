@@ -2,34 +2,41 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { UserInfo } from '@ai-resume/types';
+import type { ResumeJson, UserInfo } from '@ai-resume/types';
 import { fetchUser } from '../api/user.api';
 
 interface AuthState {
   user: UserInfo | null;
+  defaultResumeJson?: ResumeJson;
   isLoading: boolean;
   setUserInfo: (user: UserInfo | null) => void;
+  setDefaultResumeJson: (defaultResumeJson: ResumeJson) => void;
   clearUserInfo: () => void;
   hydrateUser: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       user: null,
+      defaultResumeJson: undefined,
       isLoading: true,
-      setUserInfo: (user) => set({ user, isLoading: false }),
+      setUserInfo: (user) => {
+        set({ user, isLoading: false });
+        set({ defaultResumeJson: user?.defaultResumeJson });
+      },
       clearUserInfo: () => set({ user: null, isLoading: false }),
       hydrateUser: async () => {
         try {
           const res = await fetchUser();
-          set({ user: res });
+          get().setUserInfo(res);
         } catch (error) {
-          set({ user: null });
+          get().setUserInfo(null);
         } finally {
           set({ isLoading: false });
         }
       },
+      setDefaultResumeJson: (defaultResumeJson: ResumeJson) => set({ defaultResumeJson }),
     }),
     {
       name: 'auth-storage',

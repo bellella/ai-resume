@@ -21,7 +21,11 @@ const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn('flex flex-col gap-1.5 px-6 py-4 bg-secondary/40 backdrop-blur-sm', cardPadding, className)}
+      className={cn(
+        'flex flex-col gap-1.5 px-6 py-4 bg-secondary/40 backdrop-blur-sm',
+        cardPadding,
+        className
+      )}
       {...props}
     />
   )
@@ -47,7 +51,9 @@ const CardDescription = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HT
 CardDescription.displayName = 'CardDescription';
 
 const CardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => <div ref={ref} className={cn(cardPadding, className)} {...props} />
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cn(cardPadding, className)} {...props} />
+  )
 );
 CardContent.displayName = 'CardContent';
 
@@ -55,11 +61,7 @@ const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn(
-        'flex items-center justify-between',
-        cardPadding,
-        className
-      )}
+      className={cn('flex items-center justify-between', cardPadding, className)}
       {...props}
     />
   )

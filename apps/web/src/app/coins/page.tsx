@@ -1,9 +1,9 @@
 'use client';
 
-import FullPageLoading from '@/components/home/sections/elements/full-page-loading';
 import { CoinCard } from '@/components/coins/coin-card';
 import TransactionList from '@/components/coins/transaction-list';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import FullPageLoading from '@/components/home/sections/ui/full-page-loading';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Container } from '@/components/ui/container';
 import { PageHeader } from '@/components/ui/page-header';
 import { SectionHeader } from '@/components/ui/section-header';

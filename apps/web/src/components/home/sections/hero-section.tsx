@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FileText, Sparkles } from 'lucide-react';
 import Link from 'next/link';
-import { TypingText } from './elements/typing-text';
+import { TypingText } from './ui/typing-text';
 
 export function HeroSection() {
   return (

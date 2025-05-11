@@ -1,4 +1,4 @@
-import { AnimatedCards } from './elements/animated-cards';
+import { AnimatedCards } from './ui/animated-cards';
 
 export function FeaturesSection() {
   return (
@@ -14,9 +14,7 @@ export function FeaturesSection() {
           </p>
         </div>
       </div>
-      <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-12">
-        <AnimatedCards />
-      </div>
+      <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-12"></div>
     </div>
   );
 }

@@ -1,9 +1,9 @@
-import { Parallax } from '@/components/home/sections/elements/parallax';
-import { SparkleBackground } from '@/components/home/sections/elements/sparkle-background';
 import { CTASection } from '@/components/home/sections/cta-section';
 import { FeaturesSection } from '@/components/home/sections/features-section';
 import { HeroSection } from '@/components/home/sections/hero-section';
 import { TemplateSection } from '@/components/home/sections/template-section';
+import { Parallax } from '@/components/home/sections/ui/parallax';
+import { SparkleBackground } from '@/components/home/sections/ui/sparkle-background';
 import { UserReviewSection } from '@/components/home/sections/user-review-section';
 
 export default function HomePage() {

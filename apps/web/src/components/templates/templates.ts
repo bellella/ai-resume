@@ -1,6 +1,7 @@
-import creativeCss from '!!raw-loader!@/components/templates/creative/style.css';
-import defaultCss from '!!raw-loader!@/components/templates/default/style.css';
-import modernCss from '!!raw-loader!@/components/templates/modern/style.css';
+// import creativeCss from '!!raw-loader!@/components/templates/creative/style.css';
+// import defaultCss from '!!raw-loader!@/components/templates/default/style.css';
+// import modernCss from '!!raw-loader!@/components/templates/modern/style.css';
+// import professionalCss from '!!raw-loader!@/components/templates/professional/style.css';
 import CreativeTemplate, {
   templateOptions as creativeStyleVars,
 } from '@/components/templates/creative';
@@ -9,13 +10,16 @@ import DefaultTemplate, {
 } from '@/components/templates/default';
 import ModernTemplate, { templateOptions as modernStyleVars } from '@/components/templates/modern';
 import { TemplateProps } from '@/types/template.type';
+import ProfessionalTemplate, {
+  templateOptions as professionalStyleVars,
+} from '@/components/templates/professional';
 
 export const TEMPLATES: Templates = {
   default: {
     id: 'default',
     name: 'Default',
     component: DefaultTemplate,
-    css: defaultCss,
+    css: '',
     templateOptions: defaultStyleVars,
     fontFamily: 'Arial',
     thumbnail: '/images/templates/default.png',
@@ -24,7 +28,7 @@ export const TEMPLATES: Templates = {
     id: 'modern',
     name: 'Modern',
     component: ModernTemplate,
-    css: modernCss,
+    css: '',
     templateOptions: modernStyleVars,
     fontFamily: 'Arial',
     thumbnail: '/images/templates/modern.png',
@@ -33,7 +37,7 @@ export const TEMPLATES: Templates = {
     id: 'creative',
     name: 'Creative',
     component: CreativeTemplate,
-    css: creativeCss,
+    css: '',
     templateOptions: creativeStyleVars,
     fontFamily: 'Arial',
     thumbnail: '/images/templates/creative.png',
@@ -47,15 +51,15 @@ export const TEMPLATES: Templates = {
   //   fontFamily: 'Arial',
   //   thumbnail: '/images/templates/elegant.png',
   // },
-  // professional: {
-  //   id: 'professional',
-  //   name: 'Professional',
-  //   component: ProfessionalTemplate,
-  //   css: professionalCss,
-  //   styleVars: professionalStyleVars,
-  //   fontFamily: 'Arial',
-  //   thumbnail: '/images/templates/professional.png',
-  // },
+  professional: {
+    id: 'professional',
+    name: 'Professional',
+    component: ProfessionalTemplate,
+    css: '',
+    templateOptions: professionalStyleVars,
+    fontFamily: 'Arial',
+    thumbnail: '/images/templates/professional.png',
+  },
   // minimal: {
   //   id: 'minimal',
   //   name: 'Minimal',
@@ -69,7 +73,7 @@ export const TEMPLATES: Templates = {
 
 export const TEMPLATE_LIST = Object.values(TEMPLATES);
 
-export type TemplateId = 'default' | 'modern' | 'creative'; // | 'elegant' | 'professional' | 'minimal';
+export type TemplateId = 'default' | 'modern' | 'creative' | 'professional'; // | 'elegant' | 'minimal';
 
 export type TemplateColor = keyof typeof TEMPLATE_COLORS;
 

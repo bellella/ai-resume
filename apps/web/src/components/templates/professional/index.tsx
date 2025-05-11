@@ -1,13 +1,13 @@
 import React from 'react';
 import { TemplateProps } from '@/types/template.type';
 import { TemplateOptions } from '../templates';
-import './style.css';
+import professionalCss from '!!raw-loader!@/components/templates/professional/style.css';
 
 export const templateOptions: TemplateOptions = {
-  color: 'blue',
+  color: 'black',
   fontSize: 14,
-  sectionSpacing: 20,
-  fontFamily: 'Times New Roman',
+  sectionSpacing: 18,
+  fontFamily: 'Arial',
 };
 
 export default function ProfessionalTemplate({ resumeJson }: TemplateProps) {
@@ -18,75 +18,105 @@ export default function ProfessionalTemplate({ resumeJson }: TemplateProps) {
     phone,
     city,
     province,
-    postalCode,
+    profileImage,
     professionalSummary,
     skills,
     workExperiences,
     educations,
+    jobTitle,
   } = resumeJson;
 
+  const renderOrPlaceholder = (value: string, placeholder: string) =>
+    value ? value : <span className="placeholder">{placeholder}</span>;
+
   return (
-    <div id="resume-template" className="template-professional">
-      <div className="template-header">
-        <h1 className="template-name">
-          {firstName} {lastName}
-        </h1>
-        <p className="template-contact">
-          {email} | {phone}
-        </p>
-        <p className="template-location">
-          {city}, {province} {postalCode}
-        </p>
-      </div>
+    <>
+      <style>{professionalCss}</style>
+      <div id="resume-template" className="professional-template">
+        <div className="left-column">
+          <div
+            className="profile-pic"
+            style={{ backgroundImage: `url(${profileImage || '/placeholder.svg'})` }}
+          />
+          <div className="contact-section">
+            <div>{renderOrPlaceholder(email, 'youremail@mail.com')}</div>
+            <div>{renderOrPlaceholder(phone, '+00 0 0000 0000')}</div>
+            <div>
+              {renderOrPlaceholder(city, 'City')}, {renderOrPlaceholder(province, 'Province')}
+            </div>
+          </div>
 
-      <div className="template-body">
-        <div className="template-section">
-          <h2 className="template-title">Summary</h2>
-          <p className="template-text">{professionalSummary}</p>
-        </div>
-
-        <div className="template-section">
-          <h2 className="template-title">Skills</h2>
-          <ul className="template-list">
-            {skills.map((skill, i) => (
-              <li key={i}>{skill}</li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="template-section">
-          <h2 className="template-title">Work Experience</h2>
-          <div className="template-group">
-            {workExperiences.map((job, i) => (
-              <div key={i} className="template-item">
-                <div className="template-item-title">
-                  {job.jobTitle} at {job.companyName}
-                </div>
-                <div className="template-item-sub">
-                  {job.city}, {job.province} | {job.startDate} - {job.endDate}
-                </div>
-              </div>
-            ))}
+          <div className="subsection">
+            <h3>Tools & Technologies</h3>
+            <ul className="skills-list">
+              {skills.length > 0 ? (
+                skills.map((skill, i) => <li key={i}>{skill}</li>)
+              ) : (
+                <li className="placeholder">Add your skills here</li>
+              )}
+            </ul>
           </div>
         </div>
 
-        <div className="template-section">
-          <h2 className="template-title">Education</h2>
-          <div className="template-group">
-            {educations.map((edu, i) => (
-              <div key={i} className="template-item">
-                <div className="template-item-title">
-                  {edu.degree} in {edu.fieldOfStudy}
+        <div className="right-column">
+          <h1 className="name">
+            {renderOrPlaceholder(firstName, 'Your')} {renderOrPlaceholder(lastName, 'Name')}
+          </h1>
+          <p className="position">{renderOrPlaceholder(jobTitle, 'Job Title')}</p>
+
+          <section className="section">
+            <h2 className="section-title">Professional Summary</h2>
+            <p className="section-text">
+              {professionalSummary || (
+                <span className="placeholder">
+                  A brief summary about your professional background and core skills.
+                </span>
+              )}
+            </p>
+          </section>
+
+          <section className="section">
+            <h2 className="section-title">Experience</h2>
+            <div className="section-group">
+              {workExperiences.map((job, i) => (
+                <div key={i}>
+                  <div className="item-title">{renderOrPlaceholder(job.jobTitle, 'Role')}</div>
+                  <div className="item-sub">
+                    {renderOrPlaceholder(job.companyName, 'Company')} —{' '}
+                    {renderOrPlaceholder(job.startDate, 'Start')} -{' '}
+                    {renderOrPlaceholder(job.endDate, 'End')},{' '}
+                    {renderOrPlaceholder(job.city, 'City')}
+                  </div>
+                  <div
+                    className="item-description"
+                    dangerouslySetInnerHTML={{ __html: job.achievements }}
+                  />
                 </div>
-                <div className="template-item-sub">
-                  {edu.schoolName}, {edu.schoolLocation} | {edu.graduationMonth}{' '}
-                  {edu.graduationYear}
+              ))}
+            </div>
+          </section>
+
+          <section className="section">
+            <h2 className="section-title">Education</h2>
+            <div className="section-group">
+              {educations.map((edu, i) => (
+                <div key={i}>
+                  <div className="item-title">
+                    {renderOrPlaceholder(edu.degree, 'Degree')} in{' '}
+                    {renderOrPlaceholder(edu.fieldOfStudy, 'Field of Study')}
+                  </div>
+                  <div className="item-sub">
+                    {renderOrPlaceholder(edu.schoolName, 'School Name')},{' '}
+                    {renderOrPlaceholder(edu.schoolLocation, 'Location')} |{' '}
+                    {renderOrPlaceholder(edu.graduationMonth, 'Month')}{' '}
+                    {renderOrPlaceholder(edu.graduationYear, 'Year')}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </section>
         </div>
       </div>
-    </div>
+    </>
   );
 }

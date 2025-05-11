@@ -1,7 +1,8 @@
 'use client';
 
+import ProfileImageUploader from '@/components/apps/profile-image-uploader';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useFormContext } from 'react-hook-form';
 
@@ -15,6 +16,18 @@ export function PersonalInfoSection() {
         <CardDescription>Your personal information</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
+        <FormField
+          control={form.control}
+          name="profileImage"
+          render={({ field }) => (
+            <FormItem className="justify-self-center md:justify-self-start">
+              <FormLabel>PROFILE IMAGE</FormLabel>
+              <FormControl>
+                <ProfileImageUploader value={field.value} onChange={field.onChange} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormField
             control={form.control}

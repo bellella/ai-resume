@@ -36,10 +36,10 @@ export type ResumeEditorProps = {
 };
 
 export type ResumeSubmitData = {
-  title?: string;
+  title: string;
   resumeJson: ResumeJsonFormValues;
-  templateId?: string;
-  templateJson?: TemplateJson;
+  templateId: string;
+  templateJson: TemplateJson;
 };
 
 export default function ResumeEditor({ resume, onSave, isSaving = false }: ResumeEditorProps) {

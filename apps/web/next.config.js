@@ -8,6 +8,9 @@ const nextConfig = {
 
     return config;
   },
+  images: {
+    domains: ['ai-resume-images.s3.ca-central-1.amazonaws.com'],
+  },
 };
 
 module.exports = nextConfig;

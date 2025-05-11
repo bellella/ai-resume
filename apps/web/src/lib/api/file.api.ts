@@ -12,3 +12,11 @@ export const generatePdf = async (data: GeneratePdfRequest): Promise<GeneratePdf
     .blob();
   return response;
 };
+
+/**
+ * upload file to s3
+ */
+export const uploadFile = async (formData: FormData): Promise<{ url: string }> => {
+  const response = await api.post('api/files/upload', { body: formData });
+  return response.json();
+};

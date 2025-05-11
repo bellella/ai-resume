@@ -10,7 +10,7 @@ interface ResumeCardProps {
 }
 
 function ResumeCard({ resume }: ResumeCardProps) {
-  const image = TEMPLATES[resume.templateId as TemplateId]?.thumbnail;
+  const image = resume.thubmnailImage ?? TEMPLATES[resume.templateId as TemplateId]?.thumbnail;
   return (
     <Link href={`/resumes/${resume.id}`} key={resume.id}>
       <Card className="overflow-hidden aspect-a4 flex flex-col">

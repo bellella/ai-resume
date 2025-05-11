@@ -10,8 +10,8 @@ import { toast } from 'sonner';
 import { Form } from '../ui/form';
 
 export function DefaultResumeForm() {
-  const { user } = useAuthStore();
-  const form = useResumeForm(user?.defaultResumeJson);
+  const { defaultResumeJson, setDefaultResumeJson } = useAuthStore();
+  const form = useResumeForm(defaultResumeJson);
   const updateDefaultResumeMutation = useMutation({
     mutationFn: (defaultResumeJson: ResumeJson) => updateDefaultResume({ defaultResumeJson }),
     onSuccess: () => {
@@ -22,9 +22,10 @@ export function DefaultResumeForm() {
     },
   });
 
-  const handleSubmit = (data: ResumeFormValues) => {
+  const handleSubmit = async (data: ResumeFormValues) => {
     const { title, ...resumeJson } = data;
-    updateDefaultResumeMutation.mutate(resumeJson);
+    await updateDefaultResumeMutation.mutateAsync(resumeJson);
+    setDefaultResumeJson(resumeJson);
   };
 
   return (
@@ -34,7 +35,7 @@ export function DefaultResumeForm() {
         <div className="flex justify-end mt-4">
           <Button className="gap-1" type="submit" disabled={updateDefaultResumeMutation.isPending}>
             <Save className="h-4 w-4" />
-            Save Changesㅁ
+            Save Changes
           </Button>
         </div>
       </form>

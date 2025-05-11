@@ -56,16 +56,6 @@ export function PersonalInfoForm() {
       <CardContent className="space-y-6">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col md:flex-row gap-6 items-start">
-            <div className="flex flex-col items-center gap-2">
-              <Avatar className="h-24 w-24">
-                <AvatarImage src={user?.imageUrl || '/placeholder.svg'} alt="Profile" />
-                <AvatarFallback>{user?.name?.slice(0, 2).toUpperCase() || 'JD'}</AvatarFallback>
-              </Avatar>
-              <Button variant="outline" size="sm">
-                Change
-              </Button>
-            </div>
-
             <div className="grid flex-1 gap-4 md:grid-cols-2">
               <FormField id="name" label="Name">
                 <Input id="name" {...register('name')} />

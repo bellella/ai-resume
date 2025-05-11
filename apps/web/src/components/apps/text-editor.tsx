@@ -1,10 +1,6 @@
 'use client';
 
-import {
-  EditorContent,
-  useEditor,
-  BubbleMenu,
-} from '@tiptap/react';
+import { EditorContent, useEditor, BubbleMenu } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import BulletList from '@tiptap/extension-bullet-list';
 import ListItem from '@tiptap/extension-list-item';
@@ -43,9 +39,21 @@ export default function TextEditor({ value, onChange }: Props) {
   return (
     <div className="border rounded-md">
       <div className="flex gap-2 border-b px-2 py-1 bg-muted">
-        <EditorButton icon={Bold} active={editor.isActive('bold')} onClick={() => editor.chain().focus().toggleBold().run()} />
-        <EditorButton icon={Italic} active={editor.isActive('italic')} onClick={() => editor.chain().focus().toggleItalic().run()} />
-        <EditorButton icon={List} active={editor.isActive('bulletList')} onClick={() => editor.chain().focus().toggleBulletList().run()} />
+        <EditorButton
+          icon={Bold}
+          active={editor.isActive('bold')}
+          onClick={() => editor.chain().focus().toggleBold().run()}
+        />
+        <EditorButton
+          icon={Italic}
+          active={editor.isActive('italic')}
+          onClick={() => editor.chain().focus().toggleItalic().run()}
+        />
+        <EditorButton
+          icon={List}
+          active={editor.isActive('bulletList')}
+          onClick={() => editor.chain().focus().toggleBulletList().run()}
+        />
         <EditorButton icon={Undo2} onClick={() => editor.chain().focus().undo().run()} />
         <EditorButton icon={Redo2} onClick={() => editor.chain().focus().redo().run()} />
       </div>

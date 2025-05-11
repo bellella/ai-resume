@@ -214,8 +214,8 @@ export function WorkHistorySection({ requireAuth }: WorkHistorySectionProps) {
           onConfirm={handleConfirm}
           message={
             <p className="text-center">
-              This will consume <strong className="text-coin">1 coin</strong> to enhance your
-              work experience using AI.
+              This will consume <strong className="text-coin">1 coin</strong> to enhance your work
+              experience using AI.
             </p>
           }
         />

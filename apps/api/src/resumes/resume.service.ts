@@ -94,12 +94,7 @@ export class ResumeService {
   async update(id: string, updateResumeDto: UpdateResumeDto): Promise<UpdateResumeResponse> {
     return this.prisma.resume.update({
       where: { id },
-      data: {
-        title: updateResumeDto.title,
-        templateId: updateResumeDto.templateId,
-        resumeJson: updateResumeDto.resumeJson,
-        templateJson: updateResumeDto.templateJson,
-      },
+      data: updateResumeDto,
     });
   }
 
@@ -151,6 +146,7 @@ export class ResumeService {
         createdAt: true,
         updatedAt: true,
         templateId: true,
+        thubmnailImage: true,
       },
     });
   }
