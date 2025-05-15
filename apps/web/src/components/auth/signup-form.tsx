@@ -7,7 +7,6 @@ import { Label } from '@/components/ui/label';
 import { useSignup } from '@/lib/hooks/use-signup';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';

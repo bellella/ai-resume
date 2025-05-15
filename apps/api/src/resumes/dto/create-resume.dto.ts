@@ -1,5 +1,5 @@
-import { IsObject, IsString, IsBoolean, IsOptional } from 'class-validator';
-import { ResumeJson, CreateResumeRequest, TemplateJson } from '@ai-resume/types';
+import { CreateResumeRequest, ResumeJson, TemplateJson } from '@ai-resume/types';
+import { IsObject, IsString } from 'class-validator';
 
 export class CreateResumeDto implements CreateResumeRequest {
   @IsString()
@@ -15,5 +15,5 @@ export class CreateResumeDto implements CreateResumeRequest {
   templateJson: TemplateJson;
 
   @IsString()
-  thubmnailImage?: string;
+  thumbnailImage?: string;
 }

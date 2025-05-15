@@ -6,6 +6,7 @@ import { CoinModule } from '../coins/coin.module';
 @Module({
   controllers: [AiController],
   imports: [OpenAI, CoinModule],
+  exports: [AiService],
   providers: [AiService],
 })
 export class AiModule {}

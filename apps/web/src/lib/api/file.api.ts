@@ -1,5 +1,6 @@
 import { api } from './ky';
 import { GeneratePdfRequest, GeneratePdfResponse } from '@ai-resume/types';
+import { ResumeFormValues } from '@/lib/hooks/use-resume-form';
 
 /**
  * generate pdf from html
@@ -19,4 +20,12 @@ export const generatePdf = async (data: GeneratePdfRequest): Promise<GeneratePdf
 export const uploadFile = async (formData: FormData): Promise<{ url: string }> => {
   const response = await api.post('api/files/upload', { body: formData });
   return response.json();
+};
+
+/**
+ * Upload resume file (pdf/docx) → parse into ResumeJson
+ */
+export const parseResumeFile = async (formData: FormData): Promise<ResumeFormValues> => {
+  const res = await api.post('api/files/parse-resume', { body: formData, timeout: 100000 });
+  return res.json();
 };

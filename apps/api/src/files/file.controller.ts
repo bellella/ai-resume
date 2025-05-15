@@ -1,12 +1,24 @@
-import { Body, Controller, Header, Post, Res, UseInterceptors, UploadedFile } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Res,
+  UseInterceptors,
+  UploadedFile,
+  BadRequestException,
+} from '@nestjs/common';
 import { FilesService } from './file.service';
 import { Response } from 'express';
 import { GeneratePdfRequest } from '@ai-resume/types';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { AiService } from '../ai/ai.service';
 
 @Controller('files')
 export class FileController {
-  constructor(private readonly fileService: FilesService) {}
+  constructor(
+    private readonly fileService: FilesService,
+    private readonly aiService: AiService
+  ) {}
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
@@ -28,5 +40,15 @@ export class FileController {
     });
 
     res.send(pdfBuffer);
+  }
+
+  @Post('parse-resume')
+  @UseInterceptors(FileInterceptor('file'))
+  async parseResume(@UploadedFile() file: Express.Multer.File) {
+    if (!file) throw new BadRequestException('No file uploaded');
+
+    const text = await this.fileService.extractText(file);
+    const resumeJson = await this.aiService.parseResumeFromText(text);
+    return resumeJson;
   }
 }

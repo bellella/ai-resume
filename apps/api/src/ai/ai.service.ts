@@ -182,4 +182,22 @@ export class AiService {
     });
     return res.choices[0].message.content ?? '';
   }
+
+  async parseResumeFromText(text: string): Promise<ResumeJson> {
+    const prompt = resumePrompts.extractResumeJson(text);
+
+    const response = await this.openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        { role: 'system', content: 'You are a resume parsing expert.' },
+        { role: 'user', content: prompt },
+      ],
+    });
+
+    const raw = response.choices[0].message.content ?? '';
+    console.log(raw, 'rawrawrarw');
+    const json = raw.slice(raw.indexOf('{'), raw.lastIndexOf('}') + 1);
+
+    return JSON.parse(json) as ResumeJson;
+  }
 }

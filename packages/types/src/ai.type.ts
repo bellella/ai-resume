@@ -6,17 +6,6 @@ import { Education, WorkExperience } from './resume.type';
 export type EnhanceContentType = 'summary' | 'work-experience';
 
 /**
- * Data structure for AI evaluation
- * */
-export type AiEvaluationData = {
-  score: number;
-  summary: string;
-  strengths: string[];
-  weaknesses: string[];
-  lastUpdated: Date;
-};
-
-/**
  * Data structure for AI enhancement request for summary section
  * */
 export type EnhanceSummaryRequest = {

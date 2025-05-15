@@ -1,20 +1,28 @@
+#resume-preview {
+}
+
 #resume-template{
   width: 100%;
-  max-width: 794px; /* A4 width in px @ 96dpi */
-  aspect-ratio: 210 / 297;
+  height: 100%;
+  min-height: 1122.5px;
   background-color: white;
   box-sizing: border-box;
   gap: var(--section-spacing);
   font-size: var(--base-font-size);
   color: #000;
   line-height: 1.6;
+
   
   .placeholder {
     color: #bbb;
     font-style: italic;
   }
-  section {
-    margin-bottom: var(--section-spacing);
+  section, header {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  header {
+    padding-top: 20px;
   }
   ul {
     list-style-type: disc;
@@ -22,7 +30,8 @@
   }
   
   h1, h2, h3 {
-    color: rgba(var(--main-color));
+    font-weight: normal;
+    //color: rgba(var(--main-color))
   }
   
   @media print {
@@ -30,5 +39,28 @@
       display: none;
     }
   }
+
+  .grid-3-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .grid-2-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
   
+  .links {
+    a {
+      text-decoration: underline;
+      color: #446ca8;
+    }
+  }
+
+  hr {
+    background: #111;
+    margin: 0 20px 0 20px;
+    height: 2px;
+    border: none;
+  }
 }

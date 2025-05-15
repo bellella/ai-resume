@@ -1,6 +1,6 @@
 'use client';
 
-import SignupForm from '@/components/forms/signup-form';
+import SignupForm from '@/components/auth/signup-form';
 import { useAuthStore } from '@/lib/store/auth.store';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';

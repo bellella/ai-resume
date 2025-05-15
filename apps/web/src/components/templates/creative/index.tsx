@@ -3,6 +3,7 @@ import { TemplateProps } from '@/types/template.type';
 import { TemplateOptions } from '../templates';
 import './style.css';
 import creativeCss from '!!raw-loader!@/components/templates/creative/style.css';
+
 export const templateOptions: TemplateOptions = {
   color: 'blue',
   fontSize: 14,
@@ -21,9 +22,11 @@ export default function CreativeTemplate({ resumeJson }: TemplateProps) {
     province,
     postalCode,
     professionalSummary,
-    skills,
-    workExperiences,
-    educations,
+    skills = [],
+    workExperiences = [],
+    educations = [],
+    links = [],
+    languages = [],
   } = resumeJson;
 
   const renderOrPlaceholder = (value: string, placeholder: string) =>
@@ -43,6 +46,14 @@ export default function CreativeTemplate({ resumeJson }: TemplateProps) {
               {renderOrPlaceholder(city, 'City')}, {renderOrPlaceholder(province, 'Province')}
             </div>
             <div>{renderOrPlaceholder(postalCode, 'Postal Code')}</div>
+            <div className="links">
+              {links.length > 0 &&
+                links.map((link, i) => (
+                  <a key={i} href={link.url} target="_blank" rel="noopener noreferrer">
+                    {link.name}
+                  </a>
+                ))}
+            </div>
           </section>
 
           <section>
@@ -51,7 +62,7 @@ export default function CreativeTemplate({ resumeJson }: TemplateProps) {
               educations.map((edu, i) => (
                 <div key={i} className="item">
                   <div>
-                    {renderOrPlaceholder(edu.graduationYear, 'Year')} -{' '}
+                    {renderOrPlaceholder(`${edu.graduationYearMonth?.year}`, 'Year')} –{' '}
                     {renderOrPlaceholder(edu.schoolName, 'School Name')}
                   </div>
                   <div className="meta">
@@ -70,7 +81,7 @@ export default function CreativeTemplate({ resumeJson }: TemplateProps) {
             {skills.length > 0 ? (
               <ul>
                 {skills.map((skill, i) => (
-                  <li key={i}>{skill}</li>
+                  <li key={i}>{skill.name}</li>
                 ))}
               </ul>
             ) : (
@@ -80,7 +91,17 @@ export default function CreativeTemplate({ resumeJson }: TemplateProps) {
 
           <section>
             <div className="heading">Languages</div>
-            <div className="placeholder">Add languages here</div>
+            {languages.length > 0 ? (
+              <ul>
+                {languages.map((lang, i) => (
+                  <li key={i}>
+                    {lang.name} {lang.level && lang.level !== 'none' ? `(${lang.level})` : ''}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div className="placeholder">Add languages here</div>
+            )}
           </section>
         </div>
 
@@ -96,11 +117,13 @@ export default function CreativeTemplate({ resumeJson }: TemplateProps) {
 
           <section className="summary">
             <div className="heading">Profile Summary</div>
-            <p>
-              {professionalSummary || (
+            <div>
+              {professionalSummary ? (
+                <div dangerouslySetInnerHTML={{ __html: professionalSummary }} />
+              ) : (
                 <span className="placeholder">Write a professional summary here.</span>
               )}
-            </p>
+            </div>
           </section>
 
           <section className="work">
@@ -113,8 +136,17 @@ export default function CreativeTemplate({ resumeJson }: TemplateProps) {
                     {renderOrPlaceholder(job.jobTitle, 'Title')}
                   </div>
                   <div className="meta">
-                    {renderOrPlaceholder(job.startDate, 'Start')} –{' '}
-                    {renderOrPlaceholder(job.endDate, 'End')}
+                    {renderOrPlaceholder(
+                      `${job.startYearMonth?.year}.${job.startYearMonth?.month}`,
+                      'Start'
+                    )}{' '}
+                    –{' '}
+                    {job.isCurrent
+                      ? 'Present'
+                      : renderOrPlaceholder(
+                          `${job.endYearMonth?.year}.${job.endYearMonth?.month}`,
+                          'End'
+                        )}
                   </div>
                   <div
                     className="item-description"

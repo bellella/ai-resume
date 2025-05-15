@@ -1,5 +1,5 @@
 import { ResumeJson, UpdateDefaultResumeRequest } from '@ai-resume/types';
-import { IsObject, IsNotEmpty, IsJSON } from 'class-validator';
+import { IsNotEmpty, IsObject } from 'class-validator';
 
 export class UpdateDefaultResumeDto implements UpdateDefaultResumeRequest {
   @IsObject()

@@ -1,5 +1,6 @@
 import { Prisma } from '@ai-resume/db';
 import {
+  CreateResumeResponse,
   FetchResumeResponse,
   FetchResumesResponse,
   ResumeJson,
@@ -19,10 +20,7 @@ export class ResumeService {
   /**
    * Creates a new resume
    */
-  async create(
-    createResumeDto: CreateResumeDto,
-    userId: string
-  ): Promise<Prisma.ResumeGetPayload<{}>> {
+  async create(createResumeDto: CreateResumeDto, userId: string): Promise<CreateResumeResponse> {
     const resume = await this.prisma.resume.create({
       data: {
         title: createResumeDto.title,
@@ -37,7 +35,10 @@ export class ResumeService {
       },
     });
 
-    return resume;
+    return {
+      id: resume.id,
+      resumeJson: resume.resumeJson as ResumeJson,
+    };
   }
 
   /**
@@ -92,10 +93,14 @@ export class ResumeService {
    * Updates a specific resume by ID
    */
   async update(id: string, updateResumeDto: UpdateResumeDto): Promise<UpdateResumeResponse> {
-    return this.prisma.resume.update({
+    const res = await this.prisma.resume.update({
       where: { id },
       data: updateResumeDto,
     });
+    return {
+      id: res.id,
+      resumeJson: res.resumeJson as ResumeJson,
+    };
   }
 
   /**

@@ -113,8 +113,8 @@ export const FONT_SIZES = {
 };
 
 export const SECTION_SPACING = {
-  min: 18,
-  max: 32,
+  min: 4,
+  max: 24,
   step: 4,
   defaultValue: 18,
 };

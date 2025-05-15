@@ -8,8 +8,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import LoginForm from '@/components/forms/login-form';
-import SignupForm from '@/components/forms/signup-form';
+import LoginForm from '@/components/auth/login-form';
+import SignupForm from '@/components/auth/signup-form';
 import { CheckCircle } from 'lucide-react';
 
 interface AuthModalProps {
@@ -40,21 +40,17 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
             Unlock the full experience by logging in:
             <ul className="space-y-2 mt-2 font-bold">
               <li className="flex items-center justify-center gap-2">
-                {' '}
                 <CheckCircle className="w-4 h-4 text-green-500" /> <span>Save your resumes</span>
               </li>
               <li className="flex items-center justify-center gap-2">
-                {' '}
                 <CheckCircle className="w-4 h-4 text-green-500" />{' '}
                 <span>Convert resumes to PDF</span>
               </li>
               <li className="flex items-center justify-center gap-2">
-                {' '}
                 <CheckCircle className="w-4 h-4 text-green-500" />{' '}
                 <span>Use AI for enhancement</span>
               </li>
               <li className="flex items-center justify-center gap-2">
-                {' '}
                 <CheckCircle className="w-4 h-4 text-green-500" />{' '}
                 <span>Perform AI evaluation</span>
               </li>

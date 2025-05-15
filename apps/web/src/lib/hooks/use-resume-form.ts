@@ -3,13 +3,15 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { ResumeJson } from '@ai-resume/types';
+import { useResumeEditorStore } from '@/lib/store/resume-editor.store';
+import { useEffect } from 'react';
 
-export function useResumeForm(defaultValues?: ResumeJson) {
-  return useForm<ResumeFormValues>({
+export function useResumeForm() {
+  const { resumeJson } = useResumeEditorStore();
+
+  const form = useForm<ResumeFormValues>({
     resolver: zodResolver(resumeFormSchema),
     defaultValues: {
-      title: 'New Resume',
       firstName: '',
       lastName: '',
       profileImage: '',
@@ -21,14 +23,23 @@ export function useResumeForm(defaultValues?: ResumeJson) {
       jobTitle: '',
       professionalSummary: '',
       skills: [],
+      languages: [],
+      links: [],
       workExperiences: [
         {
           companyName: '',
           jobTitle: '',
           city: '',
           province: '',
-          startDate: '',
-          endDate: '',
+          startYearMonth: {
+            year: new Date().getFullYear(),
+            month: new Date().getMonth() + 1,
+          },
+          endYearMonth: {
+            year: new Date().getFullYear(),
+            month: new Date().getMonth() + 1,
+          },
+          isCurrent: false,
           achievements: '',
         },
       ],
@@ -38,17 +49,26 @@ export function useResumeForm(defaultValues?: ResumeJson) {
           schoolLocation: '',
           degree: '',
           fieldOfStudy: '',
-          graduationMonth: '',
-          graduationYear: '',
+          graduationYearMonth: {
+            year: new Date().getFullYear(),
+            month: new Date().getMonth() + 1,
+          },
+          isCurrent: false,
         },
       ],
-      ...defaultValues,
     },
   });
-}
 
+  useEffect(() => {
+    form.reset({
+      ...form.getValues(),
+      ...resumeJson,
+    });
+  }, [resumeJson]);
+
+  return form;
+}
 export const resumeFormSchema = z.object({
-  title: z.string(),
   firstName: z.string(),
   lastName: z.string(),
   profileImage: z.string(),
@@ -58,29 +78,61 @@ export const resumeFormSchema = z.object({
   phone: z.string(),
   email: z.string(),
   jobTitle: z.string(),
+  professionalSummary: z.string(),
+
   workExperiences: z.array(
     z.object({
       companyName: z.string(),
       jobTitle: z.string(),
       city: z.string(),
       province: z.string(),
-      startDate: z.string(),
-      endDate: z.string(),
+      startYearMonth: z.object({
+        year: z.number(),
+        month: z.number(),
+      }),
+      endYearMonth: z.object({
+        year: z.number(),
+        month: z.number(),
+      }),
+      isCurrent: z.boolean(),
       achievements: z.string(),
     })
   ),
+
   educations: z.array(
     z.object({
       schoolName: z.string(),
       schoolLocation: z.string(),
       degree: z.string(),
       fieldOfStudy: z.string(),
-      graduationMonth: z.string(),
-      graduationYear: z.string(),
+      graduationYearMonth: z.object({
+        year: z.number(),
+        month: z.number(),
+      }),
+      isCurrent: z.boolean(),
     })
   ),
-  skills: z.array(z.string()),
-  professionalSummary: z.string(),
+
+  skills: z.array(
+    z.object({
+      name: z.string(),
+      level: z.string(),
+    })
+  ),
+
+  languages: z.array(
+    z.object({
+      name: z.string(),
+      level: z.string(),
+    })
+  ),
+
+  links: z.array(
+    z.object({
+      name: z.string(),
+      url: z.string(),
+    })
+  ),
 });
 
 export type ResumeFormValues = z.infer<typeof resumeFormSchema>;

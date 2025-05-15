@@ -1,7 +1,7 @@
 'use client';
 
-import { DefaultResumeForm } from '@/components/forms/default-resume-form';
-import { PersonalInfoForm } from '@/components/forms/personal-info-form';
+import { DefaultResumeForm } from '@/components/profiles/default-resume-form';
+import { PersonalInfoForm } from '@/components/profiles/personal-info-form';
 import { ProfileSkeleton } from '@/components/profiles/profile-skeleton';
 import { Container } from '@/components/ui/container';
 import { PageHeader } from '@/components/ui/page-header';

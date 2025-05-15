@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { TemplateProps } from '@/types/template.type';
 import { TemplateOptions } from '../templates';
@@ -6,7 +8,7 @@ import defaultCss from '!!raw-loader!@/components/templates/default/style.css';
 export const templateOptions: TemplateOptions = {
   color: 'black',
   fontSize: 14,
-  sectionSpacing: 18,
+  sectionSpacing: 8,
   fontFamily: 'Arial',
 };
 
@@ -14,6 +16,7 @@ export default function DefaultTemplate({ resumeJson }: TemplateProps) {
   const {
     firstName,
     lastName,
+    jobTitle,
     email,
     phone,
     city,
@@ -21,12 +24,17 @@ export default function DefaultTemplate({ resumeJson }: TemplateProps) {
     postalCode,
     professionalSummary,
     skills,
+    languages,
+    links,
     workExperiences,
     educations,
   } = resumeJson;
 
-  const renderOrPlaceholder = (value: string, placeholder: string) =>
+  const renderOrPlaceholder = (value: string | number, placeholder: string) =>
     value ? value : <span className="placeholder">{placeholder}</span>;
+
+  const formatYearMonth = (ym?: { year: number; month: number }) =>
+    ym ? `${String(ym.year)}-${String(ym.month).padStart(2, '0')}` : 'N/A';
 
   return (
     <>
@@ -34,39 +42,55 @@ export default function DefaultTemplate({ resumeJson }: TemplateProps) {
       <div id="resume-template">
         {/* Header */}
         <header className="header">
-          <h1 className="name">
-            {renderOrPlaceholder(firstName, 'First Name')}{' '}
-            {renderOrPlaceholder(lastName, 'Last Name')}
-          </h1>
-          <p>
-            {renderOrPlaceholder(email, 'youremail@mail.com')} |{' '}
-            {renderOrPlaceholder(phone, 'Phone Number')}
-          </p>
-          <p>
-            {renderOrPlaceholder(city, 'City')}, {renderOrPlaceholder(province, 'Province')}{' '}
-            {renderOrPlaceholder(postalCode, 'Postal Code')}
-          </p>
+          <div>
+            <h1 className="name">
+              {renderOrPlaceholder(firstName, 'First Name')}{' '}
+              {renderOrPlaceholder(lastName, 'Last Name')}
+            </h1>
+            <h2 className="job-title">{renderOrPlaceholder(jobTitle, 'Job Title')}</h2>
+          </div>
+          <div className="personal-info">
+            <p>
+              {renderOrPlaceholder(city, 'City')}, {renderOrPlaceholder(province, 'Province')}{' '}
+              {renderOrPlaceholder(postalCode, 'Postal Code')} |{' '}
+              {renderOrPlaceholder(phone, 'Phone Number')}
+            </p>
+            <p>{renderOrPlaceholder(email, 'youremail@mail.com')}</p>
+            <div className="links">
+              {links?.length ? (
+                links.map((link, i) => (
+                  <a key={i} href={link.url} target="_blank" rel="noopener noreferrer">
+                    {link.name}
+                  </a>
+                ))
+              ) : (
+                <p className="placeholder">Links</p>
+              )}
+            </div>
+          </div>
         </header>
-
+        <hr />
         {/* Professional Summary */}
         <section className="section">
           <h2 className="section-title">Professional Summary</h2>
-          <p className="section-text">
-            {professionalSummary || (
+          <div className="section-text">
+            {professionalSummary ? (
+              <div dangerouslySetInnerHTML={{ __html: professionalSummary }} />
+            ) : (
               <span className="placeholder">
                 A brief summary about your professional background and core skills.
               </span>
             )}
-          </p>
+          </div>
         </section>
 
         {/* Skills */}
         <section className="section">
           <h2 className="section-title">Skills</h2>
-          {skills && skills.length > 0 ? (
-            <ul className="skills-list">
+          {skills?.length && skills.length > 0 ? (
+            <ul className="grid-3-col">
               {skills.map((skill, i) => (
-                <li key={i}>{skill}</li>
+                <li key={i}>{skill.name}</li>
               ))}
             </ul>
           ) : (
@@ -78,7 +102,7 @@ export default function DefaultTemplate({ resumeJson }: TemplateProps) {
         <section className="section">
           <h2 className="section-title">Work Experience</h2>
           <div className="section-group">
-            {workExperiences && workExperiences.length > 0 ? (
+            {workExperiences?.length > 0 ? (
               workExperiences.map((job, i) => (
                 <div key={i}>
                   <div className="item-title">
@@ -88,8 +112,8 @@ export default function DefaultTemplate({ resumeJson }: TemplateProps) {
                   <div className="item-sub">
                     {renderOrPlaceholder(job.city, 'City')},{' '}
                     {renderOrPlaceholder(job.province, 'Province')} |{' '}
-                    {renderOrPlaceholder(job.startDate, 'Start')} -{' '}
-                    {renderOrPlaceholder(job.endDate, 'End')}
+                    {formatYearMonth(job.startYearMonth)} -{' '}
+                    {job.isCurrent ? 'Present' : formatYearMonth(job.endYearMonth)}
                   </div>
                   <div
                     className="item-description"
@@ -107,7 +131,7 @@ export default function DefaultTemplate({ resumeJson }: TemplateProps) {
         <section className="section">
           <h2 className="section-title">Education</h2>
           <div className="section-group">
-            {educations && educations.length > 0 ? (
+            {educations?.length > 0 ? (
               educations.map((edu, i) => (
                 <div key={i}>
                   <div className="item-title">
@@ -117,8 +141,7 @@ export default function DefaultTemplate({ resumeJson }: TemplateProps) {
                   <div className="item-sub">
                     {renderOrPlaceholder(edu.schoolName, 'School Name')},{' '}
                     {renderOrPlaceholder(edu.schoolLocation, 'Location')} |{' '}
-                    {renderOrPlaceholder(edu.graduationMonth, 'Month')}{' '}
-                    {renderOrPlaceholder(edu.graduationYear, 'Year')}
+                    {edu.isCurrent ? 'Present' : formatYearMonth(edu.graduationYearMonth)}
                   </div>
                 </div>
               ))
@@ -126,6 +149,22 @@ export default function DefaultTemplate({ resumeJson }: TemplateProps) {
               <p className="placeholder">Add your education details here.</p>
             )}
           </div>
+        </section>
+
+        {/* Languages */}
+        <section className="section">
+          <h2 className="section-title">Languages</h2>
+          {languages?.length && languages.length > 0 ? (
+            <ul className="skills-list">
+              {languages.map((lang, i) => (
+                <li key={i}>
+                  {lang.name} {lang.level !== 'none' && `(${lang.level})`}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="placeholder">List the languages you speak and your fluency level.</p>
+          )}
         </section>
       </div>
     </>

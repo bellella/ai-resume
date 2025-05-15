@@ -1,67 +1,69 @@
 'use client';
 
-import { ResumeForm } from '@/components/forms/resume-form';
-import TEMPLATES, { TemplateId, TemplateOptions } from '@/components/templates/templates';
+import AuthModal from '@/components/auth/auth-modal';
+import { ResumeForm } from '@/components/resumes/resume-form';
 import { ActionButtons } from '@/components/ui/action-buttons';
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Form } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ResumeFormValues, ResumeJsonFormValues, useResumeForm } from '@/hooks/use-resume-form';
+import { ResumeFormValues } from '@/lib/hooks/use-resume-form';
 import { evaluateResume } from '@/lib/api/ai.api';
 import usePdfDownload from '@/lib/hooks/use-pdf-download';
 import { useAuthStore } from '@/lib/store/auth.store';
-import { AiEvaluationData, ResumeDetail, ResumeJson, TemplateJson } from '@ai-resume/types';
+import { useResumeEditorStore } from '@/lib/store/resume-editor.store';
+import { ResumeDetail, ResumeJson, TemplateJson } from '@ai-resume/types';
 import { useMutation } from '@tanstack/react-query';
 import { Download, Eye, Save } from 'lucide-react';
 import { useState } from 'react';
+import { FieldErrors, UseFormReturn } from 'react-hook-form';
 import { toast } from 'sonner';
 import AIEvaluation from './ai-evaluation';
 import ResumePreview from './resume-preview';
 import StyleSettings from './style-settings';
 import TemplateList from './template-list';
-import AuthModal from '@/components/auth/auth-modal';
-import { PersonalInfoSection } from '@/components/forms/resume-form/personal-info-section';
-import { EducationHistorySection } from '@/components/forms/resume-form/education-history-section';
-import { SummarySection } from '@/components/forms/resume-form/summary-section';
-import { SkillsSection } from '@/components/forms/resume-form/skills-section';
-import { WorkHistorySection } from '@/components/forms/resume-form/work-history-section';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-
 export type ResumeEditorProps = {
   resume?: ResumeDetail;
   isSaving?: boolean;
   onSave: (data: ResumeSubmitData) => void;
+  resumeForm: UseFormReturn<ResumeFormValues>;
 };
 
 export type ResumeSubmitData = {
   title: string;
-  resumeJson: ResumeJsonFormValues;
+  resumeJson: ResumeJson;
   templateId: string;
   templateJson: TemplateJson;
 };
 
-export default function ResumeEditor({ resume, onSave, isSaving = false }: ResumeEditorProps) {
-  const { user } = useAuthStore();
-  const isNew = !resume?.id;
-  const { resumeJson, templateId, templateJson, aiEvaluation } = resume ?? {};
-  const [evaluation, setEvaluation] = useState<AiEvaluationData | null>(aiEvaluation ?? null);
-  const [selectedTemplateId, setSelectedTemplateId] = useState<TemplateId>(
-    (templateId as TemplateId) ?? 'default'
-  );
+export default function ResumeEditor({
+  resume,
+  onSave,
+  isSaving = false,
+  resumeForm,
+}: ResumeEditorProps) {
+  const {
+    title,
+    template,
+    templateId,
+    templateOptions,
+    evaluation,
+    authModalOpen,
+    setTitle,
+    setTemplateOptions,
+    setEvaluation,
+    setAuthModalOpen,
+    requireAuth,
+  } = useResumeEditorStore();
+  const isEditing = resume?.id;
+  const { user, defaultResumeJson } = useAuthStore();
   const [currentTab, setCurrentTab] = useState('1');
-  const [authModalOpen, setAuthModalOpen] = useState(false);
-  const template = TEMPLATES[selectedTemplateId];
-
-  const [templateOptions, setTemplateOptions] = useState<TemplateOptions>(
-    (templateJson as TemplateOptions) ?? template.templateOptions
-  );
-
-  const form = useResumeForm(resumeJson);
 
   const { downloadPdf, downloadPdfMutation } = usePdfDownload();
 
+  // Evaluate resume with AI
   const { mutateAsync: evaluate, isPending: isEvaluating } = useMutation({
     mutationFn: async () => {
       if (!resume?.id) throw new Error('Resume ID missing');
@@ -76,17 +78,6 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
     },
   });
 
-  const handleLoadDefaultResume = () => {
-    if (user?.defaultResumeJson) {
-      const defaultResume = user.defaultResumeJson as ResumeJson;
-      const current = form.getValues();
-      form.reset({
-        ...defaultResume,
-        title: current.title,
-      });
-    }
-  };
-
   const handleEvaluate = async () => {
     if (!requireAuth()) return;
     try {
@@ -97,39 +88,44 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
     }
   };
 
-  const handleDownloadPdf = async () => {
-    if (!requireAuth()) return;
-    await downloadPdf(selectedTemplateId as TemplateId);
+  // Load default resume
+  const handleLoadDefaultResume = () => {
+    if (defaultResumeJson) {
+      resumeForm.reset(defaultResumeJson);
+    }
   };
 
-  const handleSubmit = (data: ResumeFormValues) => {
+  // Download PDF
+  const handleDownloadPdf = async () => {
     if (!requireAuth()) return;
-    const { title, ...resumeJson } = data;
+    await downloadPdf(templateId);
+  };
+
+  // Save resume
+  const handleSubmit = () => {
+    if (!requireAuth()) return;
     onSave({
       title,
-      resumeJson,
-      templateId: selectedTemplateId,
+      resumeJson: resumeForm.getValues(),
+      templateId,
       templateJson: templateOptions,
     });
   };
-  // if user is not logged in, open the auth modal
-  const requireAuth = () => {
-    if (!user) {
-      setAuthModalOpen(true);
-      return false;
-    }
-    return true;
+
+  const onInvalid = (errors: FieldErrors<ResumeFormValues>) => {
+    toast.error('Please fill in all required fields' + JSON.stringify(errors));
   };
 
   return (
     <div className="relative bg-gray-100">
       <Container>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)}>
+        <Form {...resumeForm}>
+          <form onSubmit={resumeForm.handleSubmit(handleSubmit, onInvalid)}>
             <div className="grid grid-cols-1 lg:grid-cols-[2fr_450px] lg:gap-6">
               <div className="order-2 lg:order-1">
                 <Input
-                  {...form.register('title')}
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                   placeholder="Enter Resume Title"
                   className="block my-3 w-full bg-white"
                 />
@@ -142,32 +138,23 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
                     <TabsTrigger className="flex-1" value="2" onClick={() => setCurrentTab('2')}>
                       Design
                     </TabsTrigger>
-                    {!isNew && (
+                    {isEditing && (
                       <TabsTrigger className="flex-1" value="3" onClick={() => setCurrentTab('3')}>
                         AI Evaluation
                       </TabsTrigger>
                     )}
                   </TabsList>
 
-                  {/* Content Tab */}
                   <TabsContent value="1" className={currentTab === '1' ? '' : 'hidden'} forceMount>
                     <div className="flex flex-col gap-4">
-                      <PersonalInfoSection />
-                      <WorkHistorySection requireAuth={requireAuth} />
-                      <EducationHistorySection />
-                      <SkillsSection />
-                      <SummarySection />
+                      <ResumeForm />
                     </div>
                   </TabsContent>
 
-                  {/* Design Tab */}
                   <TabsContent value="2" className={currentTab === '2' ? '' : 'hidden'} forceMount>
                     <div className="grid grid-cols-[2fr_1fr] gap-6">
                       <div className="space-y-4">
-                        <TemplateList
-                          selectedTemplateId={selectedTemplateId}
-                          setSelectedTemplateId={setSelectedTemplateId}
-                        />
+                        <TemplateList />
                       </div>
                       <div>
                         <StyleSettings
@@ -179,8 +166,7 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
                     </div>
                   </TabsContent>
 
-                  {/* AI Evaluation Tab */}
-                  {!isNew && (
+                  {isEditing && (
                     <TabsContent
                       value="3"
                       className={currentTab === '3' ? '' : 'hidden'}
@@ -225,7 +211,8 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
                     </Button>
                   </ActionButtons>
                 </div>
-                <div className="block lg:hidden">
+
+                <div className="block">
                   <Dialog>
                     <DialogTrigger asChild>
                       <div className="text-right py-1">
@@ -233,28 +220,22 @@ export default function ResumeEditor({ resume, onSave, isSaving = false }: Resum
                           type="button"
                           variant="accent"
                           size="responsive"
-                          className=" border-accent-foreground"
+                          className="border-accent-foreground"
                         >
                           <Eye className="h-4 w-4" />
-                          Preview Resume
+                          <span className="sm:hidden">Preview Resume</span>
+                          <span className="hidden sm:block">Zoom In</span>
                         </Button>
                       </div>
                     </DialogTrigger>
-                    <DialogContent>
-                      <ResumePreview
-                        resumeJson={form.watch()}
-                        template={template}
-                        templateOptions={templateOptions}
-                      />
+                    <DialogContent className="sm:max-w-[800px]">
+                      <ResumePreview />
                     </DialogContent>
                   </Dialog>
                 </div>
+
                 <div className="hidden lg:block">
-                  <ResumePreview
-                    resumeJson={form.watch()}
-                    template={template}
-                    templateOptions={templateOptions}
-                  />
+                  <ResumePreview />
                 </div>
               </div>
             </div>

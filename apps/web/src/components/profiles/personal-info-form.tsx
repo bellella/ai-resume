@@ -1,16 +1,15 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Save } from 'lucide-react';
 import { FormField } from '@/components/ui/form-field';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { useMutation } from '@tanstack/react-query';
+import { Input } from '@/components/ui/input';
 import { updatePersonalInfo } from '@/lib/api/user.api';
 import { useAuthStore } from '@/lib/store/auth.store';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+import { Save } from 'lucide-react';
+import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+import * as z from 'zod';
 
 const personalInfoSchema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -33,6 +32,7 @@ export function PersonalInfoForm() {
     },
   });
 
+  // Update personal info
   const updatePersonalInfoMutation = useMutation({
     mutationFn: (data: PersonalInfoForm) => updatePersonalInfo(data),
     onSuccess: () => {

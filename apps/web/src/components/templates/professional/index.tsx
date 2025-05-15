@@ -18,12 +18,14 @@ export default function ProfessionalTemplate({ resumeJson }: TemplateProps) {
     phone,
     city,
     province,
+    postalCode,
     profileImage,
     professionalSummary,
-    skills,
-    workExperiences,
-    educations,
+    skills = [],
+    workExperiences = [],
+    educations = [],
     jobTitle,
+    links = [],
   } = resumeJson;
 
   const renderOrPlaceholder = (value: string, placeholder: string) =>
@@ -34,15 +36,20 @@ export default function ProfessionalTemplate({ resumeJson }: TemplateProps) {
       <style>{professionalCss}</style>
       <div id="resume-template" className="professional-template">
         <div className="left-column">
-          <div
-            className="profile-pic"
-            style={{ backgroundImage: `url(${profileImage || '/placeholder.svg'})` }}
-          />
+          <div className="profile-pic" style={{ backgroundImage: `url(${profileImage})` }} />
           <div className="contact-section">
-            <div>{renderOrPlaceholder(email, 'youremail@mail.com')}</div>
-            <div>{renderOrPlaceholder(phone, '+00 0 0000 0000')}</div>
-            <div>
-              {renderOrPlaceholder(city, 'City')}, {renderOrPlaceholder(province, 'Province')}
+            {[email, phone, `${city}, ${province}`, postalCode]
+              .filter(Boolean)
+              .map((item, i, arr) => (
+                <div key={i}>{item}</div>
+              ))}
+            <div className="links">
+              {links.length > 0 &&
+                links.map((link, i) => (
+                  <a key={i} href={link.url} target="_blank" rel="noopener noreferrer">
+                    {link.name}
+                  </a>
+                ))}
             </div>
           </div>
 
@@ -50,7 +57,7 @@ export default function ProfessionalTemplate({ resumeJson }: TemplateProps) {
             <h3>Tools & Technologies</h3>
             <ul className="skills-list">
               {skills.length > 0 ? (
-                skills.map((skill, i) => <li key={i}>{skill}</li>)
+                skills.map((skill, i) => <li key={i}>{skill.name}</li>)
               ) : (
                 <li className="placeholder">Add your skills here</li>
               )}
@@ -59,20 +66,25 @@ export default function ProfessionalTemplate({ resumeJson }: TemplateProps) {
         </div>
 
         <div className="right-column">
-          <h1 className="name">
-            {renderOrPlaceholder(firstName, 'Your')} {renderOrPlaceholder(lastName, 'Name')}
-          </h1>
-          <p className="position">{renderOrPlaceholder(jobTitle, 'Job Title')}</p>
+          <header>
+            <h1 className="name">
+              {renderOrPlaceholder(firstName, 'Your')} {renderOrPlaceholder(lastName, 'Name')}
+            </h1>
+            <p className="position">{renderOrPlaceholder(jobTitle, 'Job Title')}</p>
+          </header>
 
+          {/* Professional Summary */}
           <section className="section">
             <h2 className="section-title">Professional Summary</h2>
-            <p className="section-text">
-              {professionalSummary || (
+            <div className="section-text">
+              {professionalSummary ? (
+                <div dangerouslySetInnerHTML={{ __html: professionalSummary }} />
+              ) : (
                 <span className="placeholder">
                   A brief summary about your professional background and core skills.
                 </span>
               )}
-            </p>
+            </div>
           </section>
 
           <section className="section">
@@ -83,9 +95,18 @@ export default function ProfessionalTemplate({ resumeJson }: TemplateProps) {
                   <div className="item-title">{renderOrPlaceholder(job.jobTitle, 'Role')}</div>
                   <div className="item-sub">
                     {renderOrPlaceholder(job.companyName, 'Company')} —{' '}
-                    {renderOrPlaceholder(job.startDate, 'Start')} -{' '}
-                    {renderOrPlaceholder(job.endDate, 'End')},{' '}
-                    {renderOrPlaceholder(job.city, 'City')}
+                    {renderOrPlaceholder(
+                      `${job.startYearMonth?.year}.${job.startYearMonth?.month}`,
+                      'Start'
+                    )}{' '}
+                    -{' '}
+                    {job.isCurrent
+                      ? 'Present'
+                      : renderOrPlaceholder(
+                          `${job.endYearMonth?.year}.${job.endYearMonth?.month}`,
+                          'End'
+                        )}
+                    , {renderOrPlaceholder(job.city, 'City')}
                   </div>
                   <div
                     className="item-description"
@@ -108,8 +129,8 @@ export default function ProfessionalTemplate({ resumeJson }: TemplateProps) {
                   <div className="item-sub">
                     {renderOrPlaceholder(edu.schoolName, 'School Name')},{' '}
                     {renderOrPlaceholder(edu.schoolLocation, 'Location')} |{' '}
-                    {renderOrPlaceholder(edu.graduationMonth, 'Month')}{' '}
-                    {renderOrPlaceholder(edu.graduationYear, 'Year')}
+                    {renderOrPlaceholder(`${edu.graduationYearMonth?.month}`, 'Month')}{' '}
+                    {renderOrPlaceholder(`${edu.graduationYearMonth?.year}`, 'Year')}
                   </div>
                 </div>
               ))}

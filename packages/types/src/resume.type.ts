@@ -16,7 +16,7 @@ export type FetchResumeResponse = ResumeDetail;
 export type CreateResumeRequest = {
   title: string;
   resumeJson: ResumeJson;
-  thubmnailImage?: string;
+  thumbnailImage?: string;
 };
 
 /**
@@ -24,6 +24,7 @@ export type CreateResumeRequest = {
  * */
 export type CreateResumeResponse = {
   id: string;
+  resumeJson: ResumeJson;
 };
 
 /**
@@ -40,6 +41,7 @@ export type UpdateResumeRequest = {
  */
 export type UpdateResumeResponse = {
   id: string;
+  resumeJson: ResumeJson;
 };
 
 /**
@@ -56,9 +58,11 @@ export type ResumeJson = {
   phone: string;
   email: string;
   professionalSummary: string;
-  skills: string[];
+  skills?: SkillItem[];
+  languages?: LanguageItem[];
   workExperiences: WorkExperience[];
   educations: Education[];
+  links?: LinkItem[];
   templateId?: string;
 };
 
@@ -67,8 +71,9 @@ export type WorkExperience = {
   jobTitle: string;
   city: string;
   province: string;
-  startDate: string;
-  endDate: string;
+  startYearMonth: YearMonth;
+  endYearMonth: YearMonth;
+  isCurrent: boolean;
   achievements: string;
 };
 
@@ -77,8 +82,32 @@ export type Education = {
   schoolLocation: string;
   degree: string;
   fieldOfStudy: string;
-  graduationMonth: string;
-  graduationYear: string;
+  graduationYearMonth: YearMonth;
+  isCurrent: boolean;
+};
+
+export type YearMonth = {
+  year: number;
+  month: number;
+};
+
+export type SkillLevel = 'none' | 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
+
+export type SkillItem = {
+  name: string;
+  level: SkillLevel | string;
+};
+
+export type LinkItem = {
+  name: string;
+  url: string;
+};
+
+export type LanguageLevel = 'none' | 'Beginner' | 'Intermediate' | 'Advanced' | 'Native';
+
+export type LanguageItem = {
+  name: string;
+  level: LanguageLevel | string;
 };
 
 /** * JSON structure for a template */

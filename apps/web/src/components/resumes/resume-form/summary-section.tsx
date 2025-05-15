@@ -1,16 +1,16 @@
 'use client';
 
-import { useState } from 'react';
-import { useFormContext } from 'react-hook-form';
-import { useMutation } from '@tanstack/react-query';
+import TextEditor from '@/components/apps/text-editor';
+import { CoinConfirmDialog } from '@/components/coins/coin-confirm-dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FormField, FormItem, FormControl, FormMessage } from '@/components/ui/form';
-import { Textarea } from '@/components/ui/textarea';
-import { CoinConfirmDialog } from '@/components/coins/coin-confirm-dialog';
-import { toast } from 'sonner';
-import { useParams } from 'next/navigation';
+import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { enhanceSummary } from '@/lib/api/ai.api';
+import { useMutation } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
+import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { toast } from 'sonner';
 
 export function SummarySection() {
   const resumeId = useParams().id as string;
@@ -74,11 +74,7 @@ export function SummarySection() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Textarea
-                  placeholder="Write your professional summary here..."
-                  className="min-h-[150px]"
-                  {...field}
-                />
+                <TextEditor value={field.value} onChange={field.onChange} />
               </FormControl>
               <FormMessage />
             </FormItem>
