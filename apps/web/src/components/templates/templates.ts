@@ -2,16 +2,21 @@
 // import defaultCss from '!!raw-loader!@/components/templates/default/style.css';
 // import modernCss from '!!raw-loader!@/components/templates/modern/style.css';
 // import professionalCss from '!!raw-loader!@/components/templates/professional/style.css';
-import CreativeTemplate, {
-  templateOptions as creativeStyleVars,
+import {
+  CreativeTemplate,
+  templateOptions as creativeTemplateOptions,
 } from '@/components/templates/creative';
-import DefaultTemplate, {
-  templateOptions as defaultStyleVars,
+import {
+  DefaultTemplate,
+  templateOptions as defaultTemplateOptions,
 } from '@/components/templates/default';
-import ModernTemplate, { templateOptions as modernStyleVars } from '@/components/templates/modern';
+import {
+  ModernTemplate,
+  templateOptions as modernTemplateOptions,
+} from '@/components/templates/modern';
 import { TemplateProps } from '@/types/template.type';
 import ProfessionalTemplate, {
-  templateOptions as professionalStyleVars,
+  templateOptions as professionalTemplateOptions,
 } from '@/components/templates/professional';
 
 export const TEMPLATES: Templates = {
@@ -20,7 +25,7 @@ export const TEMPLATES: Templates = {
     name: 'Default',
     component: DefaultTemplate,
     css: '',
-    templateOptions: defaultStyleVars,
+    templateOptions: defaultTemplateOptions,
     fontFamily: 'Arial',
     thumbnail: '/images/templates/default.png',
   },
@@ -29,7 +34,7 @@ export const TEMPLATES: Templates = {
     name: 'Modern',
     component: ModernTemplate,
     css: '',
-    templateOptions: modernStyleVars,
+    templateOptions: modernTemplateOptions,
     fontFamily: 'Arial',
     thumbnail: '/images/templates/modern.png',
   },
@@ -38,7 +43,7 @@ export const TEMPLATES: Templates = {
     name: 'Creative',
     component: CreativeTemplate,
     css: '',
-    templateOptions: creativeStyleVars,
+    templateOptions: creativeTemplateOptions,
     fontFamily: 'Arial',
     thumbnail: '/images/templates/creative.png',
   },
@@ -56,7 +61,7 @@ export const TEMPLATES: Templates = {
     name: 'Professional',
     component: ProfessionalTemplate,
     css: '',
-    templateOptions: professionalStyleVars,
+    templateOptions: professionalTemplateOptions,
     fontFamily: 'Arial',
     thumbnail: '/images/templates/professional.png',
   },

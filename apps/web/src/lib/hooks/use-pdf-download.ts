@@ -1,7 +1,6 @@
 import { TemplateId, TEMPLATES } from '@/components/templates/templates';
 import { generatePdf } from '@/lib/api/file.api';
 import { useMutation } from '@tanstack/react-query';
-import templateCss from '!!raw-loader!@/components/templates/template-style.css';
 
 function usePdfDownload() {
   const downloadPdf = async (selectedTemplateId: TemplateId) => {
@@ -11,7 +10,11 @@ function usePdfDownload() {
     const selected = TEMPLATES[selectedTemplateId];
     if (!selected) return alert('Selected template information not found');
 
-    const css = selected.css;
+    const css = require(
+      `!!raw-loader!@/components/templates/${selectedTemplateId}/style.css`
+    ).default;
+
+    const defaultCss = require('!!raw-loader!@/components/templates/template-style.css').default;
 
     // const cssVars = styleVars
     //   ? `
@@ -27,7 +30,7 @@ function usePdfDownload() {
         <head>
           <meta charset="UTF-8" />
           <style>
-            ${templateCss}
+          ${defaultCss}
             ${css}
           </style>
         </head>

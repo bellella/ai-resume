@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/input';
 import { useFormContext, useFieldArray } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Trash2, Plus } from 'lucide-react';
-import { Textarea } from '@/components/ui/textarea';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { enhanceWorkExperience } from '@/lib/api/ai.api';
@@ -14,12 +13,11 @@ import { CoinConfirmDialog } from '@/components/coins/coin-confirm-dialog';
 import { toast } from 'sonner';
 import { useParams } from 'next/navigation';
 import TextEditor from '@/components/apps/text-editor';
-
-type WorkHistorySectionProps = {
-  requireAuth: () => boolean;
-};
-
-export function WorkHistorySection({ requireAuth }: WorkHistorySectionProps) {
+import { useResumeEditorStore } from '@/lib/store/resume-editor.store';
+import { YearMonthPicker } from '@/components/forms/year-month-picker';
+import { Checkbox } from '@/components/ui/checkbox';
+export function WorkHistorySection() {
+  const { requireAuth } = useResumeEditorStore();
   const form = useFormContext();
   const resumeId = useParams().id as string;
   const { fields, append, remove } = useFieldArray({
@@ -55,6 +53,24 @@ export function WorkHistorySection({ requireAuth }: WorkHistorySectionProps) {
       await mutateAsync(openDialogIndex);
       setOpenDialogIndex(null);
     }
+  };
+
+  const appendItem = () => {
+    append({
+      jobTitle: '',
+      employer: '',
+      city: '',
+      province: '',
+      startYearMonth: {
+        year: new Date().getFullYear(),
+        month: new Date().getMonth() + 1,
+      },
+      endYearMonth: {
+        year: new Date().getFullYear(),
+        month: new Date().getMonth() + 1,
+      },
+      isCurrent: false,
+    });
   };
 
   return (
@@ -135,12 +151,12 @@ export function WorkHistorySection({ requireAuth }: WorkHistorySectionProps) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
-                  name={`workExperiences.${index}.startDate`}
+                  name={`workExperiences.${index}.startYearMonth`}
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>START DATE</FormLabel>
                       <FormControl>
-                        <Input type="date" {...field} />
+                        <YearMonthPicker value={field.value} onChange={field.onChange} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -148,18 +164,34 @@ export function WorkHistorySection({ requireAuth }: WorkHistorySectionProps) {
                 />
                 <FormField
                   control={form.control}
-                  name={`workExperiences.${index}.endDate`}
+                  name={`workExperiences.${index}.endYearMonth`}
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>END DATE</FormLabel>
                       <FormControl>
-                        <Input type="date" {...field} />
+                        <YearMonthPicker value={field.value} onChange={field.onChange} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
+              <FormField
+                control={form.control}
+                name={`workExperiences.${index}.isCurrent`}
+                render={({ field }) => (
+                  <div className="mt-2 flex items-center space-x-2">
+                    <Checkbox
+                      id={`work-isCurrent-${index}`}
+                      checked={field.value}
+                      onCheckedChange={(checked) => field.onChange(checked)}
+                    />
+                    <label htmlFor={`work-isCurrent-${index}`} className="text-sm font-medium">
+                      I currently work here
+                    </label>
+                  </div>
+                )}
+              />
               <FormField
                 control={form.control}
                 name={`workExperiences.${index}.achievements`}
@@ -187,22 +219,7 @@ export function WorkHistorySection({ requireAuth }: WorkHistorySectionProps) {
             </div>
           ))}
         </div>
-        <Button
-          type="button"
-          variant="secondary"
-          onClick={() =>
-            append({
-              jobTitle: '',
-              employer: '',
-              city: '',
-              province: '',
-              startDate: '',
-              endDate: '',
-              achievements: '',
-            })
-          }
-          className="w-full"
-        >
+        <Button type="button" variant="secondary" onClick={appendItem} className="w-full">
           <Plus className="h-4 w-4 mr-2" />
           Add Work Experience
         </Button>

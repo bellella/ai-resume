@@ -1,25 +1,28 @@
 @import '../template-style.css';
-#resume-template {
+#resume-template.template-default {
   display: flex;
   flex-direction: column;
-}
-#resume-template .header {
-  margin-bottom: var(--section-spacing);
-  display:flex;
-  justify-content: space-between;
-  .name {
-    font-size: calc(32 * var(--base-font-size) / 14);
-    font-weight: bold;
-    margin-bottom: 4px;
-  }
-  .job-title {
-    font-size: calc(14 * var(--base-font-size) / 14);
-  }
-  .personal-info {
-    text-align: right;
-  }
-}
 
+  .header {
+    margin-bottom: var(--section-spacing);
+    display: flex;
+    justify-content: space-between;
+
+    .name {
+      font-size: calc(32 * var(--base-font-size) / 14);
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .job-title {
+      font-size: calc(14 * var(--base-font-size) / 14);
+    }
+
+    .personal-info {
+      text-align: right;
+    }
+  }
+}
 
 #resume-template .header p {
   margin: 0;

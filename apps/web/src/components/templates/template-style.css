@@ -1,4 +1,8 @@
-#resume-preview {
+#resume-template {
+  --main-color: 25, 25, 25;
+  --base-font-size: 14;
+  --section-spacing: 8;
+  font-family: Arial;
 }
 
 #resume-template{

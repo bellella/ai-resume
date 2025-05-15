@@ -1,11 +1,13 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { useFormContext, useFieldArray } from 'react-hook-form';
+import { YearMonthPicker } from '@/components/forms/year-month-picker';
 import { Button } from '@/components/ui/button';
-import { Trash2, Plus, Car } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Plus, Trash2 } from 'lucide-react';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 
 export function EducationHistorySection() {
   const form = useFormContext();
@@ -14,6 +16,19 @@ export function EducationHistorySection() {
     name: 'educations',
   });
 
+  const appendItem = () => {
+    append({
+      schoolName: '',
+      schoolLocation: '',
+      degree: '',
+      fieldOfStudy: '',
+      graduationYearMonth: {
+        year: new Date().getFullYear(),
+        month: new Date().getMonth() + 1,
+      },
+      isCurrent: false,
+    });
+  };
   return (
     <Card>
       <CardHeader>
@@ -89,52 +104,39 @@ export function EducationHistorySection() {
                   )}
                 />
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FormField
-                  control={form.control}
-                  name={`educations.${index}.graduationMonth`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="d-block">GRADUATION MONTH</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter graduation month" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name={`educations.${index}.graduationYear`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>GRADUATION YEAR</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter graduation year" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+              <FormField
+                control={form.control}
+                name={`educations.${index}.graduationYearMonth`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="d-block">GRADUATION DATE</FormLabel>
+                    <FormControl>
+                      <YearMonthPicker value={field.value} onChange={field.onChange} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name={`educations.${index}.isCurrent`}
+                render={({ field }) => (
+                  <div className="mt-2 flex items-center space-x-2">
+                    <Checkbox
+                      id={`education-isCurrent-${index}`}
+                      checked={field.value}
+                      onCheckedChange={(checked) => field.onChange(checked)}
+                    />
+                    <label htmlFor={`education-isCurrent-${index}`} className="text-sm font-medium">
+                      I currently study here
+                    </label>
+                  </div>
+                )}
+              />
             </div>
           ))}
         </div>
-        <Button
-          type="button"
-          variant="secondary"
-          onClick={() =>
-            append({
-              schoolName: '',
-              schoolLocation: '',
-              degree: '',
-              fieldOfStudy: '',
-              graduationMonth: '',
-              graduationYear: '',
-            })
-          }
-          className="w-full"
-        >
+        <Button type="button" variant="secondary" onClick={appendItem} className="w-full">
           <Plus className="h-4 w-4 mr-2" />
           Add Education
         </Button>
