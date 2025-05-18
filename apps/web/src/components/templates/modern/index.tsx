@@ -1,11 +1,12 @@
 import React from 'react';
 import { TemplateProps } from '@/types/template.type';
 import { TemplateOptions } from '../templates';
+import './style.css';
 
 export const templateOptions: TemplateOptions = {
-  color: 'black',
+  color: 'blue',
   fontSize: 14,
-  sectionSpacing: 32,
+  sectionSpacing: 28,
   fontFamily: 'Georgia',
 };
 

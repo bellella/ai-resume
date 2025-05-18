@@ -2,18 +2,19 @@
 
 import FullPageLoading from '@/components/home/sections/ui/full-page-loading';
 import ResumeEditor, { ResumeSubmitData } from '@/components/resumes/resume-editor';
-import TEMPLATES, { Template, TemplateId, TemplateOptions } from '@/components/templates/templates';
+import { TemplateId, TemplateOptions } from '@/components/templates/templates';
 import { useResumeForm } from '@/lib/hooks/use-resume-form';
 import { fetchResume, updateResume } from '@/lib/api/resume.api';
 import { useAuthGuard } from '@/lib/hooks/use-auth-guard';
 import { useResumeEditorStore } from '@/lib/store/resume-editor.store';
 import { generateResumeThumbnail } from '@/lib/utils/generate-resume-thumbnail';
-import { ResumeDetail, ResumeJson, TemplateJson } from '@ai-resume/types';
+import { ResumeDetail } from '@ai-resume/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { updateDefaultResume } from '@/lib/api/user.api';
+
 export default function NewResumePage({ params }: { params: { id: string } }) {
   useAuthGuard();
   const router = useRouter();

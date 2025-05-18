@@ -1,17 +1,17 @@
-#resume-template {
+#resume-template{
   --main-color: 25, 25, 25;
   --base-font-size: 14;
   --section-spacing: 8;
   font-family: Arial;
-}
 
-#resume-template{
+  --x-spacing: 20px;
+
+
   width: 100%;
   height: 100%;
   min-height: 1122.5px;
   background-color: white;
   box-sizing: border-box;
-  gap: var(--section-spacing);
   font-size: var(--base-font-size);
   color: #000;
   line-height: 1.6;
@@ -22,15 +22,15 @@
     font-style: italic;
   }
   section, header {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: var(--x-spacing);
+    padding-right: var(--x-spacing);
   }
   header {
-    padding-top: 20px;
+    padding-top: var(--x-spacing);
   }
   ul {
     list-style-type: disc;
-    padding-left: 20px;
+    padding-left: var(--x-spacing);
   }
   
   h1, h2, h3 {
@@ -63,7 +63,8 @@
 
   hr {
     background: #111;
-    margin: 0 20px 0 20px;
+    margin-right: var(--x-spacing);
+    margin-left: var(--x-spacing);
     height: 2px;
     border: none;
   }

@@ -4,12 +4,12 @@ import { Card, CardContent } from '@/components/ui/card';
 import { BadgeCheck, AlertTriangle } from 'lucide-react';
 import { CircularProgress } from './circular-progress';
 import { Button } from '@/components/ui/button';
-import { AiEvaluationData } from '@ai-resume/types';
 import { CoinConfirmDialog } from '@/components/coins/coin-confirm-dialog';
 import { useState } from 'react';
+import { AiEvaluationDetail } from '@ai-resume/types';
 
 interface AIEvaluationProps {
-  evaluation: AiEvaluationData | null;
+  evaluation?: AiEvaluationDetail;
   onEvaluate: () => void;
   isEvaluating: boolean;
 }

@@ -1,4 +1,3 @@
-import { Card, CardContent } from '@/components/ui/card';
 import { ResumeFormValues } from '@/lib/hooks/use-resume-form';
 import { TEMPLATE_COLORS } from '../../templates/templates';
 
@@ -35,9 +34,9 @@ export default function ResumePreview() {
   }, []);
 
   return (
-    <div ref={wrapperRef} className="relative w-full max-h-[90vh] aspect-a4">
+    <div ref={wrapperRef} className="relative w-full max-h-[90vh] aspect-a4 overflow-y-auto">
       <div
-        className="absolute top-0 left-0 origin-top-left overflow-auto"
+        className="absolute top-0 left-0 origin-top-left"
         style={{
           width: '793.7px',
           height: '1122.5px',

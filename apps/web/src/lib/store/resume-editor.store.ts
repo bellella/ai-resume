@@ -15,6 +15,7 @@ type ResumeEditorState = {
   initializeResumeForm: (json?: ResumeJson) => void;
   setTitle: (title: string) => void;
   setTemplateId: (id: TemplateId) => void;
+  changeTemplate: (templateId: TemplateId) => void;
   setTemplateOptions: (opts: TemplateOptions) => void;
   setEvaluation: (evaluation?: AiEvaluationDetail) => void;
   setAuthModalOpen: (open: boolean) => void;
@@ -36,6 +37,12 @@ export const useResumeEditorStore = create<ResumeEditorState>((set) => ({
   setTemplateId: (templateId) => {
     set({ templateId });
     set({ template: TEMPLATES[templateId] });
+  },
+  changeTemplate: (templateId) => {
+    const template = TEMPLATES[templateId];
+    if (template) {
+      set({ template, templateId, templateOptions: template.templateOptions });
+    }
   },
   setTemplateOptions: (templateOptions) => set({ templateOptions }),
   setEvaluation: (evaluation) => set({ evaluation }),

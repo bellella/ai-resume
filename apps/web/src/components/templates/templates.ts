@@ -80,20 +80,42 @@ export const TEMPLATE_LIST = Object.values(TEMPLATES);
 
 export type TemplateId = 'default' | 'modern' | 'creative' | 'professional'; // | 'elegant' | 'minimal';
 
-export type TemplateColor = keyof typeof TEMPLATE_COLORS;
+export type TemplateColor = 'black' | 'blue' | 'gray' | 'slate' | 'green' | 'burgundy';
 
-export type TemplateFontFamily = (typeof FONT_FAMILY)[number]['value'];
+export type TemplateFontFamily =
+  | 'Arial'
+  | 'Times New Roman'
+  | 'Courier New'
+  | 'Georgia'
+  | 'Garamond'
+  | 'Palatino'
+  | 'Bookman'
+  | 'Comic Sans MS'
+  | 'Helvetica Neue'
+  | 'Verdana'
+  | 'Tahoma'
+  | 'Trebuchet MS'
+  | 'Arial Black'
+  | 'Impact';
 
-export const TEMPLATE_COLORS = {
+export const TEMPLATE_COLORS: {
+  [key in TemplateColor]: {
+    name: TemplateColor;
+    value: string;
+  };
+} = {
   black: { name: 'black', value: '25, 25, 25' },
   blue: { name: 'blue', value: '30, 58, 138' },
-  gray: { name: 'gray', value: '55, 65, 81' },
+  gray: { name: 'gray', value: '115, 115, 115' },
   slate: { name: 'slate', value: '15, 23, 42' },
   green: { name: 'green', value: '20, 83, 45' },
   burgundy: { name: 'burgundy', value: '127, 29, 29' },
 };
 
-export const FONT_FAMILY = [
+export const FONT_FAMILY: {
+  value: TemplateFontFamily;
+  name: TemplateFontFamily;
+}[] = [
   { value: 'Arial', name: 'Arial' },
   { value: 'Times New Roman', name: 'Times New Roman' },
   { value: 'Courier New', name: 'Courier New' },
@@ -119,7 +141,7 @@ export const FONT_SIZES = {
 
 export const SECTION_SPACING = {
   min: 4,
-  max: 24,
+  max: 36,
   step: 4,
   defaultValue: 18,
 };

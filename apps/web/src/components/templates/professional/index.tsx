@@ -4,10 +4,10 @@ import { TemplateOptions } from '../templates';
 import './style.css';
 
 export const templateOptions: TemplateOptions = {
-  color: 'black',
+  color: 'slate',
   fontSize: 14,
   sectionSpacing: 18,
-  fontFamily: 'Arial',
+  fontFamily: 'Times New Roman',
 };
 
 export default function ProfessionalTemplate({ resumeJson }: TemplateProps) {

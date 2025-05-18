@@ -6,7 +6,7 @@ import React from 'react';
 
 const TemplateList: React.FC = () => {
   const templates = Object.values(TEMPLATES);
-  const { templateId, setTemplateId } = useResumeEditorStore();
+  const { templateId, changeTemplate } = useResumeEditorStore();
   return (
     <ScrollArea className="h-[calc(var(--content-min-height)-180px)]">
       <div className="grid md:grid-cols-2 gap-3 pr-5">
@@ -14,7 +14,7 @@ const TemplateList: React.FC = () => {
           <Card
             key={template.name}
             className={`aspect-a4 overflow-hidden cursor-pointer hover:border-primary transition-colors ${templateId === template.id ? 'border-primary' : ''}`}
-            onClick={() => setTemplateId(template.id)}
+            onClick={() => changeTemplate(template.id)}
           >
             <CardContent className="p-4">
               <h3 className="font-semibold">{template.name}</h3>

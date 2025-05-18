@@ -1,4 +1,4 @@
-import { Education, WorkExperience } from './resume.type';
+import { AiEvaluationDetail, Education, WorkExperience } from './resume.type';
 
 /**
  * Types of sections that can be generated
@@ -40,4 +40,4 @@ export type EnhanceContentResponse = {
   result: string;
 };
 
-export type AiEvaluationResponse = AiEvaluationData;
+export type AiEvaluationResponse = AiEvaluationDetail;

@@ -4,9 +4,9 @@ import { TemplateOptions } from '../templates';
 import './style.css';
 
 export const templateOptions: TemplateOptions = {
-  color: 'blue',
+  color: 'gray',
   fontSize: 14,
-  sectionSpacing: 32,
+  sectionSpacing: 24,
   fontFamily: 'Arial',
 };
 

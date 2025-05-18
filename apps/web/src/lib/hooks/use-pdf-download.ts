@@ -39,8 +39,7 @@ function usePdfDownload() {
         </body>
       </html>
     `;
-    console.log(fullHtml);
-    downloadPdfMutation.mutate({ fullHtml });
+    return downloadPdfMutation.mutateAsync({ fullHtml });
   };
 
   const downloadPdfMutation = useMutation({

@@ -8,7 +8,7 @@ import './style.css';
 export const templateOptions: TemplateOptions = {
   color: 'black',
   fontSize: 14,
-  sectionSpacing: 8,
+  sectionSpacing: 12,
   fontFamily: 'Arial',
 };
 

@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dialog';
 import { ResumeFormValues } from '@/lib/hooks/use-resume-form';
 import { parseResumeFile } from '@/lib/api/file.api';
-import { ArrowLeft, Pencil, Upload } from 'lucide-react';
+import { Pencil, Upload } from 'lucide-react';
 import React, { useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
@@ -28,7 +28,7 @@ export default function ResumeStartDialog({ form }: ResumeStartDialogProps) {
   const { mutateAsync, isPending } = useMutation({
     mutationFn: () => {
       if (!selectedFile) {
-        return;
+        throw new Error('No file selected');
       }
       const formData = new FormData();
       formData.append('file', selectedFile);

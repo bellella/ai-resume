@@ -98,7 +98,12 @@ export default function ResumeEditor({
   // Download PDF
   const handleDownloadPdf = async () => {
     if (!requireAuth()) return;
-    await downloadPdf(templateId);
+    try {
+      await downloadPdf(templateId);
+      toast.success('PDF downloaded successfully');
+    } catch (error) {
+      toast.error('Failed to download PDF');
+    }
   };
 
   // Save resume
@@ -157,11 +162,7 @@ export default function ResumeEditor({
                         <TemplateList />
                       </div>
                       <div>
-                        <StyleSettings
-                          template={template}
-                          templateJson={templateOptions}
-                          onStyleChange={setTemplateOptions}
-                        />
+                        <StyleSettings />
                       </div>
                     </div>
                   </TabsContent>
