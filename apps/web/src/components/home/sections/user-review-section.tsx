@@ -5,9 +5,30 @@ import { motion, useInView } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
+const reviews = [
+  {
+    quote:
+      '"I got two interview calls within a week of updating my resume using this tool. The AI suggestions made my work experience shine!"',
+    name: 'Allen Chen',
+    title: 'Product Manager',
+  },
+  {
+    quote:
+      '"The auto-fill from my old resume saved so much time. I loved the modern templates and real-time preview!"',
+    name: 'Suin Lit',
+    title: 'UI/UX Designer',
+  },
+  {
+    quote:
+      '"ResumeAI pointed out things I never would have noticed. The evaluation score helped me improve a lot!"',
+    name: 'Lee tung hui',
+    title: 'Full-Stack Developer',
+  },
+];
+
 export function UserReviewSection() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: false, margin: '-100px' });
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
     <section className="container relative px-4 md:px-6 py-12 md:py-24 lg:py-28">
@@ -26,7 +47,7 @@ export function UserReviewSection() {
         ref={ref}
         className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-12"
       >
-        {[1, 2, 3].map((i) => (
+        {reviews.map((review, i) => (
           <Card key={i} className="h-full">
             <CardContent className="p-6 space-y-4">
               <div className="flex items-center space-x-1">
@@ -59,18 +80,15 @@ export function UserReviewSection() {
                   </motion.svg>
                 ))}
               </div>
-              <p className="text-muted-foreground">
-                "ResumeAI helped me create a professional resume that landed me my dream job. The AI
-                suggestions were spot on!"
-              </p>
+              <p className="text-muted-foreground">{review.quote}</p>
               <div className="flex items-center space-x-2">
                 <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarImage src="/images/user-profile.png" />
+                  <AvatarFallback>{review.name.slice(0, 2)}</AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="font-medium">User {i}</p>
-                  <p className="text-sm text-muted-foreground">Software Engineer</p>
+                  <p className="font-medium">{review.name}</p>
+                  <p className="text-sm text-muted-foreground">{review.title}</p>
                 </div>
               </div>
             </CardContent>

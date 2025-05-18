@@ -3,77 +3,72 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { FileText, Sparkle, Star, Upload } from 'lucide-react';
+
+const features = [
+  {
+    icon: <Sparkle className="w-6 h-6 text-primary" />,
+    title: 'AI Resume Assistant',
+    description: 'Generate summaries and achievements with the help of AI.',
+  },
+  {
+    icon: <FileText className="w-6 h-6 text-primary" />,
+    title: 'Live Preview & Styling',
+    description: 'Edit fonts, colors, and layout in real-time.',
+  },
+  {
+    icon: <Upload className="w-6 h-6 text-primary" />,
+    title: 'Auto-Fill from File',
+    description: 'Upload your resume (PDF or Word) and convert it into editable fields.',
+  },
+  {
+    icon: <Star className="w-6 h-6 text-primary" />,
+    title: 'Resume Evaluation',
+    description: 'Get instant feedback and quality scoring for your resume.',
+  },
+];
 
 export function FeaturesSection() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: false, margin: '-100px' });
+  const isInView = useInView(ref, {
+    once: true,
+    margin: '-100px',
+  });
 
   return (
-    <section className="container relative px-4 md:px-6 py-12 md:py-24 lg:py-28">
-      <div className="flex flex-col items-center justify-center space-y-4 text-center">
-        <div className="space-y-2">
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            Features Section
-          </h2>
-          <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-            Explore the features that make our platform unique.
-          </p>
-        </div>
+    <section className="container px-4 md:px-6 py-12 md:py-24 lg:py-28">
+      <div className="text-center space-y-2">
+        <h2 className="text-3xl font-bold sm:text-4xl md:text-5xl">Powerful Features</h2>
+        <p className="text-muted-foreground max-w-xl mx-auto text-lg">
+          Explore tools that make resume creation fast, intelligent, and delightful.
+        </p>
       </div>
 
       <div
         ref={ref}
-        className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-12"
+        className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-6xl mx-auto"
       >
-        {[1, 2, 3].map((i) => (
-          <Card key={i} className="h-full">
-            <CardContent className="p-6 space-y-4">
-              <div className="flex items-center space-x-1">
-                {[...Array(5)].map((_, starIndex) => (
-                  <motion.svg
-                    key={starIndex}
-                    initial={{ scale: 0.5, opacity: 0 }}
-                    animate={
-                      isInView
-                        ? {
-                            scale: 1,
-                            opacity: 1,
-                            transition: {
-                              delay: starIndex * 0.1,
-                              type: 'spring',
-                              stiffness: 300,
-                              damping: 20,
-                            },
-                          }
-                        : {}
-                    }
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="h-5 w-5 text-yellow-500"
-                  >
-                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                  </motion.svg>
-                ))}
-              </div>
-              <p className="text-muted-foreground">
-                "The features offered by this platform are unparalleled."
-              </p>
-              <div className="flex items-center space-x-2">
-                <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="font-medium">User {i}</p>
-                  <p className="text-sm text-muted-foreground">UX Designer</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        {features.map((feature, index) => (
+          <motion.div
+            key={index}
+            initial={{ scale: 0.5, opacity: 0 }}
+            animate={isInView ? { scale: 1, opacity: 1 } : {}}
+            transition={{
+              delay: index * 0.1,
+              duration: 0.6,
+              ease: 'easeOut',
+              type: 'tween',
+            }}
+          >
+            <Card className="h-full">
+              {' '}
+              <CardContent className="p-6 space-y-4 text-center">
+                <div className="flex justify-center">{feature.icon}</div>
+                <h3 className="text-lg font-semibold">{feature.title}</h3>
+                <p className="text-muted-foreground text-sm">{feature.description}</p>
+              </CardContent>
+            </Card>
+          </motion.div>
         ))}
       </div>
     </section>
