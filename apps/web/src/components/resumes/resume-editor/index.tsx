@@ -27,6 +27,7 @@ import TemplateList from './template-list';
 export type ResumeEditorProps = {
   resume?: ResumeDetail;
   isSaving?: boolean;
+  isEditing?: boolean;
   onSave: (data: ResumeSubmitData) => void;
   resumeForm: UseFormReturn<ResumeFormValues>;
 };
@@ -43,21 +44,19 @@ export default function ResumeEditor({
   onSave,
   isSaving = false,
   resumeForm,
+  isEditing = false,
 }: ResumeEditorProps) {
   const {
     title,
-    template,
     templateId,
     templateOptions,
     evaluation,
     authModalOpen,
     setTitle,
-    setTemplateOptions,
     setEvaluation,
     setAuthModalOpen,
     requireAuth,
   } = useResumeEditorStore();
-  const isEditing = resume?.id;
   const { user, defaultResumeJson } = useAuthStore();
   const [currentTab, setCurrentTab] = useState('1');
 

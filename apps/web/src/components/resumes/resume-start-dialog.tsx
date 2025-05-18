@@ -49,10 +49,7 @@ export default function ResumeStartDialog({ form }: ResumeStartDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent
-        className="p-8 w-full max-w-2xl rounded-xl shadow-xl"
-        onOpenAutoFocus={(e) => e.preventDefault()}
-      >
+      <DialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
         {mode === 'initial' && (
           <div className="flex flex-col items-center space-y-6">
             <DialogHeader className="text-center">
@@ -64,10 +61,12 @@ export default function ResumeStartDialog({ form }: ResumeStartDialogProps) {
               </DialogDescription>
             </DialogHeader>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-              <button
+            <div className="grid grid-cols-2 gap-6 w-full">
+              <Button
                 onClick={() => setMode('upload')}
-                className="border rounded-lg p-6 text-center hover:border-primary focus:outline-none"
+                className="border rounded-lg p-6 text-center"
+                size="content"
+                variant="outline"
               >
                 <Upload className="mx-auto mb-4 h-6 w-6 text-primary" />
                 <div className="font-semibold text-lg">Yes, upload from my resume</div>
@@ -75,17 +74,19 @@ export default function ResumeStartDialog({ form }: ResumeStartDialogProps) {
                   We&apos;ll give you expert guidance to fill out your info and enhance your resume,
                   from start to finish
                 </p>
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => setOpen(false)}
-                className="border rounded-lg p-6 text-center hover:border-primary focus:outline-none"
+                className="rounded-lg p-6 text-center"
+                size="content"
+                variant="outline"
               >
                 <Pencil className="mx-auto mb-4 h-6 w-6 text-primary" />
                 <div className="font-semibold text-lg">No, start from scratch</div>
                 <p className="text-sm text-muted-foreground">
                   We&apos;ll guide you through the whole process so your skills can shine
                 </p>
-              </button>
+              </Button>
             </div>
           </div>
         )}

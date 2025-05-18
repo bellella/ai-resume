@@ -3,19 +3,18 @@
 import { useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { cn } from '@/lib/utils';
 import { uploadFile } from '@/lib/api/file.api';
 
 interface ProfileImageUploaderProps {
   value?: string;
   onChange: (url: string) => void;
-  fallbackText?: string; // 예: 이니셜
+  fallbackText?: string;
 }
 
 export default function ProfileImageUploader({
   value,
   onChange,
-  fallbackText = 'JD',
+  fallbackText = 'IMAGE',
 }: ProfileImageUploaderProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -47,7 +46,7 @@ export default function ProfileImageUploader({
     <div className="flex flex-col gap-2">
       <Avatar className="h-24 w-24">
         <AvatarImage src={value || '/placeholder.svg'} alt="Profile" />
-        <AvatarFallback>{fallbackText.slice(0, 2).toUpperCase()}</AvatarFallback>
+        <AvatarFallback>{fallbackText}</AvatarFallback>
       </Avatar>
 
       <input
@@ -59,7 +58,7 @@ export default function ProfileImageUploader({
       />
 
       <Button
-        variant="outline"
+        variant="input"
         size="sm"
         onClick={() => inputRef.current?.click()}
         disabled={isUploading}

@@ -35,7 +35,7 @@ export function YearMonthPicker({ value, onChange }: YearMonthPickerProps) {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="outline" className="w-full justify-between">
+        <Button variant="input" className="w-full justify-between">
           {`${selected.year}-${String(selected.month).padStart(2, '0')}`}
           <CalendarIcon className="ml-2 h-4 w-4" />
         </Button>
@@ -64,7 +64,7 @@ export function YearMonthPicker({ value, onChange }: YearMonthPickerProps) {
             return (
               <Button
                 key={m}
-                variant={monthNumber === selected.month ? 'default' : 'outline'}
+                variant={monthNumber === selected.month ? 'default' : 'input'}
                 onClick={() => {
                   onChange({ year: selected.year, month: monthNumber });
                   setOpen(false);

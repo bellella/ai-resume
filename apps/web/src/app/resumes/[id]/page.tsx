@@ -76,5 +76,7 @@ export default function NewResumePage({ params }: { params: { id: string } }) {
     return <FullPageLoading />;
   }
 
-  return <ResumeEditor onSave={handleCreate} isSaving={isSaving} resumeForm={form} />;
+  return (
+    <ResumeEditor isEditing={true} onSave={handleCreate} isSaving={isSaving} resumeForm={form} />
+  );
 }

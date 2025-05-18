@@ -11,11 +11,16 @@ import { useResumeForm } from '@/lib/hooks/use-resume-form';
 import { ResumeJson, TemplateJson } from '@ai-resume/types';
 import { useResumeEditorStore } from '@/lib/store/resume-editor.store';
 import { updateDefaultResume } from '@/lib/api/user.api';
+import { useEffect } from 'react';
 
 export default function NewResumePage() {
   const router = useRouter();
   const form = useResumeForm();
-  const { templateOptions, templateId } = useResumeEditorStore();
+  const { initializeResumeForm, templateOptions, templateId } = useResumeEditorStore();
+
+  useEffect(() => {
+    initializeResumeForm(undefined);
+  }, [initializeResumeForm]);
 
   const { mutateAsync: createResumeMutate, isPending: isSaving } = useMutation({
     mutationFn: async (data: ResumeSubmitData) => {
